@@ -6,7 +6,7 @@ const Navbar = () => {
             <a href = "/Favorites" >Favorites</a>
             </li>
             <li>
-            <a href = "/ompare" >Compare</a>
+            <a href = "/Compare" >Compare</a>
              </li>
         </ul>
     </nav>
