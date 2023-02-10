@@ -1,12 +1,12 @@
 const Navbar = () => {
     return (<nav className = "nav">
-        <a href = "/nba-stats" className = "site-title">NBA stats </a>
+        <a href = "/" className = "site-title">NBA stats </a>
         <ul>
             <li>
-            <a href = "/nba-stats/Favorites" >Favorites</a>
+            <a href = "/Favorites" >Favorites</a>
             </li>
             <li>
-            <a href = "/nba-stats/Compare" >Compare</a>
+            <a href = "/ompare" >Compare</a>
              </li>
         </ul>
     </nav>

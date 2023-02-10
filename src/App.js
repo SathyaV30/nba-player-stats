@@ -262,7 +262,7 @@ if (Object.keys(cardData).length !== 0 ) {
 
  let component;
  switch (window.location.pathname) {
-   case  "/nba-stats":
+   case  "/":
      return (
 
     <div className="App">
@@ -293,11 +293,11 @@ if (Object.keys(cardData).length !== 0 ) {
   )
    
 
-   case "/nba-stats/Favorites":
+   case "/Favorites":
    component = <LikedPlayersTab/>
    break
 
-   case "/nba-stats/Compare":
+   case "/Compare":
    component = <Compare/>
    break
 
