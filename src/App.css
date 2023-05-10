@@ -21,6 +21,10 @@ label {
   margin-bottom: 10px;
 }
 
+.sts {
+  margin-left: 10px;
+}
+
 input[type="text"] {
   font-size: 1.2em;
   padding: 10px;
@@ -34,7 +38,7 @@ input[type="text"] {
 input[type="submit"] {
   font-size: 1.2em;
   padding: 10px 20px;
-  background-color: #4CAF50;
+  background-color: #17408B;
   color: white;
   border: none;
   border-radius: 5px;
@@ -97,7 +101,7 @@ input[type="submit"] {
   margin-top: 10px ;
   font-size: 1.2em;
   padding: 10px 20px;
-  background-color: #4CAF50;
+  background-color: #17408B;
   color: white;
   border: none;
   border-radius: 5px;
@@ -110,8 +114,8 @@ input[type="submit"] {
 
   margin-top: 6px ;
   font-size: 15px;
-  padding: 10px 20px;
-  background-color: #4CAF50;
+  padding: 5px 10px;
+  background-color: #17408B;
   color: white;
   border: none;
   border-radius: 5px;
@@ -124,7 +128,7 @@ input[type="submit"] {
 }
 .year-input {
   background-color: #f2f2f2;
-  width: 100px;
+  width: 130px;
   height: 23px;
   margin: 0 auto;
   display: flex;
@@ -144,7 +148,7 @@ input[type="submit"] {
 
 .year-input-2 {
   background-color: #f2f2f2;
-  width: 200px;
+  width: 210px;
   height: 23px;
   margin: 0 auto;
   display: flex;
@@ -164,7 +168,7 @@ input[type="submit"] {
 
 * {
   box-sizing: border-box;
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
 body {
@@ -280,13 +284,6 @@ body {
   margin-bottom: 2px;
 }
 
-
-
-
-
-
-
-
 .liked-player-front {
   display: flex;
   flex-direction: column;
@@ -316,4 +313,92 @@ body {
 
 .body {
   margin-bottom: 300px;
+}
+.scores-banner {
+  padding: 20px;
+  text-align: center;
+}
+
+.games-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+
+.team-name {
+  margin-bottom: 5px;
+}
+
+.score {
+  font-weight: bold;
+  margin-top: 12px;
+  font-size: larger;
+}
+
+.team-logo {
+  max-width: 20%; 
+  max-height: 20%; 
+  display: block; 
+}
+
+.game-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  margin-bottom: 29px; 
+  width: 250px;
+}
+
+.team-logo {
+  max-width: 20%;
+  max-height: 20%;
+  display: block;
+
+}
+.games-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.game-card {
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 10px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.time-status {
+  flex: 0 0 100%;
+  font-weight: bold;
+}
+.day-btn {
+  font-size: 1.2em;
+  padding: 5px 10px;
+  background-color: #17408B;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px #ccc;
+  cursor: pointer;
+  width: 150px;
+  margin: 10px;
+
+}
+.navbar-logo {
+  max-width: 80%;
+  max-height: 80%;
 }

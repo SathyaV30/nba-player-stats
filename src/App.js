@@ -5,7 +5,9 @@ import "./App.css";
 import Navbar from "./components/navbar";
 import Compare from "./components/Compare";
 import PageNotFound from "./components/PageNotFound";
-import NBACsv from "./nba.csv"
+import NBACsv from "./nba.csv";
+import ScoresBanner from "./components/ScoresBanner";
+
 
 
 
@@ -17,7 +19,9 @@ const App = () => {
  const [cardData, setCardData] = useState({})
  const [imgID, setImgID] = useState('');
  const [csv, setCsv] = useState([]);
+ const [liveGames, setLiveGames] = useState([]);
  var imgLink = `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${imgID}.png`
+
 
 
 
@@ -37,6 +41,29 @@ useEffect(() => {
   fetchParseData()
 
 }, [])
+useEffect(() => {
+  const fetchLiveGames = async () => {
+    const today = new Date();
+    const estOffset = -5 * 60; // Offset for Eastern Standard Time (EST) in minutes
+    const estDate = new Date(today.getTime() + estOffset * 60 * 1000);
+    const year = estDate.getFullYear();
+    const month = String(estDate.getMonth() + 1).padStart(2, '0');
+    const day = String(estDate.getDate()).padStart(2, '0');
+    const date = `${year}-${month}-${day}`;
+
+    try {
+      const response = await axios.get(`https://www.balldontlie.io/api/v1/games?dates[]=${date}`);
+      setLiveGames(response.data.data);
+    } catch (error) {
+      console.error('Error fetching live games:', error);
+    }
+  };
+
+  fetchLiveGames();
+}, []);
+
+
+
 
 
 const handleSubmit = (e) => {
@@ -45,10 +72,10 @@ const handleSubmit = (e) => {
     alert("Please enter year");
   } else if (!playerName) {
     alert("Please enter a valid player name and year");
-  } else if (document.getElementById("year").value > 2019 
+  } else if (document.getElementById("year").value > 2022 
   || document.getElementById("year").value < 1979 ) {
-    alert('Unfortately, data is limited between the years 1979 to 2019')
-  } else {
+    alert('Data is limited between the years 1979 to 2022')
+   } else {
     getPlayerId();
     getImgID(playerName);
   }
@@ -209,6 +236,9 @@ if (Object.keys(cardData).length !== 0 ) {
  )
 }
 
+
+
+
  const LikedPlayersTab = () => {
    if (likedPlayers.length === 0) {
      return (
@@ -301,15 +331,23 @@ if (Object.keys(cardData).length !== 0 ) {
    component = <Compare/>
    break
 
+   case "/Scores": 
+   component = <ScoresBanner/>
+   break
+
    default:
    component =<PageNotFound/>
+   break
 
 
  }
+
+ 
+
  
  return (
    <div className="App">
-      <Navbar/>
+      <Navbar></Navbar>
       {component}
    </div>
  );

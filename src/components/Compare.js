@@ -141,7 +141,7 @@ chart =  (<div className = 'chart'>
         <input
            type="number"
            min="1979"
-           max="2019"
+           max="2022"
            step="1"
            placeholder="Enter year for Player #1"
            className="year-input-2"
@@ -150,7 +150,7 @@ chart =  (<div className = 'chart'>
          <input
            type="number"
            min="1979"
-           max="2019"
+           max="2022"
            step="1"
            placeholder="Enter year for Player #2"
            className="year-input-2"
