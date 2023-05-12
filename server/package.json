@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Backend for nba-stats app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SathyaV30/nba-player-stats.git"
+  },
+  "author": "Sathya Venugopal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SathyaV30/nba-player-stats/issues"
+  },
+  "homepage": "https://github.com/SathyaV30/nba-player-stats#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
