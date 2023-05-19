@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-modal": "^3.16.1",
+    "react-quill": "^2.0.0"
+  }
+}

@@ -1,0 +1,725 @@
+{
+  "questions": [
+    {
+      "question_number": 1,
+      "question": "What team drafted Brandon Roy in 2006?",
+      "choices": ["Chicago Bulls", "Los Angeles Lakers", "Minnesota Timberwolves", "Boston Celtics"],
+      "answer": "Minnesota Timberwolves"
+    },
+    {
+      "question_number": 2,
+      "question": "Where did Manu Ginobili play prior to his NBA experience?",
+      "choices": ["Real Madrid", "Panathinaikos", "Kinder Bologna", "Olimpia Milano"],
+      "answer": "Kinder Bologna"
+    },
+    {
+      "question_number": 3,
+      "question": "What team drafted Kobe Bryant?",
+      "choices": ["Boston Celtics", "Charlotte Hornets", "Chicago Bulls", "Los Angeles Lakers"],
+      "answer": "Charlotte Hornets"
+    },
+    {
+      "question_number": 4,
+      "question": "The Celtics won the NBA Championship for the 2007-08 season. Who did they defeat?",
+      "choices": ["Houston Rockets", "Los Angeles Lakers", "Detroit Pistons", "San Antonio Spurs"],
+      "answer": "Los Angeles Lakers"
+    },
+    {
+      "question_number": 5,
+      "question": "In what year did Steve Nash play his first game with the Dallas Mavericks?",
+      "choices": ["2004", "1998", "2000", "2002"],
+      "answer": "1998"
+    },
+    {
+      "question_number": 6,
+      "question": "In what year did the Minnesota Timberwolves play their first regular season game?",
+      "choices": ["1987", "1989", "1992", "1995"],
+      "answer": "1989"
+    },
+    {
+      "question_number": 7,
+      "question": "How many players did Vince Carter get traded for when the New Jersey Nets acquired him on their roster in the 2004-05 season?",
+      "choices": ["6", "8", "2", "4"],
+      "answer": "6"
+    },
+    {
+      "question_number": 8,
+      "question": "Which team in the 2004-05 regular season was ranked fifth in the Western Conference with 51 wins and 31 losses?",
+      "choices": ["Houston Rockets", "Sacramento Kings", "Memphis Grizzlies", "Dallas Mavericks"],
+      "answer": "Houston Rockets"
+    },
+    {
+      "question_number": 9,
+      "question": "How many personal fouls does it take to get ejected from an NBA basketball game?",
+      "choices": ["7", "5", "4", "6"],
+      "answer": "6"
+    },
+    {
+      "question_number": 10,
+      "question": "While LeBron James of the Cavaliers won the Rookie of the Year Award, and Ron Artest won the Defensive Player of the Year Award, who also won the season MVP in 2003-04?",
+      "choices": ["Kevin Garnett", "Shaquille O'Neal", "Allen Iverson", "Tim Duncan"],
+      "answer": "Kevin Garnett"
+    },
+    {
+      "question_number": 11,
+      "question": "Yao Ming was the number one draft pick in the 2002 draft. Who went second overall?",
+      "choices": ["Amare Stoudemire", "Caron Butler", "Jay Williams", "Mike Dunleavy Jr."],
+      "answer": "Jay Williams"
+    },
+    {
+      "question_number": 12,
+      "question": "George Raveling said, 'I know the ____________ players are smart because they have a 1500 SAT. I have to drop bread crumbs to get our players to and from class.'",
+      "choices": ["California", "South Carolina", "Texas", "Virginia"],
+      "answer": "Virginia"
+    },
+    {
+      "question_number": 13,
+      "question": "Who was the winner of the 1985 Slam Dunk Contest?",
+      "choices": ["Julius Erving", "Michael Jordan", "Spud Webb", "Dominique Wilkins"],
+      "answer": "Dominique Wilkins"
+    },
+    {
+      "question_number": 14,
+      "question": "Sam Jones is known as one of the greatest shooters in basketball. What was his free-throw percentage in 1964-65 for the Celtics?",
+      "choices": [".835", ".805", ".820", ".770"],
+      "answer": ".820"
+    },
+    {
+      "question_number": 15,
+      "question": "What was the Washington Wizards' regular season winning percentage during each of Michael Jordan's seasons with the club?",
+      "choices": [".398", ".482", ".417", ".451"],
+      "answer": ".451"
+    },
+    {
+      "question_number": 16,
+      "question": "Who was the youngest player to reach 10,000 regular season points in the 20th century?",
+      "choices": ["Kobe Bryant", "Kevin Durant", "LeBron James", "Tracy McGrady"],
+      "answer": "Kobe Bryant"
+    },
+    {
+      "question_number": 17,
+      "question": "Who is the only player that Shaq admitted can slow him down?",
+      "choices": ["Ben Wallace", "Dwight Howard", "Yao Ming", "Stanley Roberts"],
+      "answer": "Stanley Roberts"
+    },
+    {
+      "question_number": 18,
+      "question": "What is the most rebounds Wilt Chamberlain pulled down in one game?",
+      "choices": ["50", "55", "45", "60"],
+      "answer": "55"
+    },
+    {
+      "question_number": 19,
+      "question": "Who was the 16th pick of the 2002 NBA Draft?",
+      "choices": ["Tayshaun Prince", "Carlos Boozer", "Jiri Welsch", "Nenê Hilário"],
+      "answer": "Jiri Welsch"
+    },
+    {
+      "question_number": 20,
+      "question": "How many franchises did 'Sir' Charles Barkley play for in his career?",
+      "choices": ["4", "3", "2", "5"],
+      "answer": "3"
+    },
+    {
+      "question_number": 21,
+      "question": "In which city did the Jazz play before they went to Salt Lake City in 1979?",
+      "choices": ["Seattle", "New Orleans", "Kansas City", "San Diego"],
+      "answer": "New Orleans"
+    },
+    {
+      "question_number": 22,
+      "question": "Who is the only player in NBA history to accumulate 20,000+ points in his career while averaging fewer than 15.0 ppg?",
+      "choices": ["Artis Gilmore", "Robert Parish", "Elvin Hayes", "Alex English"],
+      "answer": "Robert Parish"
+    },
+    {
+      "question_number": 23,
+      "question": "Who was the MVP of the 1981 NBA Finals?",
+      "choices": ["Magic Johnson", "Larry Bird", "Cedric Maxwell", "Kareem Abdul-Jabbar"],
+      "answer": "Cedric Maxwell"
+    },
+    {
+      "question_number": 24,
+      "question": "Who is the logo of the league designed after?",
+      "choices": ["Jerry West", "Magic Johnson", "Larry Bird", "Michael Jordan"],
+      "answer": "Jerry West"
+    },
+    {
+      "question_number": 25,
+      "question": "With what company did Vince Carter sign for his first shoe endorsement?",
+      "choices": ["Adidas", "Puma", "Nike", "Under Armour"],
+      "answer": "Puma"
+    },
+    {
+      "question_number": 26,
+      "question": "The NBA player to reach 5000 points the 2nd fastest in history was ______ ?",
+      "choices": ["Allen Iverson", "Kevin Durant", "LeBron James", "Shareef Abdur-Rahim"],
+      "answer": "Shareef Abdur-Rahim"
+    },
+    {
+      "question_number": 27,
+      "question": "What year did Allen Iverson get drafted into the NBA?",
+      "choices": ["2000", "1996", "1994", "1998"],
+      "answer": "1996"
+    },
+    {
+      "question_number": 28,
+      "question": "In the 1998-99 NBA World Championships, the winning team won and lost how many games in the finals?",
+      "choices": ["4-1", "4-0", "4-3", "4-2"],
+      "answer": "4-1"
+    },
+    {
+      "question_number": 29,
+      "question": "What player holds the N.B.A. postseason single series record for the most points averaged per game?",
+      "choices": ["Jerry West", "Kareem Abdul-Jabbar", "Wilt Chamberlain", "Michael Jordan"],
+      "answer": "Jerry West"
+    },
+    {
+      "question_number": 30,
+      "question": "This NBA coach's squad was called for a record-setting 60 personal fouls in one game. What is his name?",
+      "choices": ["Gregg Popovich", "Howard Schultz", "Pat Riley", "Phil Jackson"],
+      "answer": "Howard Schultz"
+    },
+    {
+      "question_number": 31,
+      "question": "How many times did Paul Pierce win the Big 12 Conference Tournament MVP?",
+      "choices": ["2 times", "3 times", "0 times", "1 time"],
+      "answer": "2 times"
+    },
+    {
+      "question_number": 32,
+      "question": "What is Corliss Williamson's nickname?",
+      "choices": ["Big Game", "Big Nasty", "Big Easy", "Big Shot"],
+      "answer": "Big Nasty"
+    },
+    {
+      "question_number": 33,
+      "question": "Mitch Richmond's nickname?",
+      "choices": ["The Rock", "The Answer", "The Admiral", "The Glove"],
+      "answer": "The Rock"
+    },
+    {
+      "question_number": 34,
+      "question": "Who was the first NBA player to play in 1500 NBA games?",
+      "choices": ["Kareem Abdul-Jabbar", "Shaquille O'Neal", "Karl Malone", "Dirk Nowitzki"],
+      "answer": "Kareem Abdul-Jabbar"
+    },
+    {
+      "question_number": 35,
+      "question": "What team was Michael Williams on last?",
+      "choices": ["Toronto Raptors", "Miami Heat", "Chicago Bulls", "Denver Nuggets"],
+      "answer": "Toronto Raptors"
+    },
+    {
+      "question_number": 36,
+      "question": "Who was the first N.B.A. player to score fifty or more points in an N.B.A. game?",
+      "choices": ["Joe Fulks", "Jerry West", "Elgin Baylor", "Wilt Chamberlain"],
+      "answer": "Joe Fulks"
+    },
+    {
+      "question_number": 37,
+      "question": "The only team to ever defeat a Bill Russell-led Boston Celtics in an NBA Finals was _____________?",
+      "choices": ["St. Louis Hawks", "Philadelphia Warriors", "Los Angeles Lakers", "New York Knicks"],
+      "answer": "St. Louis Hawks"
+    },
+    {
+      "question_number": 38,
+      "question": "Which team LOST in Game 7 of the 2005 NBA Finals?",
+      "choices": ["San Antonio Spurs", "Los Angeles Lakers", "Detroit Pistons", "Dallas Mavericks"],
+      "answer": "Detroit Pistons"
+    },
+    {
+      "question_number": 39,
+      "question": "Who won the slam dunk contest in the 2008-09 season?",
+      "choices": ["Gerald Green", "Nate Robinson", "Jason Richardson", "Dwight Howard"],
+      "answer": "Nate Robinson"
+    },
+    {
+      "question_number": 40,
+      "question": "The Sixth Man Award was first presented for the 1982-83 season. Which Philadelphia 76er won the inaugural award?",
+      "choices": ["Bobby Jones", "Andrew Toney", "Julius Erving", "Maurice Cheeks"],
+      "answer": "Bobby Jones"
+    },
+    {
+      "question_number": 41,
+      "question": "What does NBA stand for?",
+      "choices": ["National Basketball Association", "National Baseball Association", "National Boxing Association", "National Bowling Association"],
+      "answer": "National Basketball Association"
+    },
+    {
+      "question_number": 42,
+      "question": "How many teams play in the NBA?",
+      "choices": ["32 teams", "28 teams", "24 teams", "30 teams"],
+      "answer": "30 teams"
+    },
+    {
+      "question_number": 43,
+      "question": "Which two teams share the record for NBA championships won?",
+      "choices": ["Golden State Warriors and Chicago Bulls", "Boston Celtics and Los Angeles Lakers", "San Antonio Spurs and Miami Heat", "Houston Rockets and Detroit Pistons"],
+      "answer": "Boston Celtics and Los Angeles Lakers"
+    },
+    {
+      "question_number": 44,
+      "question": "Who is the all-time points scored record holder?",
+      "choices": ["Kareem Abdul-Jabbar", "Karl Malone", "LeBron James", "Michael Jordan"],
+      "answer": "Kareem Abdul-Jabbar"
+    },
+    {
+      "question_number": 45,
+      "question": "As of 2023, which NBA teams play in California?",
+      "choices": ["Golden State Warriors, Los Angeles Lakers, Los Angeles Clippers, Sacramento Kings", "Miami Heat, Orlando Magic, Charlotte Hornets", "New York Knicks, Brooklyn Nets, Philadelphia 76ers, Boston Celtics", "San Antonio Spurs, Dallas Mavericks, Houston Rockets"],
+      "answer": "Golden State Warriors, Los Angeles Lakers, Los Angeles Clippers, Sacramento Kings"
+    },
+    {
+      "question_number": 46,
+      "question": "Which NBA team plays in Miami, Florida?",
+      "choices": ["Miami Heat", "Orlando Magic", "Charlotte Hornets", "Tampa Bay Raptors"],
+      "answer": "Miami Heat"
+    },
+    {
+      "question_number": 47,
+      "question": "Which two teams play in New York City?",
+      "choices": ["New York Knicks and Brooklyn Nets", "Chicago Bulls and Milwaukee Bucks", "Los Angeles Lakers and Los Angeles Clippers", "Boston Celtics and Philadelphia 76ers"],
+      "answer": "New York Knicks and Brooklyn Nets"
+    },
+    {
+      "question_number": 48,
+      "question": "The Rockets play in which US city?",
+      "choices": ["Houston", "San Antonio", "Dallas", "Phoenix"],
+      "answer": "Houston"
+    },
+    {
+      "question_number": 49,
+      "question": "Which NBA team is known as the Bulls?",
+      "choices": ["Chicago Bulls", "Detroit Pistons", "Sacramento Kings", "New York Knicks"],
+      "answer": "Chicago Bulls"
+    },
+    {
+      "question_number": 50,
+      "question": "The Philadelphia 76ers play in which stadium?",
+      "choices": ["Wells Fargo Center", "Madison Square Garden", "Staples Center", "TD Garden"],
+      "answer": "Wells Fargo Center"
+    },
+    {
+      "question_number": 51,
+      "question": "The Suns play in which city?",
+      "choices": ["Phoenix", "Miami", "Orlando", "Denver"],
+      "answer": "Phoenix"
+    },
+    {
+      "question_number": 52,
+      "question": "Who is the NBA logo modeled after?",
+      "choices": ["Jerry West", "Magic Johnson", "Larry Bird", "Michael Jordan"],
+      "answer": "Jerry West"
+    },
+    {
+      "question_number": 53,
+      "question": "Giannis Antetokounmpo was drafted by which NBA team in 2013?",
+      "choices": ["Milwaukee Bucks", "Phoenix Suns", "Houston Rockets", "Dallas Mavericks"],
+      "answer": "Milwaukee Bucks"
+    },
+    {
+      "question_number": 54,
+      "question": "Who won the very first official NBA game?",
+      "choices": ["Boston Celtics", "New York Knicks", "Chicago Stags", "Philadelphia Warriors"],
+      "answer": "New York Knicks"
+    },
+    {
+      "question_number": 55,
+      "question": "Which NBA team has the most players inducted into the Hall of Fame?",
+      "choices": ["Boston Celtics", "Los Angeles Lakers", "Philadelphia 76ers", "Chicago Bulls"],
+      "answer": "Boston Celtics"
+    },
+    {
+      "question_number": 56,
+      "question": "How many personal fouls will get you removed from an NBA game?",
+      "choices": ["7", "6", "4", "5"],
+      "answer": "6"
+    },
+    {
+      "question_number": 57,
+      "question": "How many officials are in an NBA game?",
+      "choices": ["4", "3", "1", "2"],
+      "answer": "3"
+    },
+    {
+      "question_number": 58,
+      "question": "Who was the shortest NBA player of all time?",
+      "choices": ["Muggsy Bogues", "Earl Boykins", "Spud Webb", "Nate Robinson"],
+      "answer": "Muggsy Bogues"
+    },
+    {
+      "question_number": 59,
+      "question": "Who invented the game of Basketball?",
+      "choices": ["James Naismith", "Michael Jordan", "Magic Johnson", "Larry Bird"],
+      "answer": "James Naismith"
+    },
+    {
+      "question_number": 60,
+      "question": "Which NBA player sold the most jerseys in 2022?",
+      "choices": ["Kevin Durant", "Stephen Curry", "Luka Doncic", "LeBron James"],
+      "answer": "Stephen Curry"
+    },
+    {
+      "question_number": 61,
+      "question": "Dirk Nowitzki played for which NBA team?",
+      "choices": ["Dallas Mavericks", "Los Angeles Lakers", "Miami Heat", "San Antonio Spurs"],
+      "answer": "Dallas Mavericks"
+    },
+    {
+      "question_number": 62,
+      "question": "Michael Jordan famously retired from basketball in 1993, what sport did he go on to play instead?",
+      "choices": ["Baseball", "Football", "Soccer", "Golf"],
+      "answer": "Baseball"
+    },
+    {
+      "question_number": 63,
+      "question": "Who is the NBA championship trophy named after?",
+      "choices": ["Larry O'Brien", "Jerry West", "Red Auerbach", "Bill Russell"],
+      "answer": "Larry O'Brien"
+    },
+    {
+      "question_number": 64,
+      "question": "Which NBA team plays at Madison Square Garden?",
+      "choices": ["New York Knicks", "Brooklyn Nets", "Boston Celtics", "Los Angeles Lakers"],
+      "answer": "New York Knicks"
+    },
+    {
+      "question_number": 65,
+      "question": "What NBA team won eight consecutive championships from 1959 to 1966?",
+      "choices": ["Boston Celtics", "Los Angeles Lakers", "Golden State Warriors", "Chicago Bulls"],
+      "answer": "Boston Celtics"
+    },
+    {
+      "question_number": 66,
+      "question": "The Pelicans play in which city?",
+      "choices": ["New Orleans", "Memphis", "San Antonio", "Houston"],
+      "answer": "New Orleans"
+    },
+      {
+        "question_number": 67,
+        "question": "Who is the Chicago Bulls mascot?",
+        "choices": ["Clutch the Bear", "Benny the Bull", "Lucky the Leprechaun", "Rocky"],
+        "answer": "Benny the Bull"
+      },
+      {
+        "question_number": 68,
+        "question": "While playing for the Chicago Bulls, what number jersey did Michael Jordan wear?",
+        "choices": ["No. 23", "No. 45", "No. 9", "No. 32"],
+        "answer": "No. 23"
+      },
+      {
+        "question_number": 69,
+        "question": "The Spurs play in which city?",
+        "choices": ["Dallas", "San Antonio", "Austin", "Houston"],
+        "answer": "San Antonio"
+      },
+      {
+        "question_number": 70,
+        "question": "Which is the only NBA team that does not play on the continental United States?",
+        "choices": ["Golden State Warriors", "Miami Heat", "Los Angeles Lakers", "Toronto Raptors"],
+        "answer": "Toronto Raptors"
+      },
+      {
+        "question_number": 71,
+        "question": "The Charlotte Bobcats were renamed what?",
+        "choices": ["Charlotte Hornets", "Charlotte Bulls", "Charlotte Warriors", "Charlotte Pistons"],
+        "answer": "Charlotte Hornets"
+      },
+      {
+        "question_number": 72,
+        "question": "Who is the NBA commissioner?",
+        "choices": ["Rob Manfred", "David Stern", "Adam Silver", "Roger Goodell"],
+        "answer": "Adam Silver"
+      },
+      {
+        "question_number": 73,
+        "question": "What is the average height in the NBA?",
+        "choices": ["6'6\"", "6'4\"", "7'0\"", "6'8\""],
+        "answer": "6'6\""
+      },
+        {
+          "question_number": 74,
+          "question": "How many regular season games are usually played?",
+          "choices": ["72 games", "82 games", "66 games", "76 games"],
+          "answer": "82 games"
+        },
+        {
+          "question_number": 75,
+          "question": "Who has won the most regular season games all-time?",
+          "choices": ["Golden State Warriors", "Los Angeles Lakers", "Boston Celtics", "Chicago Bulls"],
+          "answer": "Boston Celtics"
+        },
+        {
+          "question_number": 76,
+          "question": "Which player has won the most NBA championships?",
+          "choices": ["Kareem Abdul-Jabbar", "Magic Johnson", "Bill Russell", "Michael Jordan"],
+          "answer": "Bill Russell"
+        },
+        {
+          "question_number": 77,
+          "question": "Who holds the record for the most three-pointers made in a season with 402?",
+          "choices": ["Ray Allen", "Stephen Curry", "Klay Thompson", "James Harden"],
+          "answer": "Stephen Curry"
+        },
+        {
+          "question_number": 78,
+          "question": "Who is the all-time blocks leader?",
+          "choices": ["Shaquille O'Neal", "Hakeem Olajuwon", "David Robinson", "Kareem Abdul-Jabbar"],
+          "answer": "Hakeem Olajuwon"
+        },
+        {
+          "question_number": 79,
+          "question": "Who is the all-time leader in assists?",
+          "choices": ["Magic Johnson", "John Stockton", "Chris Paul", "Jason Kidd"],
+          "answer": "John Stockton"
+        },
+        {
+          "question_number": 80,
+          "question": "Which player has scored the most points in a single game?",
+          "choices": ["Elgin Baylor", "Wilt Chamberlain", "David Robinson", "Kobe Bryant"],
+          "answer": "Wilt Chamberlain"
+        },
+        {
+          "question_number": 81,
+          "question": "Which player played in the NBA the longest?",
+          "choices": ["Robert Parish", "Vince Carter", "Dirk Nowitzki", "Kevin Willis"],
+          "answer": "Vince Carter"
+        },
+        {
+          "question_number": 82,
+          "question": "Who was the NBA MVP of 2022?",
+          "choices": ["Stephen Curry", "Kevin Durant", "Nikola Jokic", "Giannis Antetokounmpo"],
+          "answer": "Nikola Jokic"
+        },
+        {
+          "question_number": 83,
+          "question": "Who was the number 1 overall pick in the 2001 draft?",
+          "choices": ["Pau Gasol", "Eddy Curry", "Tyson Chandler", "Kwame Brown"],
+          "answer": "Kwame Brown"
+        },
+        {
+          "question_number": 84,
+          "question": "Who won the 2016 NBA dunk contest?",
+          "choices": ["Derrick Jones Jr.", "Aaron Gordon", "Zach LaVine", "Glenn Robinson III"],
+          "answer": "Zach LaVine"
+        },
+        {
+          "question_number": 85,
+          "question": "Who was the shortest NBA dunk contest winner?",
+          "choices": ["Nate Robinson", "Spud Webb", "Dwight Howard", "Shawn Kemp"],
+          "answer": "Spud Webb"
+        },
+        {
+          "question_number": 86,
+          "question": "In what year was Magic Johnson inducted into the NBA Hall of Fame?",
+          "choices": ["1994", "1999", "2002", "2006"],
+          "answer": "2002"
+        },
+        {
+          "question_number": 87,
+          "question": "In what year were the Boston Celtics founded?",
+          "choices": ["1957", "1970", "1962", "1946"],
+          "answer": "1946"
+        },
+        {
+          "question_number": 88,
+          "question": "Who was the first player in NBA history to be elected league MVP by unanimous vote?",
+          "choices": ["Stephen Curry", "LeBron James", "Michael Jordan", "Magic Johnson"],
+          "answer": "Stephen Curry"
+        },
+        {
+          "question_number": 89,
+          "question": "Which NBA player turned TV personality was nicknamed 'The Round Mound of Rebound'?",
+          "choices": ["Dennis Rodman", "Karl Malone", "Shaquille O'Neal", "Charles Barkley"],
+          "answer": "Charles Barkley"
+        },
+        {
+          "question_number": 90,
+          "question": "In what year was the 3-point line introduced into the NBA?",
+          "choices": ["1984", "1979", "1991", "1996"],
+          "answer": "1979"
+        },
+        {
+          "question_number": 91,
+          "question": "In what year did Michael Jordan first play in his now iconic Jordan 1s?",
+          "choices": ["1988", "1986", "1990", "1984"],
+          "answer": "1984"
+        },
+        {
+          "question_number": 92,
+          "question": "Which team won the NBA Finals in 2016, winning their first major sports title since 1964?",
+          "choices": ["San Antonio Spurs", "Los Angeles Lakers", "Golden State Warriors", "Cleveland Cavaliers"],
+          "answer": "Cleveland Cavaliers"
+        },
+        {
+          "question_number": 93,
+          "question": "What size shoe does NBA center Shaquille O'Neal wear?",
+          "choices": ["Size 22", "Size 24", "Size 25", "Size 23"],
+          "answer": "Size 23"
+        },
+        {
+          "question_number": 94,
+          "question": "Who holds the all-time record for most triple-doubles?",
+          "choices": ["Magic Johnson", "LeBron James", "Oscar Robertson", "Russell Westbrook"],
+          "answer": "Russell Westbrook"
+        },
+        {
+          "question_number": 95,
+          "question": "The 2020 NBA season was temporarily postponed due to the COVID-19 pandemic. Where were the remaining games held?",
+          "choices": ["Las Vegas, Nevada", "New York City, New York", "Walt Disney World, Orlando", "Los Angeles, California"],
+          "answer": "Walt Disney World, Orlando"
+        },
+        {
+          "question_number": 96,
+          "question": "Which NBA duo is nicknamed the 'Splash Brothers'?",
+          "choices": ["LeBron James and Anthony Davis", "James Harden and Kevin Durant", "Chris Paul and Blake Griffin", "Stephen Curry and Klay Thompson"],
+          "answer": "Stephen Curry and Klay Thompson"
+        },
+        {
+          "question_number": 97,
+          "question": "When did the ABA and the NBA merge?",
+          "choices": ["June 1978", "August 1976", "March 1980", "October 1974"],
+          "answer": "August 1976"
+        },
+        {
+          "question_number": 98,
+          "question": "Which team drafted James Harden?",
+          "choices": ["Golden State Warriors", "Houston Rockets", "Sacramento Kings", "Oklahoma City Thunder"],
+          "answer": "Oklahoma City Thunder"
+        },
+        {
+          "question_number": 99,
+          "question": "The 'Malice in the Palace' was a fight which broke out between which two NBA teams?",
+          "choices": ["Golden State Warriors and Cleveland Cavaliers", "Chicago Bulls and New York Knicks", "Detroit Pistons and Indiana Pacers", "Los Angeles Lakers and Boston Celtics"],
+          "answer": "Detroit Pistons and Indiana Pacers"
+        },
+        {
+          "question_number": 100,
+          "question": "In which year did LeBron James first make the NBA Finals?",
+          "choices": ["2007", "2013", "2009", "2011"],
+          "answer": "2007"
+        },
+        {
+          "question_number": 101,
+          "question": "Shortest player to win a slam dunk contest?",
+          "choices": ["Nate Robinson", "Spud Webb", "Vince Carter", "Dominique Wilkins"],
+          "answer": "Spud Webb"
+        },
+        {
+          "question_number": 102,
+          "question": "Player who won the slam dunk contest as a Boston Celtic?",
+          "choices": ["Larry Bird", "Jayson Tatum", "Dee Brown", "Paul Pierce"],
+          "answer": "Dee Brown"
+        },
+        {
+          "question_number": 103,
+          "question": "Number of championship titles the Boston Celtics have won?",
+          "choices": ["15", "17", "16", "18"],
+          "answer": "17"
+        },
+        {
+          "question_number": 104,
+          "question": "Number of consecutive NBA championships won by the Boston Celtics?",
+          "choices": ["6", "12", "8", "10"],
+          "answer": "8"
+        },
+        {
+          "question_number": 105,
+          "question": "Second country to have an NBA franchise?",
+          "choices": ["China", "Australia", "Canada", "Mexico"],
+          "answer": "Canada"
+        },
+        {
+          "question_number": 106,
+          "question": "Year the Chicago Bulls joined the NBA?",
+          "choices": ["1976", "1984", "1996", "1966"],
+          "answer": "1966"
+        },
+        {
+          "question_number": 107,
+          "question": "Fab Five player who also attended college at the University of Michigan?",
+          "choices": ["Jalen Rose", "Ray Jackson", "Chris Webber", "Juwan Howard"],
+          "answer": "Juwan Howard"
+        },
+        {
+          "question_number": 108,
+          "question": "First NBA team of Danny Manning?",
+          "choices": ["Atlanta Hawks", "Phoenix Suns", "Dallas Mavericks", "Los Angeles Clippers"],
+          "answer": "Los Angeles Clippers"
+        },
+        {
+          "question_number": 109,
+          "question": "Jersey number of Anfernee Hardaway?",
+          "choices": ["5", "10", "25", "1"],
+          "answer": "1"
+        },
+        {
+          "question_number": 110,
+          "question": "Jersey number of Scottie Pippen?",
+          "choices": ["34", "45", "23", "33"],
+          "answer": "33"
+        },
+        {
+          "question_number": 111,
+          "question": "First season of the Orlando Magic in the NBA?",
+          "choices": ["1991-1992", "1996-1997", "1989-1990", "1994-1995"],
+          "answer": "1989-1990"
+        },
+        {
+          "question_number": 112,
+          "question": "University attended by Sarunas Marciulionis?",
+          "choices": ["Kaunas University of Technology", "Vilnius University", "Klaipeda University", "Vytautas Magnus University"],
+          "answer": "Vilnius University"
+        },
+        {
+          "question_number": 113,
+          "question": "College attended by Scottie Pippen?",
+          "choices": ["University of Central Arkansas", "University of Kentucky", "University of North Carolina", "Duke University"],
+          "answer": "University of Central Arkansas"
+        },
+        {
+          "question_number": 114,
+          "question": "College attended by Glen Rice?",
+          "choices": ["University of Michigan", "University of Kentucky", "University of North Carolina", "Duke University"],
+          "answer": "University of Michigan"
+        },
+        {
+          "question_number": 115,
+          "question": "All-time leading scorer for the University of Texas at El Paso (UTEP)?",
+          "choices": ["Latrell Sprewell", "Jim Barnes", "Nolan Richardson", "Tim Hardaway"],
+          "answer": "Latrell Sprewell"
+        },
+        {
+          "question_number": 116,
+          "question": "NBA player who also won the Heisman Trophy?",
+          "choices": ["Deion Sanders", "Tim Tebow", "Bo Jackson", "Charlie Ward"],
+          "answer": "Charlie Ward"
+        },
+        {
+          "question_number": 117,
+          "question": "All-time leading scorer for the Indiana Pacers?",
+          "choices": ["Paul George", "Jermaine O'Neal", "Reggie Miller", "Rik Smits"],
+          "answer": "Reggie Miller"
+        },
+        {
+          "question_number": 118,
+          "question": "Team that won two NBA titles with Joe Dumars?",
+          "choices": ["Los Angeles Lakers", "Chicago Bulls", "Detroit Pistons", "Boston Celtics"],
+          "answer": "Detroit Pistons"
+        },
+        {
+          "question_number": 119,
+          "question": "Portland Trail Blazers player known for wearing a headband during games?",
+          "choices": ["Clyde Drexler", "Bill Walton", "Clifford Robinson", "Damian Lillard"],
+          "answer": "Clifford Robinson"
+        },
+        {
+          "question_number": 120,
+          "question": "First player to improve his scoring average during his first eight consecutive years?",
+          "choices": ["Michael Jordan", "Magic Johnson", "Karl Malone", "Derek Harper"],
+          "answer": "Derek Harper"
+        }
+      
+    ]
+}
