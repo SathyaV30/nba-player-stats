@@ -1,13 +1,15 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../Auth";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import axios from "axios";
 import { Tooltip } from 'react-tooltip'
 import { FaTimes, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import 'react-tooltip/dist/react-tooltip.css'
 import NBACsv from "../nba.csv";
 import Papa from 'papaparse';
+import NBA from '../images/NBA.png';
 import Hawks from '../images/Atlanta_Hawks.png';
 import Celtics from '../images/Boston_Celtics.png';
 import Nets from '../images/Brooklyn_Nets.png';
@@ -38,6 +40,10 @@ import Spurs from '../images/San_Antonio_Spurs.png';
 import Raptors from '../images/Toronto_Raptors.png';
 import Jazz from '../images/Utah_Jazz.png';
 import Wizards from '../images/Washington_Wizards.png';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import fallback from '../images/fallback.png';
+import ReactCardFlip from 'react-card-flip';
 
 const teamLogos = {
   'Atlanta Hawks': Hawks,
@@ -133,13 +139,15 @@ const styles = {
     boxSizing: 'border-box',
   },
   playerContainer: {
-    width: '100%',
+    minWidth: '100%',
+    maxWidth:'100%',
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginTop: '10px',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    
 
   },player: {
     margin: '10px',
@@ -151,6 +159,10 @@ const styles = {
     padding: '10px', 
     minHeight: '200px',
     position: 'relative', 
+    minWidth:'130px',
+    maxWidth:'130px',
+    overflow:'hidden',
+    cursor:'pointer',
   },
   playerImage: {
     width: '100px', 
@@ -184,6 +196,31 @@ function ProfilePage({ setFavoritePlayersVersion }) {
   const [csv, setCsv] = useState(null);
   const [tqc, setTqc] = useState(0);
   const [tqa, setTqa] = useState(0); 
+  const [isFlipped, setIsFlipped] = useState({});
+  const [playerData, setPlayerData] = useState({});
+  const defaultTeamLogo = <img src={NBA} alt="team logo" height="30px" style={{ objectFit: 'cover' }} />;
+
+
+  useEffect(() => {
+    const fetchPlayerData = async () => {
+      for (const player of favoritePlayers) {
+        const res = await axios.get(`https://www.balldontlie.io/api/v1/players?search=${player}`);
+        setPlayerData(prevState => ({
+          ...prevState,
+          [player]: res.data.data[0]
+        }));
+      }
+    };
+
+    fetchPlayerData();
+  }, [favoritePlayers]);
+
+  const handleFlip = (player) => {
+    setIsFlipped(prevState => ({
+      ...prevState,
+      [player]: !prevState[player]
+    }));
+  };
 
   function calcFontSize(name) {
     if (name.length <= 10) {
@@ -218,8 +255,6 @@ function ProfilePage({ setFavoritePlayersVersion }) {
 
 
   const navigate = useNavigate();
-
-  // Fetch user data on component mount
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch('http://localhost:4000/Userdata', {
@@ -248,9 +283,25 @@ function ProfilePage({ setFavoritePlayersVersion }) {
     });
 
     if (res.ok) {
-      alert('Profile updated successfully!');
+      toast.success('Profile updated successfully', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } else {
-      alert('There was a problem updating your profile.');
+      toast.error('There was an error updating your profile', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
@@ -267,6 +318,15 @@ function ProfilePage({ setFavoritePlayersVersion }) {
       });
       
       if (response.ok) {
+        toast.success(`Removed ${name} from favorites`, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         setFavoritePlayers(prevPlayers => prevPlayers.filter(player => player !== name));
         setFavoritePlayersVersion(prevVersion => prevVersion + 1);
         
@@ -288,9 +348,25 @@ const handleLogout = async () => {
     });
 
     if (response.ok) {
-      console.log('Logged out successfully');
+      toast.success('Logged out successfully', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     } else {
-      console.error('Failed to log out');
+      toast.error('Failed to logout', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
     navigate('/');
   } catch (error) {
@@ -310,14 +386,22 @@ return (
       style={styles.quill}
     />
     <h2 style={styles.header}>Favorite Team</h2>
-    <div style ={{display:'flex', flexDirection:'row', placeItems:'center'}}>
-     {favoriteTeam && <img src={teamLogos[favoriteTeam]} alt="team logo" height="30px" style = {{objectFit:'cover'}}/>}
-    <select
-      style={styles.input}
-      id="favoriteTeam"
-      value={favoriteTeam}
-      onChange={(e) => setFavoriteTeam(e.target.value)}
-    >
+    <div style={{ display: 'flex', flexDirection: 'row', placeItems: 'center' }}>
+  {favoriteTeam && favoriteTeam.length > 0  && (
+    <img
+      src={teamLogos[favoriteTeam]}
+      alt="team logo"
+      height="30px"
+      style={{ objectFit: 'cover' }}
+      onError = {(e) => {e.target.src = NBA}}
+    />
+  )}
+  <select
+    style={styles.input}
+    id="favoriteTeam"
+    value={favoriteTeam}
+    onChange={(e) => setFavoriteTeam(e.target.value)}
+  >
         <option value="">Select a team</option>
         <option value="Atlanta Hawks">Atlanta Hawks</option>
         <option value="Boston Celtics">Boston Celtics</option>
@@ -355,31 +439,57 @@ return (
     <h2 style={styles.header}>Favorite Players</h2>
     <div style ={{display:'flex', flexDirection:'row', justifyContent: 'center'}}>
     <div style={styles.playerContainer}>
-    {favoritePlayers.length !== 0 ? (
-  favoritePlayers.map((player, index) => (
-    <div 
-      style={styles.player}
-      onMouseEnter={() => setHoverIndex(index)}
-      onMouseLeave={() => setHoverIndex(null)}
-      key={index}
-    >
-      <FaTimes
-        style={index === hoverIndex ? { ...styles.removeIcon, display: 'block' } : styles.removeIcon}
-        onClick={() => handleRemovePlayer(player, index)}
-      />
-      <p style={{ ...styles.playerName, fontSize: calcFontSize(player) }}>{player}</p>
-      <img
-        style={styles.playerImage}
-        src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${getImgID(player)}.png`}
-        alt="player"
-      />
-    </div>
-  ))
-) : (
-  <span>None</span>
-)}
-
-
+      {favoritePlayers.length !== 0 ? (
+        favoritePlayers.map((player, index) => (
+          <ReactCardFlip isFlipped={isFlipped[player] || false} flipDirection="horizontal" key={index}>
+            <div 
+              style={styles.player}
+              onMouseEnter={() => setHoverIndex(index)}
+              onMouseLeave={() => setHoverIndex(null)}
+              onClick={() => handleFlip(player)}
+            >
+              <FaTimes
+                style={index === hoverIndex ? { ...styles.removeIcon, display: 'block' } : styles.removeIcon}
+                onClick={() => handleRemovePlayer(player, index)}
+              />
+              <p style={{ ...styles.playerName, fontSize: calcFontSize(player) }}>{player}</p>
+              <img
+                style={styles.playerImage}
+                src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${getImgID(player)}.png`}
+                onError={(e) => {
+                  e.target.src = fallback;
+                }}
+                alt="player"
+              />
+            </div>
+            
+            <div  
+            style={styles.player} 
+            onClick={() => handleFlip(player)}
+            onMouseEnter={() => setHoverIndex(index)}
+            onMouseLeave={() => setHoverIndex(null)}
+            
+            > 
+            <FaTimes
+                style={index === hoverIndex ? { ...styles.removeIcon, display: 'block' } : styles.removeIcon}
+                onClick={() => handleRemovePlayer(player, index)}
+              />
+            
+               {playerData[player] && (
+                <div style ={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                  <p style={{ ...styles.playerName, fontSize: calcFontSize(player) }}>{playerData[player].first_name + ' ' + playerData[player].last_name}</p>
+                  <p style={{ ...styles.playerName, fontSize: calcFontSize(player) }}>{playerData[player].height_feet + '\'' + playerData[player].height_inches + '\"'}</p>
+                  <p style={{ ...styles.playerName, fontSize: calcFontSize(player) }}>{playerData[player].weight_pounds + ' lbs'}</p>
+                  <p style={{ ...styles.playerName, fontSize: calcFontSize(player) }}>{playerData[player].team.full_name}</p>
+                </div>
+    )}
+              
+            </div>
+          </ReactCardFlip>
+        ))
+      ) : (
+        <span>None</span>
+      )}
     </div>
   
       </div>
@@ -430,10 +540,7 @@ return (
     <Tooltip id="incorrectTooltip" />
   </div>
 
-
     </div>
-
-
 
     <button style={styles.button} onClick={handleUpdate}>
       Update Profile

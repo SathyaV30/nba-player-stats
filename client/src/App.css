@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: Arial, sans-serif;
   margin-top: 50px;
 }
 
@@ -17,6 +16,12 @@ form-1 {
   width: 200px;
 
 }
+.bld {
+  text-shadow: .45px 0px .1px,
+                  -.45px 0px .1px;
+
+}
+
 
 form-2 {
   display: flex;
@@ -89,34 +94,39 @@ input[type="number"] {
 
 .card {
   background-color: #f2f2f2;
-  width: 366px;
-  display: block;
-  overflow: auto;  
-  margin: 0 auto;
+  margin: 20px auto 50px auto;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  margin-top: 20px;
-  padding-bottom: 20px;
-  margin-bottom: 50px;
-  padding-top: 10px;
-
+  overflow: auto;
+  width:'500px';
 }
 
 .card h2 {
-  margin: 20px 0;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
+  margin: 20px 0;
 }
 
 .card p {
-  font-size: 18px;
-  margin: 10px 0;
+  font-size: 16px;
+  margin: 8px;
 }
+.card img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+
 .like-btn {
   font-size: 1.2em;
   padding: 10px 20px;
@@ -133,8 +143,8 @@ input[type="number"] {
 
 .remove-btn {
 
-  margin-top: 6px ;
-  font-size: 15px;
+  margin-top: 10px ;
+  font-size: 20px;
   padding: 5px 10px;
   background-color: #17408B;
   color: white;
@@ -143,6 +153,7 @@ input[type="number"] {
   box-shadow: 0px 0px 5px #ccc;
   cursor: pointer;
   transform: scale(0.8);
+ 
 
 
   
@@ -190,7 +201,12 @@ button {
 
 * {
   box-sizing: border-box;
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+
+button {
+  z-index: 100;
 }
 
 body {
@@ -208,6 +224,8 @@ body {
   padding: 0 1rem;
   height: 75px;
   box-shadow: 0 2px 2px -2px rgba(0,0,0,.2);
+  font: 120% system-ui;
+  text-align: center;
 }
 
 .site-title {
@@ -229,6 +247,9 @@ body {
   display: flex;
   align-items: center;
   padding: .25rem;
+  
+
+  
 }
 
 .nav li.active {
@@ -236,21 +257,22 @@ body {
 }
 
 .nav li:hover {
-  background-color: #17408B;
+  text-shadow: .45px 0px .1px,
+  -.45px 0px .1px;
+
 }
 
 .like-img {
-  width: 85px;
-  height: 85px;
+  width: 135px;
+  height: 135px;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid lightgrey;
   border-width: 0.4px;
-  align-self: center;
+
 }
 
 .liked-player-card {
-
   display: flex;
   flex-direction: column;
   overflow: auto;
@@ -258,13 +280,13 @@ body {
   margin-right: 50px;
   border: 1px solid lightgrey;
   cursor: pointer;
-  width: 150px;
-  height: 200px;
   border-radius: 30px;
   background: #f2f2f2;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
   margin-bottom: 50px;
   margin-left: 35px;
+  width: 202.5px;
+  height: 270px;
   
  
 }
@@ -290,8 +312,8 @@ body {
   margin-left: 35px;
   border: none;
   font-size: 14px;
-  width: 150px;
-  height: 200px;
+  width: 225px;
+  height: 300px;
   place-items: center;
   cursor: pointer;
   border-radius: 30px;
@@ -301,12 +323,14 @@ body {
 }netlify deploy --prod
 .lcb-p {
   margin-bottom: 2px;
+  
 }
 
 .liked-player-front {
   display: flex;
   flex-direction: column;
-  place-items: center;
+  justify-content: start;
+  align-items: center;
 
 }
 
@@ -443,11 +467,4 @@ body {
 @keyframes zoom {
   from {transform: scale(0);}
   to {transform: scale(1);}
-}
-
-
-
-* {
-
-  
 }

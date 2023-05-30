@@ -2,6 +2,8 @@ import { useContext, useState } from 'react'
 import ReactQuill from 'react-quill'
 import { AuthContext } from '../Auth'
 import 'react-quill/dist/quill.snow.css'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const styles = {
   form: {
     display: 'flex',
@@ -47,7 +49,7 @@ const Post = () => {
           [{ 'header': [1, 2, false] }],
           ['bold', 'italic', 'underline','strike', 'blockquote'],
           [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-          ['link', 'image'],
+          ['link'],
           ['clean']
         ],
       };
@@ -56,18 +58,34 @@ const Post = () => {
         'header',
         'bold', 'italic', 'underline', 'strike', 'blockquote',
         'list', 'bullet', 'indent',
-        'link', 'image'
+        'link',
     ]
 
     const createNewPost = async (ev) => {
       ev.preventDefault();
       const data = { title, summary, content }; 
 
-      if (!data.title || !data.summary || !data.content) {
-        alert('Please enter all fields');
+      if (!data.title || !data.summary ) {
+        toast.error('Please enter a title and summary', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         return;
       } else {
-        alert('Post submitted successfully')
+        toast.success('Post submitted successfully', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
         const response = await fetch('http://localhost:4000/Create', {
           method: 'POST',
@@ -110,6 +128,7 @@ const Post = () => {
             modules={modules}
             formats={formats}
             onChange={(newValue) => setContent(newValue)}
+            placeholder = 'Enter your hotest NBA takes, stories, or facts!'
           />
           <button style={styles.button}>Submit</button>
         </form>

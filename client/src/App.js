@@ -13,27 +13,49 @@ import Post from "./components/Post";
 import Posts from "./components/Posts";
 import ProfilePage from "./components/Profile";
 import Trivia from "./components/Trivia";
+import MyPosts from "./components/MyPosts";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthContextProvider, AuthContext } from "./Auth";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import fallback from './images/fallback.png'
+import Modal from 'react-modal';
+import ReactCardFlip from 'react-card-flip';
+import { Tooltip } from "react-tooltip";
+import { FaInfoCircle } from "react-icons/fa";
+
 
 
 
 const AppContent = () => {
-  const {setIsAuthenticated, setUser, user} = useContext(AuthContext);
+  const {isAuthenticated, setIsAuthenticated, setUser, user} = useContext(AuthContext);
   const [playerName, setPlayerName] = useState('');
   const [playerStats, setPlayerStats] = useState({});
   const [likedPlayers, setLikedPlayers] = useState([]);
-  const [cardData, setCardData] = useState({})
+  const [cardData, setCardData] = useState({});
   const [imgID, setImgID] = useState('');
   const [csv, setCsv] = useState([]);
   const [liveGames, setLiveGames] = useState([]);
   const [favoritePlayersVersion, setFavoritePlayersVersion] = useState(0);
+  const [playerD, setPlayerD] = useState({});
+  const [show, setShow] = useState(false);
+
+
+
   
-
-  var imgLink = `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${imgID}.png`
-
  
- 
+  var imgLink = `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${imgID}.png` 
+
+
+  useEffect(()=> {
+    setShow(false);
+  },[playerName])
+
+
+
+const handleOnError = (e) => {
+    e.target.src = fallback;
+}
  useEffect(() => {
    const fetchParseData = async () => {
      Papa.parse(NBACsv, {
@@ -76,7 +98,7 @@ const AppContent = () => {
  useEffect(() => {
    const fetchLiveGames = async () => {
      const today = new Date();
-     const estOffset = -5 * 60; // Offset for Eastern Standard Time (EST) in minutes
+     const estOffset = -5 * 60; 
      const estDate = new Date(today.getTime() + estOffset * 60 * 1000);
      const year = estDate.getFullYear();
      const month = String(estDate.getMonth() + 1).padStart(2, '0');
@@ -93,26 +115,60 @@ const AppContent = () => {
  
    fetchLiveGames();
  }, []);
- 
- 
- 
- 
+
  
  const handleSubmit = (e) => {
+
    e.preventDefault();
    if (document.getElementById("year").value.length === 0) {
-     alert("Please enter year");
+    toast.error('Please enter year', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
    } else if (!playerName) {
-     alert("Please enter a valid player name and year");
+    toast.error('Please enter a valid player name and year', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
    } else if (document.getElementById("year").value > 2022 
    || document.getElementById("year").value < 1979 ) {
-     alert('Data is limited between the years 1979 to 2022')
+    toast.error('Data is limited between 1979 and 2022', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     } else {
+     
      getPlayerId();
      getImgID(playerName);
+     playerHW(playerName);
+
+
+     
+     
    }
  };
  
+
+ const playerHW = async (name) => {
+  const res = await axios.get(`https://www.balldontlie.io/api/v1/players?search=${name}`)
+  setPlayerD(res.data.data[0])
+
+ }
  
  
   const handleRandom = async (e) => {
@@ -125,8 +181,7 @@ const AppContent = () => {
    setPlayerName(data.first_name + ' ' + data.last_name)
   
    e.preventDefault();
- 
- 
+
  };
  
  
@@ -142,6 +197,15 @@ const AppContent = () => {
     });
     
     if (response.ok) {
+      toast.success(`Removed ${name} from favorites`, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       const updatedLikedPlayers = likedPlayers.filter(player => player !== name);
       setLikedPlayers(updatedLikedPlayers);
       setFavoritePlayersVersion(favoritePlayersVersion + 1);
@@ -160,7 +224,15 @@ const AppContent = () => {
     if (replace.length >= 0) {
       setPlayerName(replace);
     } else {
-      alert("Please enter an NBA player's name");
+      toast.error('Please enter an NBA Player\'s name', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
   
@@ -168,52 +240,87 @@ const AppContent = () => {
   const getImgID = (name) => {
      for (let i=0;i<csv.length;i++) {
        if (csv[i][0].toLowerCase() === name.toLowerCase()) {
-         setImgID(csv[i][6])
+         setImgID(csv[i][6]);
          return
        }
      }
+     setImgID('')
   }
  
   const getImgIDLike = (name) => {
+    
    for (let i=0;i<csv.length;i++) {
      if (csv[i][0].toLowerCase() === name.toLowerCase()) {
        return csv[i][6]
      }
    }
+
+   return '';
     
  
   }
  
  
-  const getPlayerId = () => {
+  const getPlayerId =  () => {
     axios
       .get(`https://www.balldontlie.io/api/v1/players?search=${playerName}`)
       .then(async (res) => {
         if (res.data.data[0] === undefined || res.data.data[0] === null) {
-          alert("Player Not Found");
+          toast.error('Player not found', {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setShow(false);
+          return;
         } else if (res.data.data.length > 1) {
-          alert("Incorrect Format. Ex: Stephen Curry");
+          toast.error('Incorrect format. Ex: Stephen Curry', {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setShow(false);
         } else {
           getPlayerStats(res.data.data[0].id);
         }
       })
       .catch((err) => {
         console.log(err);
+        setShow(false)
       });
   };
  
  
-  const getPlayerStats = (playerId) => {
+  const getPlayerStats = async (playerId) => {
     axios
       .get(
         `https://www.balldontlie.io/api/v1/season_averages?season=${document.getElementById('year').value}&player_ids[]=${playerId}`
       )
       .then(async (res) => {
         if (res.data.data[0] === undefined) {
-          alert('Player was injured or not playing this year')
+          toast.error('Player was injured or not playing this year', {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setShow(false);
           return
         }
+
          setPlayerStats(res.data.data[0]);
+         setShow(true);
    
       })
       .catch((err) => {
@@ -227,25 +334,124 @@ const AppContent = () => {
  
  
   const PlayerCard = () => {
+    if (!playerD) {
+      return
+    }
     return (
-      <div className="card">
-       <img alt = {'Image of ' + playerName } src= {imgLink} id="main-img"/> 
-        <p>Points per game: {playerStats["pts"]}</p>
-        <p>Assists per game: {playerStats["ast"]}</p>
-        <p>Rebounds per game: {playerStats["reb"]}</p>
-        <p>Steals per game: {playerStats["stl"]}</p>
-        <p>Blocks per game: {playerStats["blk"]}</p>
-        <p>Games played: {playerStats["games_played"]}</p>
-        <button onClick={handleLike} className = "like-btn">Like</button>
-      </div>
+      <div style ={{maxHeight:'470px', minHeight:'470px', margin:'10px', minWidth:'100%', maxWidth:'100%'}} >
+  <div style={{ display: 'flex', flexDirection: 'row', justifyContent:'center'}}>
+    <div style ={{display:'flex', flexDirection:'column', alignItems: 'center'}}>
+    <img alt={'Image of ' + playerName} src={imgLink} onError={handleOnError} id="main-img" style={{ marginRight: '20px',width:'500px', objectFit:'cover' }} />
+    <h1 style = {{margin:'5px'}}>{playerD.first_name + ' ' + playerD.last_name}</h1>
+    {playerD.height_feet && playerD.height_inches && (
+  <span style={{ margin: '5px' }}>
+    {playerD.height_feet}'{playerD.height_inches}"
+  </span>
+)}
+{playerD.weight_pounds && (
+  <span style={{ margin: '5px' }}>
+    {playerD.weight_pounds} lbs
+  </span>
+)}
+
+     <span style = {{margin:'5px'}}>{playerD.team.full_name}</span>
+   
+    </div>
+    <div style={{ maxWidth:'20%', minWidth:'30%', maxHeight: '520px', overflow:'scroll', alignItems:'center', display:'flex', flexDirection:'column' }}>
+      <table>
+        <tbody>
+          <tr>
+            <td>Points per game:</td>
+            <td>{playerStats["pts"]}</td>
+          </tr>
+          <tr>
+            <td>Assists per game:</td>
+            <td>{playerStats["ast"]}</td>
+          </tr>
+          <tr>
+            <td>Rebounds per game:</td>
+            <td>{playerStats["reb"]}</td>
+          </tr>
+          <tr>
+            <td>Steals per game:</td>
+            <td>{playerStats["stl"]}</td>
+          </tr>
+          <tr>
+            <td>Blocks per game:</td>
+            <td>{playerStats["blk"]}</td>
+          </tr>
+          <tr>
+            <td>Games played:</td>
+            <td>{playerStats["games_played"]}</td>
+          </tr>
+          <tr>
+            <td>Minutes per game:</td>
+            <td>{playerStats["min"]}</td>
+          </tr>
+          <tr>
+            <td>FG Made per game:</td>
+            <td>{playerStats["fgm"]}</td>
+          </tr>
+          <tr>
+            <td>FG Attempted per game:</td>
+            <td>{playerStats["fga"]}</td>
+          </tr>
+          <tr>
+            <td>3pt FG Made per game:</td>
+            <td>{playerStats["fg3m"]}</td>
+          </tr>
+          <tr>
+            <td>3pt FG Attempted per game:</td>
+            <td>{playerStats["fg3a"]}</td>
+          </tr>
+          <tr>
+            <td>Free Throws Made per game:</td>
+            <td>{playerStats["ftm"]}</td>
+          </tr>
+          <tr>
+            <td>Free Throws Attempted per game:</td>
+            <td>{playerStats["fta"]}</td>
+          </tr>
+          <tr>
+            <td>Offensive Rebounds per game:</td>
+            <td>{playerStats["oreb"]}</td>
+          </tr>
+          <tr>
+            <td>Defensive Rebounds per game:</td>
+            <td>{playerStats["dreb"]}</td>
+          </tr>
+          <tr>
+            <td>Turnovers per game:</td>
+            <td>{playerStats["turnover"]}</td>
+          </tr>
+          <tr>
+            <td>Personal Fouls per game:</td>
+            <td>{playerStats["pf"]}</td>
+          </tr>
+          <tr>
+            <td>Field Goal %:</td>
+            <td>{playerStats["fg_pct"]}</td>
+          </tr>
+          <tr>
+            <td>Three-Point Field Goal %:</td>
+            <td>{playerStats["fg3_pct"]}</td>
+          </tr>
+          <tr>
+            <td>Free Throw Percentage %:</td>
+            <td>{playerStats["ft_pct"]}</td>
+          </tr>
+        </tbody>
+      </table>
+     {isAuthenticated && <button onClick={handleLike} className="like-btn">Like Player</button> }
+    </div>
+  </div>
+</div>
+
+    
     );
   };
  
-  const handleLikeCardClick = async(name) => {
-    const res = await axios.get(`https://www.balldontlie.io/api/v1/players?search=${name}`)
-    setCardData(res.data.data[0])
-  }
- 
+  
   const handleLike = async () => {
     if (!playerName) {
       return;
@@ -266,9 +472,25 @@ const AppContent = () => {
       });
       if (response.ok) {
         setLikedPlayers([...likedPlayers, playerName]);
-        alert('Added player to favorites');
+        toast.success(`Added ${playerName} to favorites`, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       } else if (response.statusText === 'Unauthorized'){
-        alert('Please log in or register to like player')
+        toast.error('Please log in or register to like player', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       } 
     } catch (error) {
       console.error(error);
@@ -309,92 +531,155 @@ const AppContent = () => {
   
   
  
- var likedCardBack = <div></div>
- 
- 
- if (Object.keys(cardData).length !== 0 ) {
-   likedCardBack = (
-    <div className ='liked-player-card-2' onClick = {function() {
-      setCardData('')
- 
-    }} >
-     <p className = "lcb-p">{cardData.first_name + ' ' + cardData.last_name}</p>
-     <p className = "lcb-p">{cardData.height_feet + '\''+ cardData.height_inches + '\"'}</p>
-     <p className = "lcb-p">{cardData.weight_pounds + " lbs"}</p>
-     <p className = "lcb-p">{cardData.team.full_name}</p>
-     <button className='remove-btn' onClick={function () {
-               handleRemove(cardData.first_name + ' ' + cardData.last_name);
-             } }>Remove player</button>
-    </div>
-  )
- }
+
  
  
  
  
   const LikedPlayersTab = () => {
+    const [isFlipped, setIsFlipped] = useState({});
+    const [cardData, setCardData] = useState([]);
+  
+    const handleFlip = async (likedPlayer) => {
+      const res = await axios.get(`https://www.balldontlie.io/api/v1/players?search=${likedPlayer}`)
+      const playerData = res.data.data[0];
+      
+      setCardData(prevState => {
+        const newData = [...prevState];
+        const playerIndex = newData.findIndex(data => data.likedPlayer === likedPlayer);
+  
+        if (playerIndex !== -1) {
+          newData[playerIndex] = {
+            likedPlayer,
+            playerData
+          };
+        } else {
+          newData.push({
+            likedPlayer,
+            playerData
+          });
+        }
+  
+        return newData;
+      });
+  
+      setIsFlipped(prevState => ({
+        ...prevState,
+        [likedPlayer]: !prevState[likedPlayer]
+      }));
+    };
+  
+    const LikedCardBack = (likedPlayer) => {
+      const playerData = cardData.find(data => data.likedPlayer === likedPlayer);
+  
+      if (playerData) {
+        const data = playerData.playerData;
+  
+        return (
+          <div style ={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}} onClick={() => setCardData(prevState => prevState.filter(data => data.likedPlayer !== likedPlayer))}>
+            <div style = {{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', minHeight:'200px', maxHeight:'200px'}}>
+            <p className="lcb-p">{data.first_name + ' ' + data.last_name}</p>
+            <p className="lcb-p">{data.height_feet ? data.height_feet + '\'' + data.height_inches + '\"' : "Height not available"}</p>
+            <p className="lcb-p">{data.weight_pounds ? data.weight_pounds + " lbs" : "Weight not available"}</p>
+            <p className="lcb-p">{data.team ? data.team.full_name : "Team not available"}</p>
+            </div>
+            <button className='remove-btn' onClick={() => handleRemove(data.first_name + ' ' + data.last_name)}>Remove player</button>
+          </div>
+        );
+      } else {
+        return null;
+      }
+    }
     if (likedPlayers.length === 0) {
       return (
        <div style ={{display:'flex', justifyContent:'center',flexDirection:'column'}}>
        <h1 style ={{textAlign:'center'}}>Liked Players</h1>
        <h2 style={{textAlign:'center'}}>No players liked</h2>
        </div>
-
-       )
- 
- 
+      )
     }
-     return (
-       <div style ={{display:'flex', justifyContent:'center',flexDirection:'column'}}>
-         <h1 style ={{textAlign:'center'}} >Liked Players</h1>
-       <div className="all-cards">
-       
-     
-         {likedPlayers.map((likedPlayer, index) => (
-          <>
-         
-          {(cardData.first_name + ' ' + cardData.last_name) === likedPlayer && likedCardBack}
-         { ((cardData.first_name + ' ' + cardData.last_name) !== likedPlayer && <div id={likedPlayer} className="liked-player-card"  onClick={function () {
- 
-            handleLikeCardClick(likedPlayer)
-           
-          }} >
-           
- 
-             <div className="liked-player-front" id={likedPlayer}>
-               <p className="like-name" key={index}>{likedPlayer}</p>
- 
-               <img alt = {'Image of ' + likedPlayer } className="like-img" src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${getImgIDLike(likedPlayer)}.png`} />
- 
-             </div>
-           
- 
-             <button className='remove-btn' onClick={function () {
-               handleRemove(likedPlayer);
-             } }>Remove player</button>
- 
-           </div>)
-         }
-           </>
-           
-         ))}
-         
- 
-       </div>
- 
-       </div>
+
+    return (
+      <div style ={{display:'flex', justifyContent:'center',flexDirection:'column'}}>
+        <h1 style ={{textAlign:'center'}} >Liked Players</h1>
+        <div className="all-cards">
+          {likedPlayers.map((likedPlayer, index) => (
+            <ReactCardFlip isFlipped={isFlipped[likedPlayer]} flipDirection="horizontal">
+              <div className="liked-player-card" id={likedPlayer} onClick={() => handleFlip(likedPlayer)}>
+                <div className="liked-player-front" id={likedPlayer}>
+                <div style = {{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', minHeight:'200px', maxHeight:'200px'}}>
+                  <h3 style ={{fontWeight:'normal', whiteSpace:'nowrap', fontSize: 'clamp(10px, 17px, 30px)', width: 'fit-content',
+  maxWidth: '100%'}} key={index}>{likedPlayer}</h3>
+                  <img
+                    alt={'Image of ' + likedPlayer}
+                    className="like-img"
+                    src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${getImgIDLike(likedPlayer)}.png`}
+                    onError={handleOnError}
+                  />
+                  </div>
+                  <button className='remove-btn' onClick={() => handleRemove(likedPlayer)}>Remove player</button>
+                </div>
+              </div>
+  
+              <div id={likedPlayer} className="liked-player-card" onClick={() => handleFlip(likedPlayer)}>
+                {LikedCardBack(likedPlayer)}
+              </div>
+  
+            </ReactCardFlip>
+          ))}
+        </div>
+      </div>
     );
   };
- 
+  
+  
 
   return (
     <Router>
     <Navbar />
     <Routes>
       <Route path="/" element={
-        <> 
-          <div style ={{display:'flex', flexDirection:'row', justifyContent:'center', margin:'10px'}}>
-            <input style ={{width:'120px', height: '48px', marginRight:'5px', padding: '0 auto'}} type="number" min="1979" max="2019" step="1" placeholder = "Enter year" id = "year"/>
+        <div style ={{transform:'translateY(20px)'}}> 
+          {playerStats && Object.keys(playerStats).length > 0 && (show && <PlayerCard handleLike={handleLike} /> )}
+
+          {!show && <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '470px',
+            maxHeight: '470px',
+            minWidth: '100%',
+            maxWidth: '600px',
+            overflow: 'auto',
+            position: 'relative',
+            margin:'10px',
+          }}
+        >
+          <p
+            style={{
+              fontSize: '24px',
+              textAlign: 'center',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '100%',
+            }}
+          >
+            Enter year and player to view stats
+          </p>
+                  <FaInfoCircle
+                    style={{ color: '#17408b', fontSize: '20px', marginLeft: '5px', transform: 'translate(210px,25px)' }}
+                    data-tooltip-id="info-tooltip"
+                    data-tooltip-content="Year refers to the starting year of the season. For example, 2022 refers to the 2022-23 season"
+                  />
+                  <Tooltip id="info-tooltip" />
+         
+        </div>}
+          <div style ={{display:'flex', flexDirection:'row', justifyContent:'center', margin:'50px'}}>
+            <input style ={{width:'120px', height: '48px', marginRight:'5px', padding: '0 auto'}} type="number" min="1979" max="2022" step="1" placeholder = "Enter year" id = "year"/>
             <form className ="form-1" onSubmit={handleSubmit}>
               <label>
                 <input
@@ -410,8 +695,8 @@ const AppContent = () => {
               <input type="button" value="Suprise Me" onClick = {handleRandom} className = "like-btn"/>
             </form>
           </div>
-          {playerStats && Object.keys(playerStats).length > 0 && (<PlayerCard handleLike={handleLike} />)}
-        </>
+        
+        </div>
       }/>
      <Route
   path="/Favorites"
@@ -430,7 +715,7 @@ const AppContent = () => {
     </AuthContext.Consumer>
   }
 />
-
+      <Route path ="/MyPosts" element = {<MyPosts/>}/>
       <Route path ="/Posts" element = {<Posts />}/>
       <Route path="/Compare" element={<Compare />}/>
       <Route path="/Scores" element={<ScoresBanner />}/>

@@ -3,7 +3,6 @@ import axios from 'axios';
 import { AuthContext } from '../Auth';
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import Papa from 'papaparse';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -12,25 +11,40 @@ import { FaTimes } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const MyPosts = () => {
+    const { isAuthenticated, user } = useContext(AuthContext);
+    const [posts, setPosts] = useState([]);
+    const [editingPost, setEditingPost] = useState(null);
+    const [title, setTitle] = useState('');
+    const [summary, setSummary] = useState('');
+    const [content, setContent] = useState('');
+    const [userModal, setUserModal] = useState(false);
+    const [userInfo, setUserInfo] = useState(null);
+    const [sortMode, setSortMode] = useState('newest'); 
+  
+    const [page, setPage] = useState(1);
+    const [totalPosts, setTotalPosts] = useState(0);
+    const [date, setDate] = useState(() => {
+      const today = new Date();
+      return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    });
 
-const Posts = () => {
-  const { isAuthenticated, user } = useContext(AuthContext);
-  const [posts, setPosts] = useState([]);
-  const [editingPost, setEditingPost] = useState(null);
-  const [title, setTitle] = useState('');
-  const [summary, setSummary] = useState('');
-  const [content, setContent] = useState('');
-  const [userModal, setUserModal] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
-  const [sortMode, setSortMode] = useState('newest'); 
-  const [page, setPage] = useState(1);
-  const [totalPosts, setTotalPosts] = useState(0);
-  const [date, setDate] = useState(() => {
-    const today = new Date();
-    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-  });
-
-
+    const fetchPosts = async () => {
+        try {
+          const response = await axios.get(`http://localhost:4000/MyPosts?date=${date}&page=${page}&limit=5&sort=${sortMode}`, { withCredentials: true });
+          setTotalPosts(response.data.totalPosts);
+          if (page === 1) {
+            setPosts(response.data.posts);
+          } else {
+            setPosts((prevPosts) => [...prevPosts, ...response.data.posts]);
+          }
+        } catch (error) {
+          console.error('Failed to fetch posts', error);
+        }
+      };
+      
+      
+  
   const styles = {
     postContainer: {
       border: '1px solid #ccc',
@@ -129,32 +143,10 @@ const Posts = () => {
   };
   
 
-  
-  const fetchPosts = async () => {
-    try {
-      const response = await axios.get(`http://localhost:4000/Posts?date=${date}&page=${page}&limit=5&sort=${sortMode}`, { withCredentials: true });
-      setTotalPosts(response.data.totalPosts);
-      if (page === 1) {
-        setPosts(response.data.posts);
-      } else {
-        setPosts((prevPosts) => [...prevPosts, ...response.data.posts]);
-      }
-    } catch (error) {
-      console.error('Failed to fetch posts', error);
-    }
-  };
-  
 
   const loadMorePosts = () => {
     setPage(page + 1);
   };
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      return;
-    }
-    fetchPosts(page);
-  }, [isAuthenticated, date, page, sortMode]);
 
   const editPost = (post) => {
     if (post.author.username !== user) {
@@ -168,13 +160,11 @@ const Posts = () => {
         progress: undefined,
       });
       return;
-    } 
+    }
     setEditingPost(post);
     setTitle(post.title);
     setSummary(post.summary);
     setContent(post.content);
-    
-
   };
 
   const savePost = async () => {
@@ -209,7 +199,7 @@ const Posts = () => {
 
   const deletePost = async (post) => {
     try {
-      const res = await axios.delete(`http://localhost:4000/Posts/${post._id}`, { withCredentials: true });
+      await axios.delete(`http://localhost:4000/Posts/${post._id}`, { withCredentials: true });
       fetchPosts();
       toast.success('Post deleted successfully', {
         position: toast.POSITION.TOP_CENTER,
@@ -221,7 +211,7 @@ const Posts = () => {
         progress: undefined,
       });
     } catch (error) {
-      toast.error('You are not the author of this post', {
+      toast.error(error.response.data.message, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 3000,
         hideProgressBar: false,
@@ -231,7 +221,6 @@ const Posts = () => {
         progress: undefined,
       });
     }
-
   };
 
   const likePost = async (post) => {
@@ -299,6 +288,7 @@ const Posts = () => {
      const {username, bio, favoritePlayers,favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect} = response.data
      setUserInfo({username, bio, favoritePlayers, favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect});
      setUserModal(true);
+     
     } catch (error) {
       toast.error('An error occurred', {
         position: toast.POSITION.TOP_CENTER,
@@ -326,16 +316,23 @@ const formats = [
     'header',
     'bold', 'italic', 'underline', 'strike', 'blockquote',
     'list', 'bullet', 'indent',
-    'link', 
+    'link',
 ]
 
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+    fetchPosts(page);
+  }, [isAuthenticated, date, page, sortMode]);
 
   return (
     <>
       {isAuthenticated ? (
         <div>
           <div style={styles.header}>
-          <h1 style={styles.headerTitle}>Posts from {date}</h1>
+          <h1 style={styles.headerTitle}>My Posts from {date}</h1>
           <input
             type="date"
             value={date}
@@ -343,7 +340,7 @@ const formats = [
             style={styles.dateInput}
           />
 
-          <select style ={styles.dateInput} value={sortMode} onChange={(event) => setSortMode(event.target.value)}>
+            <select style ={styles.dateInput} value={sortMode} onChange={(event) => setSortMode(event.target.value)}>
             <option value="newest">Newest</option>
             <option value="topLiked">Top Liked</option>
             <option value="controversial">Controversial</option>
@@ -417,7 +414,7 @@ const formats = [
                       <FaTimes style={{position: 'absolute', top: 0, right: 0, cursor: 'pointer', color:'#17408b'}} onClick={() => setUserModal(false)} />
                       <h2>{userInfo.username} Profile</h2>
                       <p dangerouslySetInnerHTML={{ __html: userInfo.bio }}></p>
-                      <p><strong>Favorite Team:</strong> {userInfo.favoriteTeam? userInfo.favoriteTeam : 'None'}</p>
+                      <p><strong>Favorite Team:</strong> {userInfo.favoriteTeam ? userInfo.favoriteTeam : 'None'}</p>
                       <p><strong>Favorite Players:</strong> {userInfo.favoritePlayers.length > 0 ? userInfo.favoritePlayers.join(', ') : 'None'}</p>
                       <p><strong>Trivia questions answered:</strong> {userInfo.TriviaQuestionsAnswered}</p>
                       <p><strong>Trivia questions correct:</strong> {userInfo.TriviaQuestionsCorrect}</p>
@@ -426,7 +423,7 @@ const formats = [
                     </>
                   )}
               </Modal>
-                  {post.author.username === user && (
+                  {post.author._id === user.id && (
                     <>
                       <button style={styles.postButton} onClick={() => editPost(post)}>Edit</button>
                       <button style={styles.postButton} onClick={() => deletePost(post)}>Delete</button>
@@ -453,8 +450,6 @@ const formats = [
       )}
     </>
   );
-}  
-export default Posts;
+};
 
-
- 
+export default MyPosts;

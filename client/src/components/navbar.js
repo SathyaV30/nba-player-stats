@@ -1,57 +1,61 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../Auth';
-import { Link } from 'react-router-dom';
-
+import { NavLink, useLocation } from 'react-router-dom';
+import '../App.css'
 
 const Navbar = () => {
   const {user, setUser, isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const location = useLocation();
 
-  
 
   return (
     <nav className="nav">
-      <Link to="/" className="site-title">
+      <NavLink to="/" className={"site-title"}>
         <img src={require(`../images/NBA.png`)} alt="NBA" className="navbar-logo" />{' '}
         <span className="sts">Stats</span>
-      </Link>
+      </NavLink>
       <ul>
-      <li>
-          <Link to="/Trivia">Trivia</Link>
+        <li className='nav-links'>
+          <NavLink to="/Trivia" className={location.pathname === "/Trivia" ? "bld" : "none"}>Trivia</NavLink>
         </li>
-      <li>
-          <Link to="/Posts">Posts</Link>
+        <li className='nav-links'>
+          <NavLink to="/MyPosts" className={location.pathname === "/MyPosts" ? "bld" : "none"}>My Posts</NavLink>
         </li>
-      <li>
-          <Link to="/Post">Create Post</Link>
+        <li className='nav-links'>
+          <NavLink to="/Posts" className={location.pathname === "/Posts" ? "bld" : "none"}>Posts</NavLink>
         </li>
-        <li>
-          <Link to="/Favorites">Favorites</Link>
+        <li className='nav-links'>
+          <NavLink to="/Post" className={location.pathname === "/Post" ? "bld" : "none"}>Create Post</NavLink>
         </li>
-        <li>
-          <Link to="/Compare">Compare</Link>
+        <li className='nav-links'>
+          <NavLink to="/Favorites" className={location.pathname === "/Favorites" ? "bld" : "none"}>Favorites</NavLink>
         </li>
-        <li>
-          <Link to="/Scores">Live Scores</Link>
+        <li className='nav-links'>
+          <NavLink to="/Compare" className={location.pathname === "/Compare" ? "bld" : "none"}>Compare</NavLink>
+        </li>
+        <li className='nav-links'>
+          <NavLink to="/Scores" className={location.pathname === "/Scores" ? "bld" : "none"}>Live Scores</NavLink>
         </li>
         {!isAuthenticated ? (
           <>
-            <li>
-              <Link to="/Login">Login</Link>
+             <li className='nav-links'>
+              <NavLink to="/Login" className={location.pathname === "/Login" ? "bld" : "none"}>Login</NavLink>
             </li>
-            <li>
-              <Link to="/Register">Register</Link>
+            <li className='nav-links'>
+              <NavLink to="/Register" className={location.pathname === "/Register" ? "bld" : "none"}>Register</NavLink>
             </li>
           </>
         ) : (
-          <li>
-            <Link to="/Profile">
+          <li className='nav-links'>
+            <NavLink to="/Profile" className={location.pathname === "/Profile" ? "bld" : "none"}>
                 Profile ({user})
-            </Link>
+            </NavLink>
           </li>
         )}
       </ul>
     </nav>
   );
 };
+
 
 export default Navbar;

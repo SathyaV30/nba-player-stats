@@ -1,9 +1,36 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const ScoresBanner = () => {
   const [liveGames, setLiveGames] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
+
+  function convertToEST(dateString) {
+    var date = new Date(dateString);
+    var estOffset = 5;
+    var edtOffset = 4;
+    var offset;
+    
+    if ((date.getUTCMonth() > 2 && date.getUTCMonth() < 10) || 
+        (date.getUTCMonth() === 2 && date.getUTCDate() >= 8 && date.getUTCDay() === 0) || 
+        (date.getUTCMonth() === 10 && date.getUTCDate() <= 7 && date.getUTCDay() === 0)) {
+        offset = edtOffset; 
+    } else {
+        offset = estOffset;
+    }
+
+    date.setUTCHours(date.getUTCHours() - offset);
+    var hours = date.getUTCHours();
+    var minutes = date.getUTCMinutes();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; 
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+
+    return strTime;
+}
 
   const setFormattedDateString = (date) => {
     const year = date.getUTCFullYear();
@@ -24,6 +51,17 @@ const ScoresBanner = () => {
       setLiveGames(response.data.data);
     } catch (error) {
       console.error("Error fetching live games:", error);
+      toast.error('Error fetching live games. Please try again in one minute', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+    
     }
   };
 
@@ -35,11 +73,13 @@ const ScoresBanner = () => {
     return () => clearInterval(interval);
   }, [selectedDate]);
 
+
+
   const getTimeStatus = (game) => {
     if (game.status === "Final") {
       return "Final";
     } else if (game.period === 0) {
-      return "Scheduled";
+      return convertToEST(game.status) + " EST";
     } else {
       return `${game.time}`;
     }
@@ -75,7 +115,7 @@ const ScoresBanner = () => {
       {liveGames.length > 0 ? (
         <div className="games-container">
           {liveGames.map((game) => (
-            <div key={game.id} className="game-card">
+            <div key={game.id} className="game-card" style ={{minWidth:'580px', maxWidth:'580px', minHeight:'200px', maxHeight:'200px'}} >
               <div className="team">
                 <img
                   src={require(`../images/${game.visitor_team.full_name.replace(
@@ -86,7 +126,7 @@ const ScoresBanner = () => {
                   alt={`${game.visitor_team.full_name} Logo`}
                 />
                 <span className="team-name">{game.visitor_team.full_name}</span>
-                <span className="score">{game.visitor_team_score}</span>
+                <span className="score">{game.period > 0 && game.visitor_team_score}</span>
               </div>
               <div className="team">
                 <img
@@ -98,7 +138,7 @@ const ScoresBanner = () => {
                   alt={`${game.home_team.full_name} Logo`}
                 />
                 <span className="team-name">{game.home_team.full_name}</span>
-                <span className="score">{game.home_team_score}</span>
+                <span className="score">{game.period > 0 && game.home_team_score }</span>
               </div>
               <span className="time-status">{getTimeStatus(game)}</span>
             </div>

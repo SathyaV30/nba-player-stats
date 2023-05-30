@@ -108,6 +108,10 @@ app.post('/Create', authenticateJWT, async (req,res) => {
   try {
     const { title, summary, content } = req.body;
 
+    if (!title || !summary || !content) {
+      return res.status(400).json({message: 'Please enter a title and summary'})
+    }
+
     const userId = req.auth.id; 
 
     const newPost = new Post({ title, summary, content, author: userId });
@@ -138,22 +142,82 @@ app.get('/CheckUser', (req, res) => {
 
 app.get('/Posts', authenticateJWT, async (req, res) => {
   try {
-    const { date } = req.query; // Get the date from query parameter
+    const { date, page = 1, limit = 5, sort } = req.query; 
 
-    // Parse the date using dayjs
     const parsedDate = dayjs(date);
     const startOfDay = parsedDate.startOf('day').toDate();
     const endOfDay = parsedDate.endOf('day').toDate();
 
-    // Fetch all posts within this day and populate author field
-    const posts = await Post.find({
+    const skip = (page - 1) * limit;
+
+    let numberLimit = parseInt(limit);
+    let sortOptions = [];
+
+    if(sort === 'topLiked') {
+      sortOptions = [ { $addFields: { likesCount: { $size: "$likes" } } }, { $sort: { likesCount: -1 } } ];
+    } else if(sort === 'controversial') {
+      sortOptions = [ 
+        { $addFields: { 
+            likesCount: { $size: "$likes" }, 
+            dislikesCount: { $size: "$dislikes" }, 
+            absoluteDiffLikesDislikes: { $abs: { $subtract: [ { $size: "$likes" }, { $size: "$dislikes" } ] } }
+        } },
+        { $sort: { absoluteDiffLikesDislikes: 1 } }
+      ];
+    } else {
+      sortOptions = [ { $sort: { createdAt: -1 } } ];
+    }
+
+    const posts = await Post.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: startOfDay,
+            $lte: endOfDay,
+          },
+        },
+      },
+      ...sortOptions,
+      { $skip: skip },
+      { $limit: numberLimit },
+      { $lookup: 
+        { 
+          from: 'users', 
+          localField: 'author', 
+          foreignField: '_id', 
+          as: 'author' 
+        }
+      },
+      { $unwind: '$author' },
+      { 
+        $project: 
+          {
+            _id: 1,
+            title: 1,
+            summary: 1,
+            content: 1,
+            createdAt: 1,
+            updatedAt: 1,
+            'author.username': 1,
+            likes: 1,
+            dislikes: 1,
+          }
+      }
+      
+    ]);
+
+    const totalPosts = await Post.countDocuments({
       createdAt: {
         $gte: startOfDay,
         $lte: endOfDay,
       },
-    }).populate('author', 'username -_id'); // only include author's username, exclude _id field
+    });
 
-    res.status(200).json(posts);
+
+    res.status(200).json({
+      totalPosts,
+      posts,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
@@ -161,10 +225,102 @@ app.get('/Posts', authenticateJWT, async (req, res) => {
 });
 
 
+
+app.get('/MyPosts', authenticateJWT, async (req, res) => {
+  try {
+    const { date, page = 1, limit = 5, sort } = req.query;
+
+    const parsedDate = dayjs(date);
+    const startOfDay = parsedDate.startOf('day').toDate();
+    const endOfDay = parsedDate.endOf('day').toDate();
+
+    const skip = (page - 1) * limit;
+
+    let numberLimit = parseInt(limit);
+    let sortOptions = [];
+
+    if(sort === 'topLiked') {
+      sortOptions = [ { $addFields: { likesCount: { $size: "$likes" } } }, { $sort: { likesCount: -1 } } ];
+    } else if(sort === 'controversial') {
+      sortOptions = [ 
+        { $addFields: { 
+            likesCount: { $size: "$likes" }, 
+            dislikesCount: { $size: "$dislikes" }, 
+            absoluteDiffLikesDislikes: { $abs: { $subtract: [ { $size: "$likes" }, { $size: "$dislikes" } ] } }
+        } },
+        { $sort: { absoluteDiffLikesDislikes: 1 } }
+      ];
+    } else {
+      sortOptions = [ { $sort: { createdAt: -1 } } ];
+    }
+
+    const posts = await Post.aggregate([
+      {
+        $match: {
+          author: new mongoose.Types.ObjectId(req.auth.id),
+          createdAt: {
+            $gte: startOfDay,
+            $lte: endOfDay,
+          },
+        },
+      },
+      ...sortOptions,
+      { $skip: skip },
+      { $limit: numberLimit },
+      { $lookup: 
+        { 
+          from: 'users', 
+          localField: 'author', 
+          foreignField: '_id', 
+          as: 'author' 
+        }
+      },
+      { $unwind: '$author' },
+      { 
+        $project: 
+          {
+            _id: 1,
+            title: 1,
+            summary: 1,
+            content: 1,
+            createdAt: 1,
+            updatedAt: 1,
+            'author.username': 1,
+            likes: 1,
+            dislikes: 1,
+          }
+      }
+    ]);
+
+    const totalPosts = await Post.countDocuments({
+      author: new mongoose.Types.ObjectId(req.auth.id),
+      createdAt: {
+        $gte: startOfDay,
+        $lte: endOfDay,
+      },
+    });
+
+    res.status(200).json({
+      totalPosts,
+      posts,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
+
 app.put('/Posts/:id', authenticateJWT, async (req, res) => {
   const { id } = req.params;
   const { title, summary, content } = req.body;
   const userId = req.auth.id;
+
+  if (!title || !summary || !content) {
+    return res.status(400).json({message: 'Please enter a title and summary'})
+  }
 
   try {
     const post = await Post.findById(id);
@@ -398,9 +554,8 @@ app.get('/Posts/:id', authenticateJWT, async (req, res) => {
       return res.status(404).json({ message: 'Post not found' });
     }
     const userOfPoster = await User.findById(post.author.toString());
-    const {username, bio, favoriteTeam, favoritePlayers} = userOfPoster;
-    return  res.status(200).json({ username, bio, favoriteTeam, favoritePlayers });
-    
+    const {username, bio, favoriteTeam, favoritePlayers, TriviaQuestionsAnswered, TriviaQuestionsCorrect} = userOfPoster;
+    return  res.status(200).json({ username, bio, favoriteTeam, favoritePlayers, TriviaQuestionsAnswered, TriviaQuestionsCorrect});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });

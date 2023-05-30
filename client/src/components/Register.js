@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -23,28 +25,45 @@ const styles = {
     border: '1px solid #ccc'
   },
   button: {
-    width: '85%',
+    width: '57.5%',
     padding: '10px',
     borderRadius: '5px',
     border: 'none',
     color: 'white',
     backgroundColor: '#17408B',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    marginTop:'5px',
   }
 };
 
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
- 
-
-
   async function register(ev) {
     ev.preventDefault();
     if (!username || !password) {
-      setMessage('Please enter all fields');
+      toast.error(`Please enter all fields`, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
+    } else if (password.length < 8) {
+      toast.error(`Password must contain at least 8 characters`, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+
     }
 
     try {
@@ -56,14 +75,36 @@ export default function RegisterPage() {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage(data.message);
-
+        toast.success(`Registered user successfully `, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       } else {
-        setMessage(data.message);
+        toast.error(`User already exists`, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (error) {
-      setMessage('An error occurred. Please try again.');
-      console.error(error);
+      toast.error(`An error occured.`, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
 
     setUsername('');
@@ -77,7 +118,6 @@ export default function RegisterPage() {
     <div>
       <h2>Register</h2>
       <form onSubmit={register} style={styles.form}>
-        {message && <p>{message}</p>}
         <div>
           <label htmlFor="username">Username</label>
           <input

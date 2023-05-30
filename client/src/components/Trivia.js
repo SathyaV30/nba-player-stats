@@ -20,16 +20,17 @@ const styles = {
         maxHeight: '500px', 
         minHeight:'500px',
         border: '1px solid #17408b',
-        padding: '10px',
         marginTop:'50px',
         position: 'relative',
         zIndex: 0,
-        overflowY: 'scroll' // Make it scrollable vertically
-      },
+        overflowY: 'scroll',
+        backgroundColor:'white',
+            },
     button: {
       marginTop: '10px',
       padding: '10px 20px',
       cursor: 'pointer',
+      borderRadius:'5px',
     },
     buttonVisible: {
       backgroundColor: '#17408b',
@@ -124,7 +125,7 @@ const Trivia = () => {
       const data = await res.json();
       console.log(data); 
     } catch (error) {
-      console.error('There has been a problem with your fetch operation:', error);
+      console.error('There has been error:', error);
     }
   };
   

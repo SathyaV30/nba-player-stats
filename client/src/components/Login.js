@@ -1,13 +1,15 @@
 import { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../Auth';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
   const [redirect,setRedirect] = useState(false)
-  const {setIsAuthenticated, setUser}  = useContext(AuthContext);
+  const {setIsAuthenticated, setUser, user}  = useContext(AuthContext);
+  
   const styles = {
     form: {
       display: 'flex',
@@ -29,13 +31,14 @@ const Login = () => {
       border: '1px solid #ccc'
     },
     button: {
-      width: '85%',
+      width: '57.5%',
       padding: '10px',
       borderRadius: '5px',
       border: 'none',
       color: 'white',
       backgroundColor: '#17408B',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      marginTop:'5px',
     }
   };
 
@@ -43,7 +46,15 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!username || !password) {
-      setMessage('Please enter all fields');
+      toast.error(`Please enter all fields`, {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       return;
     }
     
@@ -57,19 +68,44 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage(data.message);
+  
         document.cookie = `token=${data.token}; Secure; HttpOnly; SameSite=Strict;`;
         setUser(username)
+        toast.success(`Logged in as ${username}`, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         setUsername('');
         setPassword('');
         setRedirect(true)
         setIsAuthenticated(true)
       } else {
-        setMessage(data.message);
+        toast.error('Incorrect username or password', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (error) {
-      setMessage('An error occurred. Please try again.');
       console.error(error);
+      toast.error('An error occurred', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
     
 
@@ -84,7 +120,6 @@ const Login = () => {
     <div style={{textAlign: 'center'}}>
       <h2>Login</h2>
       <form onSubmit={handleSubmit} style={styles.form}>
-        {message && <p>{message}</p>}
         <div>
           <label htmlFor="username">Username</label>
           <input

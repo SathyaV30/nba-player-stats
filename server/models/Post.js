@@ -13,5 +13,8 @@ const PostSchema = new mongoose.Schema({
 });
 
 const Post = mongoose.model('Post', PostSchema);
+PostSchema.virtual('absoluteDiffLikesDislikes').get(function() {
+  return Math.abs(this.likes.length - this.dislikes.length);
+});
 
 module.exports = Post;
