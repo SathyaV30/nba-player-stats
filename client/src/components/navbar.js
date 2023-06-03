@@ -15,6 +15,9 @@ const Navbar = () => {
         <span className="sts">Stats</span>
       </NavLink>
       <ul>
+      <li className='nav-links'>
+          <NavLink to="/Leaderboard" className={location.pathname === "/Leaderboard" ? "bld" : "none"}>Leaderboard</NavLink>
+        </li>
         <li className='nav-links'>
           <NavLink to="/Trivia" className={location.pathname === "/Trivia" ? "bld" : "none"}>Trivia</NavLink>
         </li>

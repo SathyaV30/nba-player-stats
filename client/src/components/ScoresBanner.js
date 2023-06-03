@@ -139,8 +139,11 @@ const ScoresBanner = () => {
                 />
                 <span className="team-name">{game.home_team.full_name}</span>
                 <span className="score">{game.period > 0 && game.home_team_score }</span>
+
               </div>
               <span className="time-status">{getTimeStatus(game)}</span>
+            
+            
             </div>
           ))}
         </div>

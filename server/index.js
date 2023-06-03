@@ -7,13 +7,12 @@ const User = require('./models/User');
 const Post = require('./models/Post'); 
 const cors = require('cors');
 require('dotenv').config();
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 const { expressjwt: jwtMiddleware } = require("express-jwt");
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 const dayjs = require('dayjs');
-
 
 
 mongoose.connect('mongodb+srv://sathya:S1fvCY7ijgDltSxb@cluster30.aisv2cx.mongodb.net/?retryWrites=true&w=majority');
@@ -108,8 +107,8 @@ app.post('/Create', authenticateJWT, async (req,res) => {
   try {
     const { title, summary, content } = req.body;
 
-    if (!title || !summary || !content) {
-      return res.status(400).json({message: 'Please enter a title and summary'})
+    if (!title || !summary) {
+      return res.status(400).json({message: 'Please enter a title and a summary'})
     }
 
     const userId = req.auth.id; 
@@ -318,6 +317,7 @@ app.put('/Posts/:id', authenticateJWT, async (req, res) => {
   const { title, summary, content } = req.body;
   const userId = req.auth.id;
 
+
   if (!title || !summary || !content) {
     return res.status(400).json({message: 'Please enter a title and summary'})
   }
@@ -348,11 +348,16 @@ app.post('/Posts/:id/like', authenticateJWT, async (req, res) => {
   const { id } = req.params;
   const userId = req.auth.id;
 
+ 
+
   try {
     const post = await Post.findById(id);
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
+    const author = await User.findById(post.author.toString());
+
+
     if (!post.likes) {
       post.likes = [];
     }
@@ -360,7 +365,6 @@ app.post('/Posts/:id/like', authenticateJWT, async (req, res) => {
     if (!post.dislikes) {
       post.dislikes = [];
     }
-
     if (post.dislikes.includes(userId)) {
       post.dislikes = post.dislikes.filter( i => i!=userId)
       console.log(post.dislikes.length)
@@ -370,6 +374,8 @@ app.post('/Posts/:id/like', authenticateJWT, async (req, res) => {
     } else {
       return res.status(409).json({message: 'Post already liked'})
     }
+    author.coins +=5;
+    await author.save();
     await post.save();
     res.json(post);
   } catch (error) {
@@ -453,11 +459,11 @@ app.get('/Userdata', authenticateJWT, async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User does not exist' });
     }
-    const { TriviaQuestionsAnswered, TriviaQuestionsCorrect, bio, favoriteTeam, favoritePlayers} = user;
+    const { TriviaQuestionsAnswered, TriviaQuestionsCorrect, bio, favoriteTeam, favoritePlayers, coins, location, profilePic} = user;
     if (!favoritePlayers) {
       favoritePlayers =[];
     }
-    res.status(200).json({ bio, favoriteTeam, favoritePlayers, TriviaQuestionsAnswered, TriviaQuestionsCorrect});
+    res.status(200).json({ coins, bio, favoriteTeam, favoritePlayers, TriviaQuestionsAnswered, TriviaQuestionsCorrect, location, profilePic});
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Internal server error' });
@@ -467,7 +473,7 @@ app.get('/Userdata', authenticateJWT, async (req, res) => {
 app.post('/UpdateUser', authenticateJWT, async (req, res) => {
   try {
     const { username } = req.auth;
-    const { bio, favoriteTeam, favoritePlayers} = req.body;
+    const { bio, favoriteTeam, favoritePlayers, location, profilePic} = req.body;
     const user = await User.findOne({ username });
 
     if (!user) {
@@ -477,6 +483,8 @@ app.post('/UpdateUser', authenticateJWT, async (req, res) => {
     user.bio = bio;
     user.favoriteTeam = favoriteTeam;
     user.favoritePlayers = favoritePlayers;
+    user.location = location;
+    user.profilePic = profilePic;
   
     await user.save();
     res.status(200).json({ message: 'Profile updated successfully' });
@@ -495,6 +503,7 @@ app.post('/Posts/:id/dislike', authenticateJWT, async (req, res) => {
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
+    const author = await User.findById(post.author.toString());
     if (!post.likes) {
       post.likes = [];
     }
@@ -511,7 +520,8 @@ app.post('/Posts/:id/dislike', authenticateJWT, async (req, res) => {
     } else {
       return res.status(409).json({message: 'Post already disliked'})
     }
-
+    author.coins-=5;
+    await author.save();
     await post.save();
     res.json(post);
   } catch (error) {
@@ -554,8 +564,8 @@ app.get('/Posts/:id', authenticateJWT, async (req, res) => {
       return res.status(404).json({ message: 'Post not found' });
     }
     const userOfPoster = await User.findById(post.author.toString());
-    const {username, bio, favoriteTeam, favoritePlayers, TriviaQuestionsAnswered, TriviaQuestionsCorrect} = userOfPoster;
-    return  res.status(200).json({ username, bio, favoriteTeam, favoritePlayers, TriviaQuestionsAnswered, TriviaQuestionsCorrect});
+    const {username, bio, favoriteTeam, favoritePlayers, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, location, profilePic} = userOfPoster;
+    return  res.status(200).json({ username, bio, favoriteTeam, favoritePlayers, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, location, profilePic});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
@@ -573,9 +583,11 @@ app.post('/SubmitAnswer',  authenticateJWT, async (req, res) => {
     }
 
     user.TriviaQuestionsAnswered += 1;
-
     if (currentAnswer) {
       user.TriviaQuestionsCorrect += 1;
+      user.coins+=5;
+    } else if (user.coins>=3 && !currentAnswer) {
+      user.coins-=3;
     }
 
     await user.save();
@@ -588,11 +600,6 @@ app.post('/SubmitAnswer',  authenticateJWT, async (req, res) => {
   }
 
 });
-
-
-
-
-
 
 
 app.listen(4000, () => {

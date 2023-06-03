@@ -29,6 +29,19 @@ const MyPosts = () => {
       return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
     });
 
+    function formatDate(inputDate) {
+      const months = [
+        'January', 'February', 'March', 'April', 'May', 'June', 'July',
+        'August', 'September', 'October', 'November', 'December'
+      ];
+    
+      const [year, month, day] = inputDate.split('-');
+      const monthIndex = parseInt(month) - 1;
+      const formattedDate = `${months[monthIndex]} ${parseInt(day)}, ${year}`;
+    
+      return formattedDate;
+    }
+
     const fetchPosts = async () => {
         try {
           const response = await axios.get(`http://localhost:4000/MyPosts?date=${date}&page=${page}&limit=5&sort=${sortMode}`, { withCredentials: true });
@@ -285,8 +298,8 @@ const MyPosts = () => {
         withCredentials: true
       };
      const response = await axios.get(`http://localhost:4000/Posts/${post._id}`, config);
-     const {username, bio, favoritePlayers,favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect} = response.data
-     setUserInfo({username, bio, favoritePlayers, favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect});
+     const {username, bio, favoritePlayers,favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, profilePic, location} = response.data
+     setUserInfo({username, bio, favoritePlayers, favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, profilePic, location});
      setUserModal(true);
      
     } catch (error) {
@@ -332,7 +345,7 @@ const formats = [
       {isAuthenticated ? (
         <div>
           <div style={styles.header}>
-          <h1 style={styles.headerTitle}>My Posts from {date}</h1>
+          <h1 style={styles.headerTitle}>My Posts from {formatDate(date)}</h1>
           <input
             type="date"
             value={date}
@@ -346,6 +359,7 @@ const formats = [
             <option value="controversial">Controversial</option>
           </select>
         </div>
+        {posts.length === 0 && <h2 style ={{textAlign:'center', fontWeight:'normal', margin:'5px'}}>No posts found</h2>}
 
           {posts.map((post) => (
             <div key={post._id} style={styles.postContainer}>
@@ -412,13 +426,20 @@ const formats = [
                     <>
                       <div style={{position: 'relative'}}>
                       <FaTimes style={{position: 'absolute', top: 0, right: 0, cursor: 'pointer', color:'#17408b'}} onClick={() => setUserModal(false)} />
+                      <div style = {{display:'flex', placeItems:'center'}}>
+                      <img 
+                     src = {userInfo.profilePic}
+                     style = {{height:'50px', width:'50px', objectFit:'cover', border: '1px solid lightgrey', borderRadius:'50%', marginRight:'1.5%'}}
+                     />
                       <h2>{userInfo.username} Profile</h2>
+                      </div>
                       <p dangerouslySetInnerHTML={{ __html: userInfo.bio }}></p>
-                      <p><strong>Favorite Team:</strong> {userInfo.favoriteTeam ? userInfo.favoriteTeam : 'None'}</p>
+                      <p><strong>Country:</strong> {userInfo.location? userInfo.location : 'Not selected'}</p>
+                      <p><strong>Favorite Team:</strong> {userInfo.favoriteTeam? userInfo.favoriteTeam : 'None'}</p>
                       <p><strong>Favorite Players:</strong> {userInfo.favoritePlayers.length > 0 ? userInfo.favoritePlayers.join(', ') : 'None'}</p>
                       <p><strong>Trivia questions answered:</strong> {userInfo.TriviaQuestionsAnswered}</p>
                       <p><strong>Trivia questions correct:</strong> {userInfo.TriviaQuestionsCorrect}</p>
-
+                      <p><strong>NBA Coins:</strong> {userInfo.coins}</p>
                   </div>
                     </>
                   )}

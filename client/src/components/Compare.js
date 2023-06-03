@@ -776,7 +776,7 @@ const Conditions = () => {
             <LoadingAnimation minHeight='50px' maxHeight = '50px' minWidth='100%' maxWidth='100%' />
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth:'400px', maxWidth:'400px', minHeight: '400px', maxHeight:'400px', overflow:'auto' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth:'400px', maxWidth:'400px', minHeight: '400px', maxHeight:'400px', overflow:'overlay' }}>
             <span style={{ margin: '5px' }}>
               Top {numPlayers} {getKeyLabel(selectedStat)} {showTotalStats ? 'total' : 'per game'} of the {year} season:
             </span>

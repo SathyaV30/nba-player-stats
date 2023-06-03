@@ -23,6 +23,7 @@ import Modal from 'react-modal';
 import ReactCardFlip from 'react-card-flip';
 import { Tooltip } from "react-tooltip";
 import { FaInfoCircle } from "react-icons/fa";
+import Leaderboard from "./components/Leaderboard";
 
 
 
@@ -357,7 +358,7 @@ const handleOnError = (e) => {
      <span style = {{margin:'5px'}}>{playerD.team.full_name}</span>
    
     </div>
-    <div style={{ maxWidth:'20%', minWidth:'30%', maxHeight: '520px', overflow:'scroll', alignItems:'center', display:'flex', flexDirection:'column' }}>
+    <div style={{ maxWidth:'20%', minWidth:'30%', maxHeight: '530px', overflow:'overlay', alignItems:'center', display:'flex', flexDirection:'column', padding: '0 auto'}}>
       <table>
         <tbody>
           <tr>
@@ -714,7 +715,7 @@ const handleOnError = (e) => {
       }
     </AuthContext.Consumer>
   }
-/>
+/>    <Route path ="/Leaderboard" element = {<Leaderboard/>}/>
       <Route path ="/MyPosts" element = {<MyPosts/>}/>
       <Route path ="/Posts" element = {<Posts />}/>
       <Route path="/Compare" element={<Compare />}/>

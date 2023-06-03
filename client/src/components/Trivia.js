@@ -23,7 +23,7 @@ const styles = {
         marginTop:'50px',
         position: 'relative',
         zIndex: 0,
-        overflowY: 'scroll',
+        overflowY: 'overlay',
         backgroundColor:'white',
             },
     button: {
