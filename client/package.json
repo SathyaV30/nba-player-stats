@@ -15,6 +15,7 @@
     "react-bootstrap": "^2.7.4",
     "react-card-flip": "^1.2.0",
     "react-chartjs-2": "^5.2.0",
+    "react-country-flag": "^3.1.0",
     "react-icons": "^4.8.0",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.11.1",

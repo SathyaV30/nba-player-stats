@@ -223,6 +223,20 @@ app.get('/Posts', authenticateJWT, async (req, res) => {
   }
 });
 
+app.get('/TopPlayers', async (req, res) => {
+  try {
+    const topPlayers = await User.find({})
+      .sort({ coins: -1 }) 
+      .limit(100) 
+      .select('username coins location favoritePlayers bio favoriteTeam TriviaQuestionsAnswered TriviaQuestionsCorrect profilePic');
+    res.status(200).json(topPlayers);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
 
 
 app.get('/MyPosts', authenticateJWT, async (req, res) => {
