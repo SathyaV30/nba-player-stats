@@ -1139,10 +1139,10 @@ return (
                       onClick={() => handleRemovePlayer(player, index)} />
                     {playerData[player] && (
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <p style={{ ...styles.playerName, fontSize: calcFontSize(player) }}>{playerData[player].first_name + ' ' + playerData[player].last_name}</p>
-                        <p style={{ ...styles.playerName, fontSize: calcFontSize(player) }}>{playerData[player].height_feet + '\'' + playerData[player].height_inches + '\"'}</p>
-                        <p style={{ ...styles.playerName, fontSize: calcFontSize(player) }}>{playerData[player].weight_pounds + ' lbs'}</p>
-                        <p style={{ ...styles.playerName, fontSize: calcFontSize(player) }}>{playerData[player].team.full_name}</p>
+                        <p style={{ ...styles.playerName, fontSize: calcFontSize(playerData[player].first_name + ' ' + playerData[player].last_name) }}>{playerData[player].first_name + ' ' + playerData[player].last_name}</p>
+                        <p style={{ ...styles.playerName, fontSize: calcFontSize(playerData[player].height_feet? playerData[player].height_feet : 'Height not available' ) }}>{playerData[player].height_feet?(playerData[player].height_feet + '\'' + playerData[player].height_inches + '\"') :  'Height not available' }</p>
+                        <p style={{ ...styles.playerName, fontSize: calcFontSize(playerData[player].weight_pounds? playerData[player].weight_pounds : 'Weight not available') }}>{playerData[player].weight_pounds?(playerData[player].weight_pounds + ' lbs') :'Weight not available'} </p>
+                        <p style={{ ...styles.playerName, fontSize: calcFontSize(playerData[player].team.full_name? playerData[player].team.full_name : 'Team name not available' ) }}>{playerData[player].team.full_name? (playerData[player].team.full_name) : 'Team name not available'}</p>
                       </div>
                     )}
                   </div>

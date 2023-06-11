@@ -15,6 +15,7 @@ app.use(cookieParser());
 const dayjs = require('dayjs');
 
 
+
 mongoose.connect('mongodb+srv://sathya:S1fvCY7ijgDltSxb@cluster30.aisv2cx.mongodb.net/?retryWrites=true&w=majority');
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -25,6 +26,7 @@ db.once('open', () => {
 
   
 const secret = process.env.secret;
+const API_KEY = process.env.API_KEY;
 
 const authenticateJWT = jwtMiddleware({
   secret,
@@ -613,6 +615,20 @@ app.post('/SubmitAnswer',  authenticateJWT, async (req, res) => {
     res.status(500).send("Server error");
   }
 
+});
+
+
+
+app.get('/Predictions', (req, res) => {
+
+  const url = `https://api.example.com/data?apiKey=${apiKey}`;
+  axios.get(url)
+    .then(response => {
+      res.json(response.data);
+    })
+    .catch(error => {
+      res.status(500).json({ error: 'Server error' });
+    });
 });
 
 

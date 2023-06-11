@@ -1,8 +1,8 @@
-/* Settings */
+
 :root {
     --coin_diam: 40px;
     --coin_depth: 1px;
-    --spin_speed: 4s;
+    --spin_speed: 0s;
   }
   
 
@@ -12,44 +12,12 @@
     height: var(--coin_diam);
     width: var(--coin_diam);
     position: relative;
-    transform-style: preserve-3d;
-    animation: spin var(--spin_speed) infinite linear;
+    background-image: url('../images/opaque.png');
+    background-position: 50% 50%;
+    background-size: 35%;
+    background-repeat: no-repeat;
     background-color: gold;
     border-radius: 50%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     border: 2px solid #f2ca17;
   }
-  
-  .coin .front,
-  .coin .back {
-    position: absolute;
-    height: var(--coin_diam);
-    width: var(--coin_diam);
-    border-radius: 50%;
-    background-size: 30%;
-    background-repeat: no-repeat;
-    opacity: 0.3;
-  }
-  
-  .coin .front {
-    transform: translateZ(calc(var(--coin_depth) / 2));
-    background-image: url('../images/NBAOut2.png');
-    background-position: 45% 40%;
-  }
-  
-  .coin .back {
-    transform: translateZ(calc(var(--coin_depth) / -2)) rotateY(180deg);
-    background-image: url('../images/NBAOut2.png');
-    background-position: 55% 40%;
-  }
-  
-  /* Animation */
-  @keyframes spin {
-    from {
-      transform: rotateY(0deg);
-    }
-    to {
-      transform: rotateY(360deg);
-    }
-  }
-  
