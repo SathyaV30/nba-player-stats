@@ -1098,7 +1098,7 @@ return (
           <FaInfoCircle
             style={{ color: '#17408b', fontSize: '20px', marginLeft: '10px', verticalAlign: 'middle' }}
             data-tooltip-id="info-tooltip"
-            data-tooltip-content="Earn NBA coins by answering trivia questions and making posts. Climb the leaderboard to showcase your NBA knowledge!" />
+            data-tooltip-content="Earn NBA coins by answering trivia questions, making posts, and predicting NBA games correctly. Climb the leaderboard to showcase your NBA knowledge!" />
 
 
           <Tooltip id="info-tooltip" place="top" effect="solid" multiline={true} multilineMaxWidth={200} style={{ width: '250px' }}>

@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const app = express();
 const User = require('./models/User');
 const Post = require('./models/Post'); 
+const Matchup = require('./models/Matchup');
 const cors = require('cors');
 require('dotenv').config();
 app.use(express.json({ limit: '50mb' }));
@@ -617,19 +618,76 @@ app.post('/SubmitAnswer',  authenticateJWT, async (req, res) => {
 
 });
 
+app.post('/SubmitParlay', authenticateJWT, async (req, res) => {
+  try {
+    const { selectedTeams, username } = req.body; // Assuming that the username is sent in the request
+    
+    for (const [teamKey, team] of Object.entries(selectedTeams)) {
+      const { visitor_team, home_team, selected_team, date } = team;
+      
+      let matchup = await Matchup.findOne({
+        date: date,
+        $and: [{ homeTeam: home_team }, { awayTeam: visitor_team }]
+      });
 
+      if (matchup) {
+        const field = matchup.homeTeam === selected_team ? 'betCounts.homeTeam' : 'betCounts.awayTeam';
+        await Matchup.updateOne({ _id: matchup._id }, { $addToSet: { [field]: username } });
+      } else {
+        const newMatchup = new Matchup({
+          homeTeam: home_team,
+          awayTeam: visitor_team,
+          date: date,
+          odds: {
+            homeTeam: 1.0, 
+            awayTeam: 1.0 
+          },
+          betCounts: {
+            homeTeam: selected_team === home_team ? [username] : [],
+            awayTeam: selected_team === visitor_team ? [username] : []
+          }
+        });
+        await newMatchup.save();
+      }
+    }
 
-app.get('/Predictions', (req, res) => {
-
-  const url = `https://api.example.com/data?apiKey=${apiKey}`;
-  axios.get(url)
-    .then(response => {
-      res.json(response.data);
-    })
-    .catch(error => {
-      res.status(500).json({ error: 'Server error' });
-    });
+    res.status(200).json({ message: 'Parlay successfully submitted' });
+    
+  } catch (error) {
+    console.error("Error handling SubmitParlay:", error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
+app.get('/UsersPredictions', async (req, res) => {
+  try {
+    const { home_team, visitor_team, date } = req.query;
+    const matchup = await Matchup.findOne({
+      homeTeam: home_team,
+      awayTeam: visitor_team,
+      date: date,
+    });
+
+
+
+    if (!matchup) {
+      return res.status(404).json({ message: 'Matchup not found' });
+     
+    }
+    const totalBets = matchup.betCounts.homeTeam.length + matchup.betCounts.awayTeam.length;
+    const homeTeamPercentage = (matchup.betCounts.homeTeam.length / totalBets) * 100;
+    const awayTeamPercentage = (matchup.betCounts.awayTeam.length / totalBets) * 100;
+
+
+    res.json({
+      homeTeamPercentage,
+      awayTeamPercentage
+    });
+  } catch (error) {
+    console.error('Error retrieving matchup:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 
 app.listen(4000, () => {

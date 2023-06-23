@@ -434,6 +434,18 @@ body {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 10px;
   flex-wrap: wrap;
   justify-content: space-between;
+  min-width: 45%;
+  max-width: 45%;
+  min-height: 50%;
+  max-height: 50%;
+
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 }
 .time-status {
   flex: 0 0 100%;
