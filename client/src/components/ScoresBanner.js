@@ -5,11 +5,12 @@ import Modal from 'react-modal';
 import { AuthContext } from '../Auth';
 import Coin from "./Coin";
 import { CSSTransition } from 'react-transition-group';
-import { FaTimes, FaInfoCircle } from 'react-icons/fa';
+import { FaTimes, FaInfoCircle, FaCalendarAlt } from 'react-icons/fa';
 import './Betslip.css'
 import Draggable from 'react-draggable'; 
 import { FaTrophy } from "react-icons/fa";
 import { Tooltip } from 'react-tooltip';
+import zIndex from "@material-ui/core/styles/zIndex";
 
 
 const ScoresBanner = () => {
@@ -419,6 +420,12 @@ const ScoresBanner = () => {
     setDateString(setFormattedDateString(nextDay));
   };
 
+  const handleSelectDay = (event) => {
+    const selectedDay = new Date(event.target.value);
+    setSelectedDate(selectedDay);
+    setDateString(setFormattedDateString(selectedDay));
+  };
+
   const handleSelectTeam = (gameId, team, game, e) => {
     if (!isAuthenticated) {
       toast.error('Please login or register to make predictions', {
@@ -522,7 +529,7 @@ const ScoresBanner = () => {
       setTotalStake(inputValue);
     };
 
-
+//TODO
     const handleParlaySubmit = async () => {
     
      
@@ -847,90 +854,125 @@ const ScoresBanner = () => {
 
 
   return (
-    <div className="scores-banner">
-      {isAuthenticated && <Betslip isModalOpen={isBetslipOpen} handleBetslipClick={handleBetslipClick} />}
-      <div className="header-container" style={{ display: 'flex', alignItems: 'center', placeItems: 'center' }}>
-        <h2>Live Scores</h2>
-        <FaInfoCircle
-          style={{ color: '#17408b', fontSize: '20px', marginLeft: '5px', verticalAlign: 'middle' }}
-          data-tooltip-id="info-tooltip"
-          data-tooltip-content="View live scores or predict the outcome of upcoming games. The percentages reflect the fraction of users who believe that team will win the game"
-        />
-        <Tooltip id="info-tooltip" />
-      </div>
-      <div className="date-navigation">
-        <button onClick={handlePreviousDay} className="day-btn">
-          Previous Day
-        </button>
-
-        <span className="date">{DateString}</span> 
-      
-      
-
-        <button onClick={handleNextDay} className="day-btn">
-          Next Day
-        </button>
-      </div>
-      {liveGames.length > 0 ? (
-        <div className="games-container">
-          {liveGames.map((game) => {
-            const prediction = userPredictions[game.id] || { homeTeamPercentage: 50, awayTeamPercentage: 50 };
-            return (
-              <div key={game.id} className="game-card">
-                <div className="team">
-                  <img
-                    src={require(`../images/${game.visitor_team.full_name.replace(/\s/g, "_")}.png`)}
-                    className="team-logo"
-                    alt={`${game.visitor_team.full_name} Logo`}
-                  />
-                  <span className="team-name">{game.visitor_team.full_name}</span>
-                  <span className="score">{game.period > 0 ? game.visitor_team_score : `${parseFloat(prediction.awayTeamPercentage).toFixed(0)}%`}</span>
-                  {game.period === 0 && isCurrentDate(selectedDate) && (
-                    <button
-                      className={`day-btn-2 ${
-                        selectedTeams[game.id]?.selected_team === game.visitor_team.full_name ? 'selected' : ''
-                      }`}
-                      onClick={(e) => handleSelectTeam(game.id, game.visitor_team, game, e)}
-                    >
-                      <FaTrophy />
-                    </button>
-                  )}
-                </div>
-                <div className="team">
-                  <img
-                    src={require(`../images/${game.home_team.full_name.replace(/\s/g, "_")}.png`)}
-                    className="team-logo"
-                    alt={`${game.home_team.full_name} Logo`}
-                  />
-                  <span className="team-name">{game.home_team.full_name}</span>
-                  <span className="score">
-                    {
-                      game.period > 0
-                      ? game.home_team_score
-                      : `${parseFloat(prediction.homeTeamPercentage).toFixed(0)}%`
-                    }
-                    </span>
-                  {game.period === 0 && isCurrentDate(selectedDate) && (
-                    <button
-                      className={`day-btn-2 ${
-                        selectedTeams[game.id]?.selected_team === game.home_team.full_name ? 'selected' : ''
-                      }`}
-                      onClick={(e) => handleSelectTeam(game.id, game.home_team, game, e)}
-                    >
-                      <FaTrophy />
-                    </button>
-                  )}
-                </div>
-                <div className="time-status">{getTimeStatus(game)}</div>
-              </div>
-            );
-          })}
-        </div>
-      ) : (
-        <p className="no-games">No games scheduled</p>
-      )}
+  <div className="scores-banner">
+    {isAuthenticated && <Betslip isModalOpen={isBetslipOpen} handleBetslipClick={handleBetslipClick} />}
+    <div className="header-container" style={{ display: 'flex', alignItems: 'center', placeItems: 'center' }}>
+      <h2>Live Scores</h2>
+      <FaInfoCircle
+        style={{ color: '#17408b', fontSize: '20px', marginLeft: '5px', verticalAlign: 'middle' }}
+        data-tooltip-id="info-tooltip"
+        data-tooltip-content="View live scores or predict the outcome of upcoming games. Click on the calendar icon to manually select the date. 
+        The percentages displayed for upcoming games reflect the fraction of users who believe that team will win the game"
+      />
+      <Tooltip id="info-tooltip"  multiline={true} multilineMaxWidth={200} style={{ width: '500px' }} place='right'/>
     </div>
-  );
+  <div className="date-navigation" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <button onClick={handlePreviousDay} className="day-btn">
+        Previous Day
+    </button>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+        <span style={{ marginBottom: '2%' }} className="date">{DateString}</span>
+        <span>
+            <label
+                htmlFor="dateInput"
+                style={{
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    justifyContent: 'center',
+                    width: '24px',
+                    height: '24px',
+                    position: 'relative'
+                }}
+            >
+                <FaCalendarAlt />
+                <input
+                    type="date"
+                    id="dateInput"
+                    value={DateString.split('/').reverse().join('-')}
+                    onChange={handleSelectDay}
+                    style={{
+                        appearance: 'none',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        opacity: 0,
+                        margin: 0,
+                        padding: 0,
+                        border: 'none',
+                        zIndex:'10000',
+                    }}
+                />
+            </label>
+        </span>
+    </div>
+    <button onClick={handleNextDay} className="day-btn">
+        Next Day
+    </button>
+</div>
+
+    {liveGames.length > 0 ? (
+      <div className="games-container">
+        {liveGames.map((game) => {
+          const prediction = userPredictions[game.id] || { homeTeamPercentage: 50, awayTeamPercentage: 50 };
+          return (
+            <div key={game.id} className="game-card">
+              <div className="team">
+                <img
+                  src={require(`../images/${game.visitor_team.full_name.replace(/\s/g, "_")}.png`)}
+                  className="team-logo"
+                  alt={`${game.visitor_team.full_name} Logo`}
+                />
+                <span className="team-name">{game.visitor_team.full_name}</span>
+                <span className="score">{game.period > 0 ? game.visitor_team_score : `${parseFloat(prediction.awayTeamPercentage).toFixed(0)}%`}</span>
+                {game.period === 0 && isCurrentDate(selectedDate) && (
+                  <button
+                    className={`day-btn-2 ${
+                      selectedTeams[game.id]?.selected_team === game.visitor_team.full_name ? 'selected' : ''
+                    }`}
+                    onClick={(e) => handleSelectTeam(game.id, game.visitor_team, game, e)}
+                  >
+                    <FaTrophy />
+                  </button>
+                )}
+              </div>
+              <div className="team">
+                <img
+                  src={require(`../images/${game.home_team.full_name.replace(/\s/g, "_")}.png`)}
+                  className="team-logo"
+                  alt={`${game.home_team.full_name} Logo`}
+                />
+                <span className="team-name">{game.home_team.full_name}</span>
+                <span className="score">
+                  {
+                    game.period > 0
+                    ? game.home_team_score
+                    : `${parseFloat(prediction.homeTeamPercentage).toFixed(0)}%`
+                  }
+                </span>
+                {game.period === 0 && isCurrentDate(selectedDate) && (
+                  <button
+                    className={`day-btn-2 ${
+                      selectedTeams[game.id]?.selected_team === game.home_team.full_name ? 'selected' : ''
+                    }`}
+                    onClick={(e) => handleSelectTeam(game.id, game.home_team, game, e)}
+                  >
+                    <FaTrophy />
+                  </button>
+                )}
+              </div>
+              <div className="time-status">{getTimeStatus(game)}</div>
+            </div>
+          );
+        })}
+      </div>
+    ) : (
+      <p className="no-games">No games scheduled</p>
+    )}
+  </div>
+);
+
   
 };
 
