@@ -372,10 +372,8 @@ const ScoresBanner = () => {
       const response = await axios.get(
         `https://www.balldontlie.io/api/v1/games?dates[]=${selectedDateString}`
       );
-      const currentMonth = new Date().getMonth() + 1; // Get current month (January is 0)
-      
         setLiveGames(response.data.data);
-
+        // setLiveGames(liveGames1) //NBA offseason test data
       }
      catch (error) {
       console.error("Error fetching live games:", error);
@@ -690,7 +688,7 @@ const ScoresBanner = () => {
           if (game.home_team.full_name === teamName || game.visitor_team.full_name === teamName) {
               const gameId = game.id;
               
-              // Check if userPredictions contains an entry for gameId and has the required properties
+             
               if (userPredictions && userPredictions[gameId]) {
 
                   const homeTeamPercentage = userPredictions[gameId].homeTeamPercentage;
