@@ -13,7 +13,7 @@ app.use(cors({ credentials: true,
   origin: [
     'http://localhost:3000',
     'https://nba-player-stats.netlify.app',
-    'https://nba-stats-app-2ev1.onrender.com'
+    'https://nba-stats-app-backend.onrender.com'
   ], }));
 const { expressjwt: jwtMiddleware } = require("express-jwt");
 const cookieParser = require('cookie-parser');
@@ -109,6 +109,7 @@ app.post('/Login', async (req, res) => {
     res.cookie('token', token, { httpOnly: false }).json({
       id: user._id,
       username,
+      sameSite: 'None'
     });
   } catch (error) {
     console.error(error);
@@ -119,7 +120,7 @@ app.post('/Login', async (req, res) => {
 
 app.get('/Logout', (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
-  res.cookie('token', '', { expires: new Date(0), httpOnly: false });
+  res.cookie('token', '', { expires: new Date(0), httpOnly: false, sameSite: 'None' });
   res.send('Logged out');
 });
 
