@@ -192,7 +192,7 @@ const handleOnError = (e) => {
  
  const handleRemove = async (name) => {
   try {
-    const response = await fetch('http://localhost:4000/RemoveFavoritePlayer', {
+    const response = await fetch(`${backendUrl}/RemoveFavoritePlayer`, {
       method: 'DELETE',
       credentials: 'include', 
       headers: {
@@ -467,7 +467,7 @@ const handleOnError = (e) => {
     }
   
     try {
-      const response = await fetch('http://localhost:4000/AddFavoritePlayer', {
+      const response = await fetch(`${backendUrl}/AddFavoritePlayer`, {
         method: 'POST',
         credentials: 'include', 
         headers: {
@@ -507,7 +507,7 @@ const handleOnError = (e) => {
 
   const fetchFavoritePlayers = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/GetFavoritePlayers?username=${user}`, {
+      const response = await fetch(`${backendUrl}/GetFavoritePlayers?username=${user}`, {
         credentials: 'include', 
         headers: {
           'Content-Type': 'application/json'
