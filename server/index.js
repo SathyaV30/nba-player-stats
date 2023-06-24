@@ -17,17 +17,28 @@ const dayjs = require('dayjs');
 
 
 
-mongoose.connect('mongodb+srv://sathya:S1fvCY7ijgDltSxb@cluster30.aisv2cx.mongodb.net/?retryWrites=true&w=majority');
+mongoose.connect(process.env.MONGO_URL);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
+if (process.env.NODE_ENV === "production") {
+  const path = require("path");
+  app.use(express.static(path.resolve(__dirname, 'client', 'build')));
+  app.get("*", (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'),function (err) {
+          if(err) {
+              res.status(500).send(err)
+          }
+      });
+  })
+}
+
 
   
 const secret = process.env.secret;
-const API_KEY = process.env.API_KEY;
 
 const authenticateJWT = jwtMiddleware({
   secret,
@@ -53,6 +64,7 @@ app.use((err, req, res, next) => {
 
 
 app.post('/Register', async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   try {
     const { username, password } = req.body;
 
@@ -74,6 +86,7 @@ app.post('/Register', async (req, res) => {
 
 
 app.post('/Login', async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
@@ -100,6 +113,7 @@ app.post('/Login', async (req, res) => {
 
 
 app.get('/Logout', (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   res.cookie('token', '', { expires: new Date(0), httpOnly: false });
   res.send('Logged out');
 });
@@ -107,6 +121,7 @@ app.get('/Logout', (req, res) => {
 
 
 app.post('/Create', authenticateJWT, async (req,res) => {
+  mongoose.connect(process.env.MONGO_URL);
   try {
     const { title, summary, content } = req.body;
 
@@ -126,6 +141,7 @@ app.post('/Create', authenticateJWT, async (req,res) => {
 });
 
 app.get('/CheckUser', (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const token = req.cookies.token;
   if (!token) {
     return res.json({ username: null });
@@ -143,6 +159,7 @@ app.get('/CheckUser', (req, res) => {
 
 
 app.get('/Posts', authenticateJWT, async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   try {
     const { date, page = 1, limit = 5, sort } = req.query; 
 
@@ -227,6 +244,7 @@ app.get('/Posts', authenticateJWT, async (req, res) => {
 });
 
 app.get('/TopPlayers', async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   try {
     const topPlayers = await User.find({})
       .sort({ coins: -1 }) 
@@ -243,6 +261,7 @@ app.get('/TopPlayers', async (req, res) => {
 
 
 app.get('/MyPosts', authenticateJWT, async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   try {
     const { date, page = 1, limit = 5, sort } = req.query;
 
@@ -330,6 +349,7 @@ app.get('/MyPosts', authenticateJWT, async (req, res) => {
 
 
 app.put('/Posts/:id', authenticateJWT, async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
   const { title, summary, content } = req.body;
   const userId = req.auth.id;
@@ -362,6 +382,7 @@ app.put('/Posts/:id', authenticateJWT, async (req, res) => {
 
 
 app.post('/Posts/:id/like', authenticateJWT, async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
   const userId = req.auth.id;
 
@@ -404,6 +425,7 @@ app.post('/Posts/:id/like', authenticateJWT, async (req, res) => {
 
 
 app.post('/AddFavoritePlayer', authenticateJWT, async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   try {
     const {playerName, username } = req.body;
     const user = await User.findOne({ username });
@@ -429,6 +451,7 @@ app.post('/AddFavoritePlayer', authenticateJWT, async (req, res) => {
 
 
 app.delete('/RemoveFavoritePlayer', authenticateJWT, async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   try {
     const { username, player } = req.body;
     const user = await User.findOne({ username });
@@ -451,6 +474,7 @@ app.delete('/RemoveFavoritePlayer', authenticateJWT, async (req, res) => {
 });
 
 app.get('/GetFavoritePlayers', authenticateJWT, async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   try {
  
     const username = req.query.username; 
@@ -469,6 +493,7 @@ app.get('/GetFavoritePlayers', authenticateJWT, async (req, res) => {
 });
 
 app.get('/Userdata', authenticateJWT, async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   try {
     const { username } = req.auth;
     const user = await User.findOne({ username });
@@ -488,6 +513,7 @@ app.get('/Userdata', authenticateJWT, async (req, res) => {
 });
 
 app.post('/UpdateUser', authenticateJWT, async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   try {
     const { username } = req.auth;
     const { bio, favoriteTeam, favoritePlayers, location, profilePic} = req.body;
@@ -512,6 +538,7 @@ app.post('/UpdateUser', authenticateJWT, async (req, res) => {
 });
 
 app.post('/Posts/:id/dislike', authenticateJWT, async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
   const userId = req.auth.id;
 
@@ -548,6 +575,7 @@ app.post('/Posts/:id/dislike', authenticateJWT, async (req, res) => {
 });
 
 app.delete('/Posts/:id', authenticateJWT, async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
   const userId = req.auth.id;
 
@@ -571,6 +599,7 @@ app.delete('/Posts/:id', authenticateJWT, async (req, res) => {
 
 
 app.get('/Posts/:id', authenticateJWT, async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
   const userId = req.auth.id;
 
@@ -591,6 +620,7 @@ app.get('/Posts/:id', authenticateJWT, async (req, res) => {
 });
 
 app.post('/SubmitAnswer',  authenticateJWT, async (req, res) => { 
+  mongoose.connect(process.env.MONGO_URL);
   const { currentAnswer } = req.body;
   const userId = req.auth.id;
   try {
@@ -619,8 +649,9 @@ app.post('/SubmitAnswer',  authenticateJWT, async (req, res) => {
 });
 
 app.post('/SubmitParlay', authenticateJWT, async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   try {
-    const { selectedTeams, username } = req.body; // Assuming that the username is sent in the request
+    const { selectedTeams, username } = req.body; 
     
     for (const [teamKey, team] of Object.entries(selectedTeams)) {
       const { visitor_team, home_team, selected_team, date } = team;
@@ -659,6 +690,7 @@ app.post('/SubmitParlay', authenticateJWT, async (req, res) => {
   }
 });
 app.get('/UsersPredictions', async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   try {
     const { home_team, visitor_team, date } = req.query;
     const matchup = await Matchup.findOne({
