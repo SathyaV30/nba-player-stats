@@ -98,7 +98,8 @@ app.post('/Login', async (req, res) => {
     res.cookie('token', token, { httpOnly: false }).json({
       id: user._id,
       username,
-      sameSite: 'None'
+      sameSite: 'None',
+      secure: true,
     });
   } catch (error) {
     console.error(error);
