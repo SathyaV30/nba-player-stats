@@ -12,6 +12,7 @@ import { FaTimes } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserInfoModal from './UserInfoModal';
+import { backendUrl } from '../config';
 
 
 const Posts = () => {
@@ -148,7 +149,7 @@ const Posts = () => {
   
   const fetchPosts = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/Posts?date=${date}&page=${page}&limit=5&sort=${sortMode}`, { withCredentials: true });
+      const response = await axios.get(`${backendUrl}/Posts?date=${date}&page=${page}&limit=5&sort=${sortMode}`, { withCredentials: true });
       setTotalPosts(response.data.totalPosts);
       if (page === 1) {
         setPosts(response.data.posts);
@@ -195,7 +196,7 @@ const Posts = () => {
 
   const savePost = async () => {
     try {
-      await axios.put(`http://localhost:4000/Posts/${editingPost._id}`, { title, summary, content }, { withCredentials: true });
+      await axios.put(`${backendUrl}/Posts/${editingPost._id}`, { title, summary, content }, { withCredentials: true });
       setEditingPost(null);
       setTitle('');
       setSummary('');
@@ -225,7 +226,7 @@ const Posts = () => {
 
   const deletePost = async (post) => {
     try {
-      const res = await axios.delete(`http://localhost:4000/Posts/${post._id}`, { withCredentials: true });
+      const res = await axios.delete(`${backendUrl}/Posts/${post._id}`, { withCredentials: true });
       fetchPosts();
       toast.success('Post deleted successfully', {
         position: toast.POSITION.TOP_CENTER,
@@ -252,7 +253,7 @@ const Posts = () => {
 
   const likePost = async (post) => {
     try {
-      await axios.post(`http://localhost:4000/Posts/${post._id}/like`, {}, { withCredentials: true });
+      await axios.post(`${backendUrl}/Posts/${post._id}/like`, {}, { withCredentials: true });
       fetchPosts();
       toast.success('Post liked successfully', {
         position: toast.POSITION.TOP_CENTER,
@@ -278,7 +279,7 @@ const Posts = () => {
 
   const dislikePost = async (post) => {
     try {
-      await axios.post(`http://localhost:4000/Posts/${post._id}/dislike`, {}, { withCredentials: true });
+      await axios.post(`${backendUrl}/Posts/${post._id}/dislike`, {}, { withCredentials: true });
       fetchPosts();
       toast.success('Post disliked successfully', {
         position: toast.POSITION.TOP_CENTER,
@@ -311,7 +312,7 @@ const Posts = () => {
         },
         withCredentials: true
       };
-     const response = await axios.get(`http://localhost:4000/Posts/${post._id}`, config);
+     const response = await axios.get(`${backendUrl}/Posts/${post._id}`, config);
      const {username, bio, favoritePlayers,favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, location, profilePic} = response.data
      setUserInfo({username, bio, favoritePlayers, favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, location, profilePic});
      setUserModal(true);

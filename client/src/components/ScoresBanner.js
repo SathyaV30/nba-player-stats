@@ -10,6 +10,7 @@ import './Betslip.css'
 import Draggable from 'react-draggable'; 
 import { FaTrophy } from "react-icons/fa";
 import { Tooltip } from 'react-tooltip';
+import { backendUrl } from '../config';
 
 const ScoresBanner = () => {
   const [liveGames, setLiveGames] = useState([]);
@@ -284,7 +285,7 @@ const ScoresBanner = () => {
           }
           const { home_team, visitor_team, date } = game;
           const newDate = convertUTCDateToLocalDate(date);
-          const response = await axios.get(`http://localhost:4000/UsersPredictions?home_team=${encodeURIComponent(home_team.full_name)}&visitor_team=${encodeURIComponent(visitor_team.full_name)}&date=${encodeURIComponent(newDate)}`);
+          const response = await axios.get(`${backendUrl}/UsersPredictions?home_team=${encodeURIComponent(home_team.full_name)}&visitor_team=${encodeURIComponent(visitor_team.full_name)}&date=${encodeURIComponent(newDate)}`);
           const { homeTeamPercentage, awayTeamPercentage } = response.data;
           userPredictionsMap[game.id] = { homeTeamPercentage, awayTeamPercentage };
         });
@@ -353,7 +354,7 @@ const ScoresBanner = () => {
   const [DateString, setDateString] = useState(setFormattedDateString(selectedDate));
 
   const getUserCoins = async () => {
-    const res = await fetch('http://localhost:4000/Userdata', {
+    const res = await fetch(`${backendUrl}/Userdata`, {
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
@@ -568,7 +569,7 @@ const ScoresBanner = () => {
         };
     
       
-        const postResponse = await axios.post('http://localhost:4000/SubmitParlay', payload, {
+        const postResponse = await axios.post(`${backendUrl}/SubmitParlay`, payload, {
           withCredentials: true
         });
 

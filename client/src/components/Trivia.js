@@ -4,6 +4,7 @@ import "../App.css";
 import Modal from 'react-modal';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { AuthContext } from '../Auth';
+import { backendUrl } from '../config';
 
 
 
@@ -111,7 +112,7 @@ const Trivia = () => {
     setIsAnswered(true);
   
     try {
-      const res = await fetch('http://localhost:4000/SubmitAnswer', {
+      const res = await fetch(`${backendUrl}/SubmitAnswer`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ currentAnswer }),

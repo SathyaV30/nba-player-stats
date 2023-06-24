@@ -4,6 +4,8 @@ import { AuthContext } from '../Auth'
 import 'react-quill/dist/quill.snow.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { backendUrl } from '../config';
+
 const styles = {
   form: {
     display: 'flex',
@@ -87,7 +89,7 @@ const Post = () => {
           progress: undefined,
         });
       }
-        const response = await fetch('http://localhost:4000/Create', {
+        const response = await fetch(`${backendUrl}/Create`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json', 

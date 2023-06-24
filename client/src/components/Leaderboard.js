@@ -4,6 +4,8 @@ import ReactCountryFlag from "react-country-flag"
 import axios from 'axios';
 import Modal from 'react-modal'
 import UserInfoModal from './UserInfoModal';
+import { backendUrl } from '../config';
+
 
 const countryMap = {
     "Afghanistan": "AF",
@@ -301,7 +303,7 @@ const Leaderboard = () => {
 
   const fetchTopPlayers = async () => {
     try {
-        const response = await fetch('http://localhost:4000/TopPlayers', {
+        const response = await fetch(`${backendUrl}/TopPlayers`, {
             headers: { 'Content-Type': 'application/json' },
             credentials:'include',
           });

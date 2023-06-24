@@ -3,6 +3,8 @@ import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../Auth';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { backendUrl } from '../config';
+
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -59,7 +61,7 @@ const Login = () => {
     }
     
     try {
-      const response = await fetch('http://localhost:4000/Login', {
+      const response = await fetch(`${backendUrl}/Login`, {
         method: 'POST',
         body: JSON.stringify({ username, password }),
         headers: { 'Content-Type': 'application/json' },

@@ -46,6 +46,7 @@ import fallback from '../images/fallback.png';
 import ReactCardFlip from 'react-card-flip';
 import Coin from "./Coin";
 import ReactCountryFlag from "react-country-flag"
+import { backendUrl } from '../config';
 
 
 const teamLogos = {
@@ -547,7 +548,7 @@ function ProfilePage({ setFavoritePlayersVersion }) {
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch('http://localhost:4000/Userdata', {
+      const res = await fetch(`${backendUrl}/Userdata`, {
         headers: { 'Content-Type': 'application/json' },
         credentials:'include',
       });
@@ -570,7 +571,7 @@ function ProfilePage({ setFavoritePlayersVersion }) {
   
 
   const handleUpdate = async () => {
-    const res = await fetch('http://localhost:4000/UpdateUser', {
+    const res = await fetch(`${backendUrl}/UpdateUser`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ bio, favoriteTeam, favoritePlayers, location, profilePic }),
@@ -603,7 +604,7 @@ function ProfilePage({ setFavoritePlayersVersion }) {
   const handleRemovePlayer = async (name) => {
     getImgID(name);
     try {
-      const response = await fetch('http://localhost:4000/RemoveFavoritePlayer', {
+      const response = await fetch(`${backendUrl}/RemoveFavoritePlayer`, {
         method: 'DELETE',
         credentials: 'include', 
         headers: {
@@ -637,7 +638,7 @@ const handleLogout = async () => {
   try {
     setIsAuthenticated(false);
     setUser('');
-    const response = await fetch('http://localhost:4000/Logout', {
+    const response = await fetch(`${backendUrl}/Logout`, {
       method: 'GET',
       credentials: 'include', 
     });

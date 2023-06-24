@@ -24,12 +24,13 @@ import ReactCardFlip from 'react-card-flip';
 import { Tooltip } from "react-tooltip";
 import { FaInfoCircle } from "react-icons/fa";
 import Leaderboard from "./components/Leaderboard";
+import { backendUrl } from './config';
 
 
 
 
 const AppContent = () => {
-  const {isAuthenticated, setIsAuthenticated, setUser, user, url} = useContext(AuthContext);
+  const {isAuthenticated, setIsAuthenticated, setUser, user} = useContext(AuthContext);
   const [playerName, setPlayerName] = useState('');
   const [playerStats, setPlayerStats] = useState({});
   const [likedPlayers, setLikedPlayers] = useState([]);
@@ -40,6 +41,7 @@ const AppContent = () => {
   const [favoritePlayersVersion, setFavoritePlayersVersion] = useState(0);
   const [playerD, setPlayerD] = useState({});
   const [show, setShow] = useState(false);
+
   
 
 
@@ -77,7 +79,8 @@ const handleOnError = (e) => {
  useEffect(() => {
    const checkUserLoggedIn = async () => {
      try {
-       const response = await fetch('http://localhost:4000/CheckUser', {
+
+       const response = await fetch(`${backendUrl}/CheckUser`, {
          credentials: 'include', 
        });
        const data = await response.json();
