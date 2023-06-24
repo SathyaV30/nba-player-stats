@@ -70,8 +70,6 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
-  
-        document.cookie = `token=${data.token}; Secure; HttpOnly; SameSite=Strict;`;
         setUser(username)
         toast.success(`Logged in as ${username}`, {
           position: toast.POSITION.TOP_CENTER,

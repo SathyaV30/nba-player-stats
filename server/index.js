@@ -9,12 +9,14 @@ const Matchup = require('./models/Matchup');
 const cors = require('cors');
 require('dotenv').config();
 app.use(express.json({ limit: '50mb' }));
-app.use(cors({ credentials: true,  
+var corsOptions = { credentials: true,  
   origin: [
     'http://localhost:3000',
     'https://nba-player-stats.netlify.app',
     'https://nba-stats-app-backend.onrender.com'
-  ], }));
+  ],
+  optionsSuccessStatus: 200, }
+app.use(cors(corsOptions));
 const { expressjwt: jwtMiddleware } = require("express-jwt");
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
@@ -95,11 +97,9 @@ app.post('/Login', async (req, res) => {
     }
 
     const token = jwt.sign({ username, id: user._id }, secret); 
-    res.cookie('token', token, { httpOnly: false }).json({
+    res.cookie('token', token, { httpOnly: false, sameSite: 'None', secure: true }).json({
       id: user._id,
       username,
-      sameSite: 'None',
-      secure: true,
     });
   } catch (error) {
     console.error(error);
@@ -110,7 +110,11 @@ app.post('/Login', async (req, res) => {
 
 app.get('/Logout', (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
-  res.cookie('token', '', { expires: new Date(0), httpOnly: false, sameSite: 'None' });
+  res.cookie('token', 'none', {
+    expires: new Date(Date.now() + 5 * 1000),
+    httpOnly: false,
+    secure: true,
+})
   res.send('Logged out');
 });
 

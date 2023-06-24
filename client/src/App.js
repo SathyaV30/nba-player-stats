@@ -195,10 +195,12 @@ const handleOnError = (e) => {
     const response = await fetch(`${backendUrl}/RemoveFavoritePlayer`, {
       method: 'DELETE',
       credentials: 'include', 
+      Authorization:'Bearer',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ username:user, player:name})
+      
     });
     
     if (response.ok) {
