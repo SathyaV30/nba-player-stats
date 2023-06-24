@@ -15,7 +15,7 @@ const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 const dayjs = require('dayjs');
 
-
+ 
 
 mongoose.connect(process.env.MONGO_URL);
 const db = mongoose.connection;
@@ -722,7 +722,7 @@ app.get('/UsersPredictions', async (req, res) => {
 
 
 
-app.listen(4000, () => {
+app.listen(process.env.API_PORT, () => {
   console.log('Server started on port 4000');
 });
 
