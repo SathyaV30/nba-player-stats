@@ -644,6 +644,8 @@ const handleLogout = async () => {
     });
 
     if (response.ok) {
+      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=None;';
+
       toast.success('Logged out successfully', {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 3000,
@@ -664,6 +666,7 @@ const handleLogout = async () => {
         progress: undefined,
       });
     }
+   
     navigate('/');
   } catch (error) {
     console.error('Failed to log out', error);

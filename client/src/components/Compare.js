@@ -237,7 +237,7 @@ const Conditions = () => {
         setSubmit(false);
       } finally {
         setLoading(false);
-        if (errorOccurred && !errorToastShown) { // Display the toast if an error occurred and no toast has been shown
+        if (errorOccurred && !errorToastShown) { 
           errorToastShown = true;
           toast.error('An error occurred while fetching data. Please try again in one minute', {
             position: toast.POSITION.TOP_CENTER,

@@ -110,11 +110,12 @@ app.post('/Login', async (req, res) => {
 
 app.get('/Logout', (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
-  res.cookie('token', 'none', {
-    expires: new Date(Date.now() + 5 * 1000),
+  res.cookie('token', '', {
+    expires: new Date(0),
     httpOnly: false,
     secure: true,
-})
+    sameSite: 'none',
+  })
   res.send('Logged out');
 });
 
