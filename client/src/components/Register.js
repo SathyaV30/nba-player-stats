@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { backendUrl } from '../config';
+import LoadingAnimation from "./Loading";
 
 
 
@@ -40,8 +41,10 @@ const styles = {
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   async function register(ev) {
     ev.preventDefault();
+    setLoading(true)
     if (!username || !password) {
       toast.error(`Please enter all fields`, {
         position: toast.POSITION.TOP_CENTER,
@@ -52,6 +55,7 @@ export default function RegisterPage() {
         draggable: true,
         progress: undefined,
       });
+      setLoading(false)
       return;
     } else if (password.length < 8) {
       toast.error(`Password must contain at least 8 characters`, {
@@ -63,6 +67,7 @@ export default function RegisterPage() {
         draggable: true,
         progress: undefined,
       });
+      setLoading(false)
       return;
 
     }
@@ -85,6 +90,7 @@ export default function RegisterPage() {
           draggable: true,
           progress: undefined,
         });
+        
       } else {
         toast.error(`User already exists`, {
           position: toast.POSITION.TOP_CENTER,
@@ -107,7 +113,7 @@ export default function RegisterPage() {
         progress: undefined,
       });
     }
-
+    setLoading(false)
     setUsername('');
     setPassword('');
   }
@@ -143,6 +149,9 @@ export default function RegisterPage() {
       </form>
     </div>
 </div>
+<div style ={{margin: '1%'}}>
+      {loading && <LoadingAnimation/>}
+      </div>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { AuthContext } from '../Auth';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { backendUrl } from '../config';
+import LoadingAnimation from './Loading';
 
 
 const Login = () => {
@@ -11,6 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [redirect,setRedirect] = useState(false)
   const {setIsAuthenticated, setUser, user}  = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
   
   const styles = {
     form: {
@@ -47,6 +49,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (!username || !password) {
       toast.error(`Please enter all fields`, {
         position: toast.POSITION.TOP_CENTER,
@@ -57,6 +60,7 @@ const Login = () => {
         draggable: true,
         progress: undefined,
       });
+      setLoading(false)
       return;
     }
     
@@ -71,6 +75,7 @@ const Login = () => {
 
       if (response.ok) {
         setUser(username)
+        setLoading(false)
         toast.success(`Logged in as ${username}`, {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 3000,
@@ -85,6 +90,7 @@ const Login = () => {
         setRedirect(true)
         setIsAuthenticated(true)
       } else {
+        setLoading(false)
         toast.error('Incorrect username or password', {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 3000,
@@ -97,6 +103,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error(error);
+      setLoading(false)
       toast.error('An error occurred', {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 3000,
@@ -107,8 +114,6 @@ const Login = () => {
         progress: undefined,
       });
     }
-    
-
     setUsername('');
     setPassword('');
   };
@@ -142,7 +147,11 @@ const Login = () => {
         </div>
         <button style={styles.button} type="submit">Login</button>
       </form>
+      <div style ={{margin: '1%'}}>
+      {loading && <LoadingAnimation/>}
+      </div>
     </div>
+
   );
 };
 
