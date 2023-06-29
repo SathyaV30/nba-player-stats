@@ -5,7 +5,7 @@ import axios from 'axios';
 import Modal from 'react-modal'
 import UserInfoModal from './UserInfoModal';
 import { backendUrl } from '../config';
-
+import LoadingAnimation from './Loading';
 
 const countryMap = {
     "Afghanistan": "AF",
@@ -288,12 +288,14 @@ const Leaderboard = () => {
   const [topPlayers, setTopPlayers] = useState([]);
   const [userModal, setUserModal] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchTopPlayers();
   }, []);
 
   const handleUserClick = (user) => {
+    console.log(user)
     setUserInfo(user);
     setUserModal(true);
   }
@@ -303,6 +305,7 @@ const Leaderboard = () => {
 
   const fetchTopPlayers = async () => {
     try {
+      setLoading(true);
         const response = await fetch(`${backendUrl}/TopPlayers`, {
             headers: { 'Content-Type': 'application/json' },
             credentials:'include',
@@ -316,6 +319,7 @@ const Leaderboard = () => {
     } catch (error) {
       console.error('Error fetching top players:', error);
     }
+    setLoading(false);
   };
 
   return (
@@ -404,6 +408,10 @@ const Leaderboard = () => {
           </div>
         </div>
       ))}
+     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
+  <div>{loading && <LoadingAnimation/>}</div>
+</div>
+
       <UserInfoModal isOpen={userModal} onRequestClose={() => setUserModal(false)} userInfo={userInfo} />
     </div>
   );

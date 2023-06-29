@@ -300,8 +300,8 @@ const MyPosts = () => {
         withCredentials: true
       };
      const response = await axios.get(`${backendUrl}/Posts/${post._id}`, config);
-     const {username, bio, favoritePlayers,favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, profilePic, location} = response.data
-     setUserInfo({username, bio, favoritePlayers, favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, profilePic, location});
+     const {username, bio, favoritePlayers,favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, profilePic, location, followers, following} = response.data
+     setUserInfo({username, bio, favoritePlayers, favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, profilePic, location, followers, following});
      setUserModal(true);
      
     } catch (error) {

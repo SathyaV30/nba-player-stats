@@ -261,6 +261,7 @@ app.get('/TopPlayers', async (req, res) => {
 
 
 
+
 app.get('/MyPosts', authenticateJWT, async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   try {
@@ -497,21 +498,28 @@ app.get('/Userdata', authenticateJWT, async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   try {
     const { username } = req.auth;
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username })
+      .populate('followers')
+      .populate('following');
 
     if (!user) {
       return res.status(404).json({ message: 'User does not exist' });
     }
-    const { TriviaQuestionsAnswered, TriviaQuestionsCorrect, bio, favoriteTeam, favoritePlayers, coins, location, profilePic} = user;
-    if (!favoritePlayers) {
-      favoritePlayers =[];
+
+    const { TriviaQuestionsAnswered, TriviaQuestionsCorrect, bio, favoriteTeam, favoritePlayers, coins, location, profilePic, followers, following } = user;
+
+    let fPlayers = favoritePlayers;
+    if (!fPlayers) {
+      fPlayers = [];
     }
-    res.status(200).json({ coins, bio, favoriteTeam, favoritePlayers, TriviaQuestionsAnswered, TriviaQuestionsCorrect, location, profilePic});
+
+    res.status(200).json({ coins, bio, favoriteTeam, favoritePlayers: fPlayers, TriviaQuestionsAnswered, TriviaQuestionsCorrect, location, profilePic, followers, following });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 app.post('/UpdateUser', authenticateJWT, async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
@@ -605,20 +613,78 @@ app.get('/Posts/:id', authenticateJWT, async (req, res) => {
   const userId = req.auth.id;
 
   try {
-
     const post = await Post.findById(id);
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
-    const userOfPoster = await User.findById(post.author.toString());
-    const {username, bio, favoriteTeam, favoritePlayers, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, location, profilePic} = userOfPoster;
-    return  res.status(200).json({ username, bio, favoriteTeam, favoritePlayers, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, location, profilePic});
+
+    const userOfPoster = await User.findById(post.author.toString())
+      .populate('followers')
+      .populate('following');
+
+    const { username, bio, favoriteTeam, favoritePlayers, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, location, profilePic, followers, following } = userOfPoster;
+
+    return res.status(200).json({ username, bio, favoriteTeam, favoritePlayers, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, location, profilePic, followers, following });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
-    
   }
 });
+
+app.post('/FollowUser', authenticateJWT, async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+
+  try {
+    const { clickedUser } = req.body;
+    const userId = req.auth.id;
+
+    const fr = await User.findById(userId);
+    const fg = await User.findOne({ username: clickedUser });
+    const isAlreadyFollowing = fr.following.includes(fg._id);
+    if (isAlreadyFollowing) {
+      return res.status(400).send("User is already being followed");
+    }
+    fr.following.push(fg);
+    fg.followers.push(fr);
+    await fr.save();
+    await fg.save();
+    res.status(200).send("Followed user successfully");
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Server error");
+  }
+});
+
+
+app.post('/UnfollowUser', authenticateJWT, async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  try {
+    const { clickedUser } = req.body;
+    const userId = req.auth.id;
+
+    const fr = await User.findById(userId);
+    const fg = await User.findOne({ username: clickedUser });
+    const isFollowing = fr.following.includes(fg._id);
+    if (!isFollowing) {
+      return res.status(400).send("User is not being followed");
+    }
+
+    fr.following = fr.following.filter(id => !id.equals(fg._id));
+    fg.followers = fg.followers.filter(id => !id.equals(fr._id));
+
+
+    await fr.save();
+    await fg.save();
+
+    res.status(200).send("Unfollowed user successfully");
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Server error");
+  }
+});
+
+
 
 app.post('/SubmitAnswer',  authenticateJWT, async (req, res) => { 
   mongoose.connect(process.env.MONGO_URL);
@@ -724,7 +790,7 @@ app.get('/UsersPredictions', async (req, res) => {
 
 
 app.listen(process.env.API_PORT, () => {
-  console.log('Server started on port 4000');
+  console.log('Server started');
 });
 
    

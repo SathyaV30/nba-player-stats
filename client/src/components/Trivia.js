@@ -20,7 +20,7 @@ const styles = {
         maxWidth: '50%',
         maxHeight: '500px', 
         minHeight:'500px',
-        border: '1px solid #17408b',
+        border: '0.8px solid #17408b',
         marginTop:'50px',
         position: 'relative',
         zIndex: 0,

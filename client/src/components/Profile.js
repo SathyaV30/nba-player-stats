@@ -364,6 +364,10 @@ function ProfilePage({ setFavoritePlayersVersion }) {
   const [playerData, setPlayerData] = useState({});
   const [profilePic, setProfilePic] = useState(fallback);
   const [isHovered, setIsHovered] = useState(false);
+  const [followCount, setFollowCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
+  
+
 
   const styles = {
     progressContainer: {
@@ -562,8 +566,9 @@ function ProfilePage({ setFavoritePlayersVersion }) {
       setTqc(data.TriviaQuestionsCorrect);
       setCoins(data.coins);
       setLocation(data.location);
-      setProfilePic(data.profilePic)
-    
+      setProfilePic(data.profilePic);
+      setFollowCount(data.followers.length);
+      setFollowingCount(data.following.length);
     };
   
     fetchData();
@@ -1108,6 +1113,12 @@ return (
           <Tooltip id="info-tooltip" place="top" effect="solid" multiline={true} multilineMaxWidth={200} style={{ width: '250px' }}>
           </Tooltip>
         </div>
+        <div style={{ display: 'flex' }}>
+  <h2 style={{ ...styles.header, margin: '5%', whiteSpace: 'nowrap' }}>Followers: <span style ={{fontWeight:'normal'}}>{followingCount}</span></h2>
+  <h2 style={{ ...styles.header, margin: '5%', whiteSpace: 'nowrap' }}>Following: <span  style ={{fontWeight:'normal'}}>{followCount}</span></h2>
+</div>
+
+
         <h2 style={styles.header}>Favorite Players</h2>
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
           <div style={styles.playerContainer}>

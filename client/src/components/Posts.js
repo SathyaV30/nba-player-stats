@@ -313,8 +313,8 @@ const Posts = () => {
         withCredentials: true
       };
      const response = await axios.get(`${backendUrl}/Posts/${post._id}`, config);
-     const {username, bio, favoritePlayers,favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, location, profilePic} = response.data
-     setUserInfo({username, bio, favoritePlayers, favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, location, profilePic});
+     const {username, bio, favoritePlayers,favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, location, profilePic, followers, following} = response.data
+     setUserInfo({username, bio, favoritePlayers, favoriteTeam, TriviaQuestionsAnswered, TriviaQuestionsCorrect, coins, location, profilePic, followers, following});
      setUserModal(true);
     } catch (error) {
       toast.error('An error occurred', {

@@ -12,6 +12,26 @@ const UserSchema = new Schema({
   coins: { type: Number, required: true, default: 0 },
   location: { type: String, required: false, default: 'Not selected' },
   profilePic: { type: String, required: false, default: 'fallback.png' },
+  followers: {
+    type: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+    default: [],
+    required: false,
+  },
+  following: {
+    type: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+    default: [],
+    required: false,
+  },
   pendingBets: {
     type: [
       {
