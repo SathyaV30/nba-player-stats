@@ -250,7 +250,7 @@ app.get('/TopPlayers', async (req, res) => {
     const topPlayers = await User.find({})
       .sort({ coins: -1 }) 
       .limit(100) 
-      .select('username coins location favoritePlayers bio favoriteTeam TriviaQuestionsAnswered TriviaQuestionsCorrect profilePic');
+      .select('username coins location favoritePlayers bio favoriteTeam TriviaQuestionsAnswered TriviaQuestionsCorrect profilePic followers following');
     res.status(200).json(topPlayers);
   } catch (error) {
     console.error(error);
