@@ -1114,8 +1114,8 @@ return (
           </Tooltip>
         </div>
         <div style={{ display: 'flex' }}>
-  <h2 style={{ ...styles.header, margin: '5%', whiteSpace: 'nowrap' }}>Followers: <span style ={{fontWeight:'normal'}}>{followingCount}</span></h2>
-  <h2 style={{ ...styles.header, margin: '5%', whiteSpace: 'nowrap' }}>Following: <span  style ={{fontWeight:'normal'}}>{followCount}</span></h2>
+  <h2 style={{ ...styles.header, margin: '5%', whiteSpace: 'nowrap' }}>Followers: <span style ={{fontWeight:'normal'}}>{followCount}</span></h2>
+  <h2 style={{ ...styles.header, margin: '5%', whiteSpace: 'nowrap' }}>Following: <span  style ={{fontWeight:'normal'}}>{followingCount}</span></h2>
 </div>
 
 
