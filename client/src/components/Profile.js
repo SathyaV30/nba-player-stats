@@ -47,6 +47,8 @@ import ReactCardFlip from 'react-card-flip';
 import Coin from "./Coin";
 import ReactCountryFlag from "react-country-flag"
 import { backendUrl } from '../config';
+import FollowListModal from "./FollowListModal";
+import Modal from 'react-modal';
 
 
 const teamLogos = {
@@ -366,6 +368,10 @@ function ProfilePage({ setFavoritePlayersVersion }) {
   const [isHovered, setIsHovered] = useState(false);
   const [followCount, setFollowCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
+  const [userModal, setUserModal] = useState(false);
+  const [followData, setFollowData] = useState([]);
+  const [followingData, setFollowingData] = useState([])
+  const [selectedType, setSelectedType] = useState('Followers');
   
 
 
@@ -569,10 +575,18 @@ function ProfilePage({ setFavoritePlayersVersion }) {
       setProfilePic(data.profilePic);
       setFollowCount(data.followers.length);
       setFollowingCount(data.following.length);
+      setFollowData(data.followers);
+      setFollowingData(data.following);
     };
   
     fetchData();
+   
   }, []);
+
+  useEffect(()=> {
+    console.log(followData);
+    console.log(followingData);
+  }, [followData, followingData])
   
 
   const handleUpdate = async () => {
@@ -1114,8 +1128,16 @@ return (
           </Tooltip>
         </div>
         <div style={{ display: 'flex' }}>
-  <h2 style={{ ...styles.header, margin: '5%', whiteSpace: 'nowrap' }}>Followers: <span style ={{fontWeight:'normal'}}>{followCount}</span></h2>
-  <h2 style={{ ...styles.header, margin: '5%', whiteSpace: 'nowrap' }}>Following: <span  style ={{fontWeight:'normal'}}>{followingCount}</span></h2>
+  <h2 style={{ ...styles.header, margin: '5%', whiteSpace: 'nowrap' }}>Followers: <span onClick = {()=> {
+    setSelectedType('Followers')
+    setUserModal(true)
+  }} 
+  style ={{fontWeight:'normal'}}>{followCount}</span></h2>
+  <h2 style={{ ...styles.header, margin: '5%', whiteSpace: 'nowrap' }}>Following: <span onClick = {()=> {
+    setSelectedType('Following')
+    setUserModal(true)
+  }} 
+  style ={{fontWeight:'normal'}}>{followingCount}</span></h2>
 </div>
 
 
@@ -1174,8 +1196,8 @@ return (
       </div>
 
     </div>
-    
-
+    <FollowListModal isOpen = {userModal}  onRequestClose = {()=> setUserModal(false)} followList = {selectedType == 'Followers' ? followData : followingData}
+    type = {selectedType} />
   </div>
 
         </>

@@ -295,7 +295,6 @@ const Leaderboard = () => {
   }, []);
 
   const handleUserClick = (user) => {
-    console.log(user)
     setUserInfo(user);
     setUserModal(true);
   }
