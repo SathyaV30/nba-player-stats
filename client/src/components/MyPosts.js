@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal'
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes, FaEdit, FaTrash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserInfoModal from './UserInfoModal';
@@ -428,8 +428,8 @@ const formats = [
               </Modal>
                   {post.author._id === user.id && (
                     <>
-                      <button style={styles.postButton} onClick={() => editPost(post)}>Edit</button>
-                      <button style={styles.postButton} onClick={() => deletePost(post)}>Delete</button>
+                      <button style={styles.postButton} onClick={() => editPost(post)}><FaEdit/></button>
+                      <button style={styles.postButton} onClick={() => deletePost(post)}><FaTrash/></button>
                     </>
                   )}
                 </>
