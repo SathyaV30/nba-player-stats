@@ -1122,25 +1122,22 @@ return (
             style={{ color: '#17408b', fontSize: '20px', marginLeft: '10px', verticalAlign: 'middle' }}
             data-tooltip-id="info-tooltip"
             data-tooltip-content="Earn NBA coins by answering trivia questions, making posts, and predicting NBA games correctly. Climb the leaderboard to showcase your NBA knowledge!" />
-
-
           <Tooltip id="info-tooltip" place="top" effect="solid" multiline={true} multilineMaxWidth={200} style={{ width: '250px' }}>
           </Tooltip>
         </div>
         <div style={{ display: 'flex' }}>
-  <h2 style={{ ...styles.header, margin: '5%', whiteSpace: 'nowrap' }}>Followers: <span onClick = {()=> {
+          <span style = {{margin:'4%', cursor:'pointer'}} onClick = {()=> {
     setSelectedType('Followers')
     setUserModal(true)
-  }} 
-  style ={{fontWeight:'normal'}}>{followCount}</span></h2>
-  <h2 style={{ ...styles.header, margin: '5%', whiteSpace: 'nowrap' }}>Following: <span onClick = {()=> {
+  }} ><h2 style={{ ...styles.header, whiteSpace: 'nowrap' }}>Followers: <span
+  style ={{fontWeight:'normal', cursor:'pointer'}}> {followCount}</span></h2></span>
+  <span style = {{margin:'4%', cursor:'pointer'}} onClick = {()=> {
     setSelectedType('Following')
     setUserModal(true)
-  }} 
-  style ={{fontWeight:'normal'}}>{followingCount}</span></h2>
+  }} >
+  <h2 style={{ ...styles.header, whiteSpace: 'nowrap' }}>Following: <span 
+  style ={{fontWeight:'normal', cursor:'pointer'}}>{followingCount}</span></h2></span>
 </div>
-
-
         <h2 style={styles.header}>Favorite Players</h2>
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
           <div style={styles.playerContainer}>

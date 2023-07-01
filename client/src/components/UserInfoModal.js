@@ -5,11 +5,13 @@ import fallback from '../images/fallback.png';
 import { AuthContext } from '../Auth';
 import { toast } from 'react-toastify';
 import { backendUrl } from '../config';
+import FollowListModal from './FollowListModal';
 
 const UserInfoModal = ({ isOpen, onRequestClose, userInfo }) => {
   const { user } = useContext(AuthContext);
   const [followed, setFollowed] = useState(false);
   const [show, setShow] = useState(false);
+
   const checkIfUserFollowed = async (clickedUser) => {
     setShow(false);
     const res = await fetch(`${backendUrl}/Userdata`, {
@@ -108,9 +110,9 @@ const UserInfoModal = ({ isOpen, onRequestClose, userInfo }) => {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           minWidth: '800px',
-          minHeight: '395px',
+          minHeight: '450px',
           maxWidth: '800px',
-          maxHeight: '395px',
+          maxHeight: '450px',
           overflow: 'auto',
           backgroundColor: '#FFF',
           borderRadius: '10px',
