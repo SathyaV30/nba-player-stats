@@ -233,7 +233,7 @@ app.get('/Posts', authenticateJWT, async (req, res) => {
       },
     });
 
-
+    console.log(posts);
     res.status(200).json({
       totalPosts,
       posts,
@@ -351,6 +351,7 @@ app.get('/MyPosts', authenticateJWT, async (req, res) => {
 
 
 app.put('/Posts/:id', authenticateJWT, async (req, res) => {
+
   mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
   const { title, summary, content } = req.body;

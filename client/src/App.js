@@ -26,9 +26,6 @@ import { FaInfoCircle } from "react-icons/fa";
 import Leaderboard from "./components/Leaderboard";
 import { backendUrl } from './config';
 
-
-
-
 const AppContent = () => {
   const {isAuthenticated, setIsAuthenticated, setUser, user} = useContext(AuthContext);
   const [playerName, setPlayerName] = useState('');
@@ -42,12 +39,6 @@ const AppContent = () => {
   const [playerD, setPlayerD] = useState({});
   const [show, setShow] = useState(false);
 
-  
-
-
-
-  
- 
   var imgLink = `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${imgID}.png` 
 
 
@@ -742,7 +733,6 @@ const handleOnError = (e) => {
 
 const App = () => {
  return ( 
-
   <AuthContextProvider>
  <AppContent />
 </AuthContextProvider>

@@ -170,7 +170,7 @@ const Posts = () => {
     if (!isAuthenticated) {
       return;
     }
-    fetchPosts(page);
+    fetchPosts();
   }, [isAuthenticated, date, page, sortMode]);
 
   const editPost = (post) => {

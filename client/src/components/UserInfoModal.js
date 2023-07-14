@@ -5,7 +5,6 @@ import fallback from '../images/fallback.png';
 import { AuthContext } from '../Auth';
 import { toast } from 'react-toastify';
 import { backendUrl } from '../config';
-import FollowListModal from './FollowListModal';
 
 const UserInfoModal = ({ isOpen, onRequestClose, userInfo }) => {
   const { user } = useContext(AuthContext);
