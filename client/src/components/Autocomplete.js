@@ -5,7 +5,7 @@ import NBACsv from '../nba.csv'
 
 const containerStyles = {
     position: 'relative',
-    width: '300px',  // Set a fixed width
+    width: '300px', 
 };
 
 const inputStyles = {
@@ -14,7 +14,7 @@ const inputStyles = {
     border: 'none',
     borderRadius: '5px',
     boxShadow: '0px 0px 5px #ccc',
-    width: '100%',  // Set width to 100% to fill the container
+    width: '100%', 
 };
 
 const suggestionContainerStyles = {
@@ -71,11 +71,6 @@ useEffect(() => {
       },
     });
 }, []);
-
-useEffect(()=> {
-    console.log(playerNames)
-}, [playerNames])
-
 
 
 
