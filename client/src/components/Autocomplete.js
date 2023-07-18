@@ -64,7 +64,7 @@ useEffect(() => {
       complete: function (results) {
         const names = results.data.map((row) => {
         
-          let fullName = row.BBRefName.split(' ');
+          let fullName = row.NBAName.split(' ');
           return  fullName[0] + ' ' + fullName[1]
         });
         setPlayerNames(names);
