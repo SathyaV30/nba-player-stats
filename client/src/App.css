@@ -19,7 +19,6 @@ form-1 {
 .bld {
   text-shadow: .45px 0px .1px,
                   -.45px 0px .1px;
-
 }
 
 
@@ -40,6 +39,9 @@ label {
 .sts {
   margin-left: 10px;
 }
+
+
+
 
  .txt_input {
   font-size: 1.2em;
@@ -201,7 +203,7 @@ button {
 
 * {
   box-sizing: border-box;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
 }
 

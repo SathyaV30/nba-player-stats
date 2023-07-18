@@ -10,6 +10,7 @@ import './ToggleSwitch.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingAnimation from './Loading';
+import Autocomplete from './Autocomplete';
 
 const fgOptions = {
   scales: {
@@ -1140,26 +1141,34 @@ const Conditions = () => {
 
               {playerInputs.map((playerInput, index) => (
   <div className="player-card" key={playerInput.id} style={styles.inputRowStyle}>
-    <input
-      type="text"
-      placeholder="Player name"
+    <Autocomplete 
       value={playerInput.playerName}
-      onChange={(e) => handlePlayerNameChange(index, e.target.value)}
-      style={{ ...styles.inputStyle, width: '200px', height:'40px' }}t
+      onChange={(e, {newValue}) => handlePlayerNameChange(index, newValue)}
+      isComponentA = {true}
     />
     <input
       type="number"
       placeholder="Start year"
       value={playerInput.startYear}
       onChange={(e) => handleStartYearChange(index, e.target.value)}
-      style={{ ...styles.inputStyle, width: '100px', height:'40px' }}
+      style={{   flex: '1 0 calc(33% - 20px)',
+      margin: '0 10px',
+      padding: '5px',
+      borderRadius: '4px',
+       width: '100px',
+       height:'42.5px' }}
     />
     <input
       type="number"
       placeholder="End year"
       value={playerInput.endYear}
       onChange={(e) => handleEndYearChange(index, e.target.value)}
-      style={{ ...styles.inputStyle, width: '100px', height:'40px' }} 
+      style={{   flex: '1 0 calc(33% - 20px)',
+      padding: '5px',
+      borderRadius: '4px',
+       width: '100px',
+       height:'42.5px' ,
+      marginRight:'3px'}}
     />
     {playerInputs.length > 1 && (
       <button
@@ -1180,6 +1189,7 @@ const Conditions = () => {
     )}
   </div>
 ))}
+
  
             </form>
           </div>

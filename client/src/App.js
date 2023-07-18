@@ -25,6 +25,7 @@ import { Tooltip } from "react-tooltip";
 import { FaInfoCircle } from "react-icons/fa";
 import Leaderboard from "./components/Leaderboard";
 import { backendUrl } from './config';
+import Autocomplete from "./components/Autocomplete";
 
 const AppContent = () => {
   const {isAuthenticated, setIsAuthenticated, setUser, user} = useContext(AuthContext);
@@ -676,23 +677,29 @@ const handleOnError = (e) => {
                   <Tooltip id="info-tooltip" />
          
         </div>}
-          <div style ={{display:'flex', flexDirection:'row', justifyContent:'center', margin:'50px'}}>
-            <input style ={{width:'120px', height: '48px', marginRight:'5px', padding: '0 auto'}} type="number" min="1979" max="2022" step="1" placeholder = "Enter year" id = "year"/>
-            <form className ="form-1" onSubmit={handleSubmit}>
-              <label>
-                <input
-                  type="text"
-                  value={playerName}
-                  onChange={handleChange}
-                  placeholder="Please enter an NBA player's name"
-                  style={{marginRight:'5px'}}
-                  className = "txt_input"
-                />
-              </label>
-              <input className = "submit" type="submit" value="Submit" style={{marginRight:'5px'}}/>
-              <input type="button" value="Suprise Me" onClick = {handleRandom} className = "like-btn"/>
-            </form>
-          </div>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '50px' }}>
+  <form className="form-1" onSubmit={handleSubmit}>
+    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+      <input
+        style={{ width: '120px', height: '48px', marginRight: '5px', padding: '0 auto' }}
+        type="number"
+        min="1979"
+        max="2022"
+        step="1"
+        placeholder="Enter year"
+        id="year"
+      />
+      <label>
+        <Autocomplete setPlayerName={setPlayerName} value={playerName} onChange={handleChange} isComponentA = {false} />
+      </label>
+    </div>
+    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+      <input className="like-btn" type="submit" value="Submit" style={{ marginRight: '5px' }} />
+      <input type="button" value="Suprise Me" onClick={handleRandom} className="like-btn" />
+    </div>
+  </form>
+</div>
+
         
         </div>
       }/>
