@@ -489,6 +489,11 @@ body {
   max-height: 80%;
 }
 
+.lg::placeholder {
+  text-align:left;
+  font-size: 20px;
+}
+
 @keyframes popup {
   0% {
     opacity: 0;

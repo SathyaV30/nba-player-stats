@@ -1,50 +1,69 @@
-import { useState } from "react";
+import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import { FaLock } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
 import 'react-toastify/dist/ReactToastify.css';
 import { backendUrl } from '../config';
-import LoadingAnimation from "./Loading";
+import LoadingAnimation from './Loading';
+import '../App.css';
 
-
-
-const styles = {
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: '10%',
-    gap: '10px',
-    border: '1px solid #ccc',
-    borderRadius: '10px',
-    padding: '20px',
-    width: '30%',
-    margin: 'auto'
-  },
-  input: {
-    width: '80%',
-    padding: '10px',
-    borderRadius: '5px',
-    border: '1px solid #ccc'
-  },
-  button: {
-    width: '57.5%',
-    padding: '10px',
-    borderRadius: '5px',
-    border: 'none',
-    color: 'white',
-    backgroundColor: '#17408B',
-    cursor: 'pointer',
-    marginTop:'5px',
-  }
-};
-
-export default function RegisterPage() {
+const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  async function register(ev) {
+  
+  const styles = {
+    form: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: '10%',
+      gap: '20px', 
+      border: '1px solid #ccc',
+      borderRadius: '10px',
+      padding: '30px', 
+      width: '30%', 
+      margin: 'auto',
+    },
+    inputGroup: {
+      position: 'relative',
+      width: '80%', 
+      borderRadius: '5px',
+      border: '1px solid #ccc'
+    },
+    input: {
+      width: '100%',
+      padding: '15px 15px 15px 50px',
+      borderRadius: '5px',
+      border: 'none',
+      textAlign: 'left',
+      fontSize: '20px',
+    },
+    icon: {
+      position: 'absolute',
+      left: '15px',
+      top: '50%', 
+      transform: 'translateY(-50%)', 
+      color: '#999',
+      fontSize: '20px',
+    },
+    button: {
+      width: '80%', 
+      padding: '15px',
+      borderRadius: '5px',
+      border: 'none',
+      color: 'white',
+      backgroundColor: '#17408B',
+      cursor: 'pointer',
+      marginTop:'10px', 
+      fontSize:'20px',
+    }
+  };
+
+  const register = async (ev) => {
     ev.preventDefault();
-    setLoading(true)
+    setLoading(true);
     if (!username || !password) {
       toast.error(`Please enter all fields`, {
         position: toast.POSITION.TOP_CENTER,
@@ -57,20 +76,7 @@ export default function RegisterPage() {
       });
       setLoading(false)
       return;
-    } else if (password.length < 8) {
-      toast.error(`Password must contain at least 8 characters`, {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      setLoading(false)
-      return;
-
-    }
+    } 
 
     try {
       const response = await fetch(`${backendUrl}/Register`, {
@@ -90,7 +96,8 @@ export default function RegisterPage() {
           draggable: true,
           progress: undefined,
         });
-        
+        setUsername('');
+        setPassword('');
       } else {
         toast.error(`User already exists`, {
           position: toast.POSITION.TOP_CENTER,
@@ -114,44 +121,43 @@ export default function RegisterPage() {
       });
     }
     setLoading(false)
-    setUsername('');
-    setPassword('');
-  }
+  };
 
   return (
     <div style={{textAlign: 'center'}}>
-     <div>
-
-    <div>
-      <h2>Register</h2>
+      <h1>Register</h1>
       <form onSubmit={register} style={styles.form}>
-        <div>
-          <label htmlFor="username">Username</label>
+        <div style={styles.inputGroup}>
+          <FaUser style={styles.icon} />
           <input
             style={styles.input}
             type="text"
             id="username"
+            placeholder='Username'
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            className = 'lg'
           />
         </div>
-        <div>
-          <label htmlFor="password">Password</label>
+        <div style={styles.inputGroup}>
+          <FaLock style={styles.icon} />
           <input
             style={styles.input}
             type="password"
             id="password"
+            placeholder='Password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className = 'lg'
           />
         </div>
         <button style={styles.button} type="submit">Register</button>
       </form>
-    </div>
-</div>
-<div style ={{margin: '1%'}}>
+      <div style ={{margin: '1%'}}>
       {loading && <LoadingAnimation/>}
       </div>
     </div>
   );
-}
+};
+
+export default Register;

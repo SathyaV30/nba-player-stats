@@ -164,17 +164,15 @@ app.get('/Posts', authenticateJWT, async (req, res) => {
   try {
     const { date, page = 1, limit = 5, sort } = req.query; 
 
-    console.log("Incoming query parameters: ", req.query);
-
     const parsedDate = dayjs(date);
 
-    // Logging parsed date
+    
     console.log("Parsed Date: ", parsedDate.toString());
 
     const startOfDay = parsedDate.startOf('day').toDate();
     const endOfDay = parsedDate.endOf('day').toDate();
 
-    // Logging start and end of day
+   
     console.log("Start of Day: ", startOfDay);
     console.log("End of Day: ", endOfDay);
 

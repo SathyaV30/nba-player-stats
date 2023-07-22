@@ -5,6 +5,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { backendUrl } from '../config';
 import LoadingAnimation from './Loading';
+import { FaLock } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
+import '../App.css';
 
 
 const Login = () => {
@@ -21,30 +24,48 @@ const Login = () => {
       alignItems: 'center',
       justifyContent: 'center',
       marginTop: '10%',
-      gap: '10px',
+      gap: '20px', 
       border: '1px solid #ccc',
       borderRadius: '10px',
-      padding: '20px',
-      width: '30%',
-      margin: 'auto'
+      padding: '30px', 
+      width: '30%', 
+      margin: 'auto',
     },
-    input: {
-      width: '80%',
-      padding: '10px',
+    inputGroup: {
+      position: 'relative',
+      width: '80%', 
       borderRadius: '5px',
       border: '1px solid #ccc'
     },
+    input: {
+      width: '100%',
+      padding: '15px 15px 15px 50px',
+      borderRadius: '5px',
+      border: 'none',
+      textAlign: 'left',
+      fontSize: '20px',
+    },
+    icon: {
+      position: 'absolute',
+      left: '15px',
+      top: '50%', 
+      transform: 'translateY(-50%)', 
+      color: '#999',
+      fontSize: '20px',
+    },
     button: {
-      width: '57.5%',
-      padding: '10px',
+      width: '80%', 
+      padding: '15px',
       borderRadius: '5px',
       border: 'none',
       color: 'white',
       backgroundColor: '#17408B',
       cursor: 'pointer',
-      marginTop:'5px',
+      marginTop:'10px', 
+      fontSize:'20px',
     }
   };
+  
 
 
   const handleSubmit = async (e) => {
@@ -123,26 +144,30 @@ const Login = () => {
 
   return (
     <div style={{textAlign: 'center'}}>
-      <h2>Login</h2>
+      <h1>Login</h1>
       <form onSubmit={handleSubmit} style={styles.form}>
-        <div>
-          <label htmlFor="username">Username</label>
+        <div style={styles.inputGroup}>
+          <FaUser style={styles.icon} />
           <input
             style={styles.input}
             type="text"
             id="username"
+            placeholder='Username'
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            className = 'lg'
           />
         </div>
-        <div>
-          <label htmlFor="password">Password</label>
+        <div style={styles.inputGroup}>
+          <FaLock style={styles.icon} />
           <input
             style={styles.input}
             type="password"
             id="password"
+            placeholder='Password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className = 'lg'
           />
         </div>
         <button style={styles.button} type="submit">Login</button>
