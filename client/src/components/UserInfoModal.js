@@ -10,6 +10,16 @@ const UserInfoModal = ({ isOpen, onRequestClose, userInfo }) => {
   const { user } = useContext(AuthContext);
   const [followed, setFollowed] = useState(false);
   const [show, setShow] = useState(false);
+  const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
+
+  const handleResize = () => {
+    setWindowDimensions({width: window.innerWidth, height: window.innerHeight});
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const checkIfUserFollowed = async (clickedUser) => {
     setShow(false);
@@ -108,10 +118,8 @@ const UserInfoModal = ({ isOpen, onRequestClose, userInfo }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          minWidth: '800px',
-          minHeight: '450px',
-          maxWidth: '800px',
-          maxHeight: '450px',
+          width: `${windowDimensions.width * 0.5}px`, // 80% of window width
+          height: `${windowDimensions.height * 0.6}px`, // 80% of window height
           overflow: 'auto',
           backgroundColor: '#FFF',
           borderRadius: '10px',
@@ -129,54 +137,54 @@ const UserInfoModal = ({ isOpen, onRequestClose, userInfo }) => {
               style={{ position: 'absolute', top: 0, right: 0, cursor: 'pointer', color: '#17408b' }}
               onClick={onRequestClose}
             />
-       <div style={{ display: 'flex', alignItems: 'center' }}>
-    <img
-        src={userInfo.profilePic}
-        style={{ height: '50px', width: '50px', objectFit: 'cover', border: '1px solid lightgrey', borderRadius: '50%', marginRight: '1.5%' }}
-        alt="Profile"
-        onError={(e) => (e.target.src = fallback)}
-    />
-    <h2>{userInfo.username} Profile</h2>
-    {show && userInfo.username !== user && (
-        followed ? (
-            <button
-                style={{
-                    marginLeft: '10px',
-                    backgroundColor: '#17408b',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    padding: '6px 12px',
-                    cursor: 'pointer',
-                }}
-                onClick={() => handleUserUnfollow(userInfo.username)}
-            >
-                <div style={{ display: 'flex', flexDirection: 'row', placeItems: 'center' }}>
-                    <FaUserMinus style={{ marginRight: '5%', fontSize: '1.2rem' }} />
-                    <span>Unfollow</span>
-                </div>
-            </button>
-        ) : (
-            <button
-                style={{
-                    marginLeft: '10px',
-                    backgroundColor: '#17408b',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '4px',
-                    padding: '6px 12px',
-                    cursor: 'pointer',
-                }}
-                onClick={() => handleUserFollow(userInfo.username)}
-            >
-                <div style={{ display: 'flex', flexDirection: 'row', placeItems: 'center' }}>
-                    <FaUserPlus style={{ marginRight: '5%', fontSize: '1.2rem' }} />
-                    <span>Follow</span>
-                </div>
-            </button>
-        )
-    )}
-</div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <img
+                src={userInfo.profilePic}
+                style={{ height: '50px', width: '50px', objectFit: 'cover', border: '1px solid lightgrey', borderRadius: '50%', marginRight: '1.5%' }}
+                alt="Profile"
+                onError={(e) => (e.target.src = fallback)}
+              />
+              <h2>{userInfo.username} Profile</h2>
+              {show && userInfo.username !== user && (
+                followed ? (
+                  <button
+                    style={{
+                      marginLeft: '10px',
+                      backgroundColor: '#17408b',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '4px',
+                      padding: '6px 12px',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => handleUserUnfollow(userInfo.username)}
+                  >
+                    <div style={{ display: 'flex', flexDirection: 'row', placeItems: 'center' }}>
+                      <FaUserMinus style={{ marginRight: '5%', fontSize: '1.2rem' }} />
+                      <span>Unfollow</span>
+                    </div>
+                  </button>
+                ) : (
+                  <button
+                    style={{
+                      marginLeft: '10px',
+                      backgroundColor: '#17408b',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: '4px',
+                      padding: '6px 12px',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => handleUserFollow(userInfo.username)}
+                  >
+                    <div style={{ display: 'flex', flexDirection: 'row', placeItems: 'center' }}>
+                      <FaUserPlus style={{ marginRight: '5%', fontSize: '1.2rem' }} />
+                      <span>Follow</span>
+                    </div>
+                  </button>
+                )
+              )}
+            </div>
             <p dangerouslySetInnerHTML={{ __html: userInfo.bio && userInfo.bio }}></p>
             <p>
               <strong>Country:</strong> {userInfo.location ? userInfo.location : 'Not selected'}
@@ -193,16 +201,6 @@ const UserInfoModal = ({ isOpen, onRequestClose, userInfo }) => {
             <p>
               <strong>Trivia questions correct:</strong> {userInfo.TriviaQuestionsCorrect}
             </p>
-            <p>
-              <strong>NBA Coins:</strong> {userInfo.coins}
-            </p>
-            <p>
-              <strong>Followers:</strong> {userInfo.followers.length}
-            </p>
-            <p>
-              <strong>Following:</strong> {userInfo.following.length}
-            </p>
-
           </div>
         </>
       )}
