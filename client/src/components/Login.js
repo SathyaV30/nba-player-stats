@@ -28,7 +28,7 @@ const Login = () => {
       border: '1px solid #ccc',
       borderRadius: '10px',
       padding: '30px', 
-      width: '30%', 
+      width:'350px',
       margin: 'auto',
     },
     inputGroup: {

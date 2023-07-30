@@ -166,15 +166,9 @@ app.get('/Posts', authenticateJWT, async (req, res) => {
 
     const parsedDate = dayjs(date);
 
-    
-    console.log("Parsed Date: ", parsedDate.toString());
 
     const startOfDay = parsedDate.startOf('day').toDate();
     const endOfDay = parsedDate.endOf('day').toDate();
-
-   
-    console.log("Start of Day: ", startOfDay);
-    console.log("End of Day: ", endOfDay);
 
     const skip = (page - 1) * limit;
 
@@ -240,8 +234,6 @@ app.get('/Posts', authenticateJWT, async (req, res) => {
         $lte: endOfDay,
       },
     });
-
-    console.log(posts);
     res.status(200).json({
       totalPosts,
       posts,
@@ -416,7 +408,6 @@ app.post('/Posts/:id/like', authenticateJWT, async (req, res) => {
     }
     if (post.dislikes.includes(userId)) {
       post.dislikes = post.dislikes.filter( i => i!=userId)
-      console.log(post.dislikes.length)
     }
     if (!post.likes.includes(userId)) {
       post.likes.push(userId);
@@ -440,8 +431,6 @@ app.post('/AddFavoritePlayer', authenticateJWT, async (req, res) => {
   try {
     const {playerName, username } = req.body;
     const user = await User.findOne({ username });
-
-    console.log(user)
 
     if (!user) {
       return res.status(404).json({ message: 'User does not exist' });
