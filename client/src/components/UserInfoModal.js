@@ -118,10 +118,10 @@ const UserInfoModal = ({ isOpen, onRequestClose, userInfo }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: `${windowDimensions.width * 0.5}px`, // 80% of window width
-          height: `${windowDimensions.height * 0.6}px`, // 80% of window height
+          width: `${windowDimensions.width * 0.5}px`,
+          height: `${windowDimensions.height * 0.6}px`, 
           overflow: 'auto',
-          backgroundColor: '#FFF',
+          backgroundColor: 'none',
           borderRadius: '10px',
           padding: '20px',
         },

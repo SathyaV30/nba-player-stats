@@ -142,11 +142,6 @@ const MyPosts = () => {
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      minWidth: '800px',
-      minHeight: '395px',
-      maxWidth: '800px',
-      maxHeight: '395px',
-    
       overflow: 'auto',
       backgroundColor: '#FFF',
       borderRadius: '10px',

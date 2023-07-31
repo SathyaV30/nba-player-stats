@@ -130,10 +130,7 @@ const Posts = () => {
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      minWidth: '800px',
-      minHeight: '400px',
-      maxWidth: '800px',
-      maxHeight: '400px',
+
     
       overflow: 'auto',
       backgroundColor: '#FFF',

@@ -120,7 +120,7 @@ const possibleStats = [
 
 const Compare = () => {
 
- 
+  const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
   const [playersData, setPlayersData] = useState([]);
   const [playerInputs, setPlayerInputs] = useState([{ id: 1, playerName: '', startYear: '', endYear: '' }]);
   const [selectedStats, setSelectedStats] = useState([]);
@@ -387,19 +387,19 @@ const Conditions = () => {
         <div>
           {!submit && (
             <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: '450px',
-                maxHeight: '450px',
-                minWidth: '100%',
-                maxWidth: '600px',
-                overflow: 'auto',
-                position: 'relative',
-              }}
-            >
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minHeight: windowDimensions.height * 0.3, 
+              maxHeight: windowDimensions.height * 0.9, 
+              width: windowDimensions.width, 
+              overflow: 'auto',
+              position: 'relative',
+            }}
+          >
+          
               <p
                 style={{
                   fontSize: '24px',
@@ -481,10 +481,15 @@ const Conditions = () => {
         </div>
     
         <form onSubmit={handleSubmit}>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: windowDimensions.width <= 768 ? 'column' : 'row', 
+      justifyContent: 'center', 
+      alignItems: 'center' 
+    }}>
             <label style={{ fontSize: '20px' }}>
               Year:
-              <input style={{ padding: '2.5px', marginTop: '8px', marginLeft: '3px' }} type="number" value={year} onChange={handleYearChange} />
+              <input style={{ padding: '2.5px', marginTop: '8px', marginLeft: '3px'}} type="number" value={year} onChange={handleYearChange} />
             </label>
     
             <button style={styles.buttonStyle} type="button" onClick={handleAddCondition}>
@@ -725,7 +730,20 @@ const Conditions = () => {
     setApiUrls(urlsArray);
   };
   return (
-    <div style={{ display: 'flex', alignItems: 'flex-start', padding: '20px', width:windowDimensions.width * 0.8, height:windowDimensions.height * 0.8}}>
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'flex-start',
+      padding: '20px',
+      width: '100%'
+    }}>
+      <div style={{
+        display: 'flex',
+        flexDirection: windowDimensions.width <= 768 ? 'column' : 'row',
+        width: '80%',
+        maxWidth: '800px', 
+        height: windowDimensions.height * 0.8
+      }}>
       <div style={{ flex: '1', marginRight: '20px' }}>
         <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
@@ -741,11 +759,19 @@ const Conditions = () => {
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
             <label htmlFor="stat" style={{ marginRight: '10px' }}>Stat Category:</label>
             <select
-              id="stat"
-              value={selectedStat}
-              onChange={(event) => setSelectedStat(event.target.value)}
-              style={{ flex: '1 0 200px', margin: '0 10px', padding: '5px', borderRadius: '4px', border: '1px solid #17408b' }}
-            >
+  id="stat"
+  value={selectedStat}
+  onChange={(event) => setSelectedStat(event.target.value)}
+  style={{
+    flex: '1 0 200px', 
+    width: '100%', 
+    padding: '5px',
+    borderRadius: '4px',
+    border: '1px solid #17408b',
+    overflow: 'hidden'
+  }}
+>
+
               <option value="">Select a stat</option>
               {possibleStats.map((stat) => (
                 <option key={stat.key} value={stat.key}>
@@ -784,17 +810,17 @@ const Conditions = () => {
           </div>
         </form>
       </div>
-      <div style ={{flex:'1'}}>
+      <div className = "llb" style ={{flex:'1'}}>
         {!submitted || !numPlayers || !year || !selectedStat ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px', minWidth:windowDimensions.width*0.2, maxWidth: windowDimensions.width, minHeight: '400px', maxHeight: windowDimensions.height }}>
             <p>Enter a year and a stat to view the top players of that season</p>
           </div>
         ) : isLoading ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px',  minWidth:'400px', maxWidth: windowDimensions.width, minHeight: '400px', maxHeight: windowDimensions.height }}>
-            <LoadingAnimation minHeight='50px' maxHeight = '50px' minWidth='100%' maxWidth='100%' />
+            <LoadingAnimation/>
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth:'400px', maxWidth: windowDimensions.width, minHeight: '400px', maxHeight: windowDimensions.height, overflow:'overlay' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth:'400px', maxWidth: windowDimensions.width, maxHeight: windowDimensions.height, overflow:'overlay' }}>
             <span style={{ margin: '5px' }}>
               Top {numPlayers} {getKeyLabel(selectedStat)} {showTotalStats ? 'total' : 'per game'} of the {year} season:
             </span>
@@ -807,6 +833,7 @@ const Conditions = () => {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 

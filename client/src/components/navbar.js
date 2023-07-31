@@ -8,9 +8,10 @@ const Navbar = () => {
   const location = useLocation();
   const dropdownRef = useRef(null);
   const [showMenu, setShowMenu] = useState(false);
-  const [showHamburger, setShowHamburger] = useState(window.innerWidth <= 768);
+  const [showHamburger, setShowHamburger] = useState(window.innerWidth <= 1200);
 
-  const handleMenuClick = () => {
+  const handleMenuClick = (event) => {
+    event.stopPropagation();
     setShowMenu(!showMenu);
   };
 
@@ -20,7 +21,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setShowHamburger(window.innerWidth <= 768);
+      setShowHamburger(window.innerWidth <= 1200);
     };
 
     const handleClickOutside = (event) => {
@@ -30,11 +31,11 @@ const Navbar = () => {
     };
 
     window.addEventListener('resize', handleResize);
-    window.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('click', handleClickOutside);
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('click', handleClickOutside);
     };
   }, []);
 
