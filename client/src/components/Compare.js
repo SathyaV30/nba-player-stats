@@ -382,24 +382,23 @@ const Conditions = () => {
     };
   
     return (
-      <div >
+      <div>
         {loading && <LoadingAnimation minHeight='450px' maxHeight='450px' minWidth='100%' maxWidth='100%'/>}
         <div>
           {!submit && (
             <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              minHeight: windowDimensions.height * 0.3, 
-              maxHeight: windowDimensions.height * 0.9, 
-              width: windowDimensions.width, 
-              overflow: 'auto',
-              position: 'relative',
-            }}
-          >
-          
+              style={{
+                display: 'flex',
+                flexDirection: window.innerWidth <= 768 ? 'column' : 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: windowDimensions.height * 0.3, 
+                maxHeight: windowDimensions.height * 0.9, 
+                width: windowDimensions.width, 
+                overflow: 'auto',
+                position: 'relative',
+              }}
+            >
               <p
                 style={{
                   fontSize: '24px',
@@ -415,39 +414,48 @@ const Conditions = () => {
               </p>
             </div>
           )}
-         {!loading && submit && filteredPlayers.length === 0 &&
-          <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '450px',
-            maxHeight: '450px',
-            minWidth: '100%',
-            maxWidth: '600px',
-            overflow: 'auto',
-            position: 'relative',
-          }}
-        >
-          <p
-            style={{
-              fontSize: '24px',
-              textAlign: 'center',
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '100%',
-            }}
-          >
-            No players found
-          </p>
-        </div>
-         
-         }
+          {!loading && submit && filteredPlayers.length === 0 &&
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: window.innerWidth <= 768 ? 'column' : 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: '450px',
+                maxHeight: '450px',
+                minWidth: '100%',
+                maxWidth: '600px',
+                overflow: 'auto',
+                position: 'relative',
+              }}
+            >
+              <p
+                style={{
+                  fontSize: '24px',
+                  textAlign: 'center',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: '100%',
+                }}
+              >
+                No players found
+              </p>
+            </div>
+          }
           {!loading && submit && filteredPlayers.length !== 0 && (
-            <div style={{ minHeight: '450px', minWidth: '100%', maxHeight: '450px', maxWidth: '100%', overflow: 'auto', display: 'flex', justifyContent: 'center' }}>
+            <div 
+              style={{ 
+                minHeight: '450px', 
+                minWidth: '100%', 
+                maxHeight: '450px', 
+                maxWidth: '100%', 
+                overflow: 'auto', 
+                display: 'flex', 
+                justifyContent: window.innerWidth <= 768 ? 'flex-start' : 'center' 
+              }}
+            >
               <table style={{ width: '100%' }}>
                 <thead>
                   <tr>
@@ -479,25 +487,23 @@ const Conditions = () => {
             </div>
           )}
         </div>
-    
         <form onSubmit={handleSubmit}>
-    <div style={{ 
-      display: 'flex', 
-      flexDirection: windowDimensions.width <= 768 ? 'column' : 'row', 
-      justifyContent: 'center', 
-      alignItems: 'center' 
-    }}>
+          <div 
+            style={{ 
+              display: 'flex', 
+              flexDirection: window.innerWidth <= 768 ? 'column' : 'row', 
+              justifyContent: 'center', 
+              alignItems: 'center' 
+            }}
+          >
             <label style={{ fontSize: '20px' }}>
               Year:
               <input style={{ padding: '2.5px', marginTop: '8px', marginLeft: '3px'}} type="number" value={year} onChange={handleYearChange} />
             </label>
-    
             <button style={styles.buttonStyle} type="button" onClick={handleAddCondition}>
               Add Condition
             </button>
-    
             <button style={styles.buttonStyle} type="submit">Submit</button>
-    
             <div className="toggle-container">
               <label className="switch-label">
                 <input
@@ -511,10 +517,9 @@ const Conditions = () => {
               <span className="toggle-text">{showTotalStats ? 'Total Stats' : 'Per Game Stats'}</span>
             </div>
           </div>
-    
           <div style={{ marginTop: '10px' }}>
             {conditions.map((condition, index) => (
-              <div key={index} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div key={index} style={{ marginBottom: '10px', display: 'flex', flexDirection: window.innerWidth <= 768 ? 'column' : 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <div>
                   <label>
                     Stat:
