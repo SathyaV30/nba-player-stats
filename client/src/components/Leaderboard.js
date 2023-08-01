@@ -285,10 +285,12 @@ const styles = {
   
 
 const Leaderboard = () => {
+
   const [topPlayers, setTopPlayers] = useState([]);
   const [userModal, setUserModal] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
 
   useEffect(() => {
     fetchTopPlayers();
@@ -365,7 +367,12 @@ const Leaderboard = () => {
               }}
               countryCode={countryMap[user.location]}
             />
-            {user.location}
+          {windowDimensions.width <= 768
+  ? user.location && countryMap[user.location]
+    ? countryMap[user.location]
+    : 'Not selected'
+  : user.location || 'Not selected'}
+
           </div>
         </div>
       ))}
@@ -403,7 +410,13 @@ const Leaderboard = () => {
               }}
               countryCode={countryMap[user.location]}
             />
-            {user.location}
+           {windowDimensions.width <= 768
+  ? user.location && countryMap[user.location]
+    ? countryMap[user.location]
+    : 'Not selected'
+  : user.location || 'Not selected'}
+
+
           </div>
         </div>
       ))}

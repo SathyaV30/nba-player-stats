@@ -39,6 +39,7 @@ const AppContent = () => {
   const [favoritePlayersVersion, setFavoritePlayersVersion] = useState(0);
   const [playerD, setPlayerD] = useState({});
   const [show, setShow] = useState(false);
+  const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
 
   var imgLink = `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${imgID}.png` 
 
@@ -332,6 +333,11 @@ const handleOnError = (e) => {
  
  
  
+  
+ 
+ 
+ 
+ 
   const PlayerCard = () => {
     if (!playerD) {
       return
@@ -340,7 +346,8 @@ const handleOnError = (e) => {
       <div style ={{maxHeight:'470px', minHeight:'470px', margin:'10px', minWidth:'100%', maxWidth:'100%'}} >
   <div style={{ display: 'flex', flexDirection: 'row', justifyContent:'center'}}>
     <div style ={{display:'flex', flexDirection:'column', alignItems: 'center'}}>
-    <img alt={'Image of ' + playerName} src={imgLink} onError={handleOnError} id="main-img" style={{ marginRight: '20px',width:'500px', objectFit:'cover' }} />
+    <img alt={'Image of ' + playerName} src={imgLink} onError={handleOnError} id="main-img" style={{ marginRight: '20px',
+    width:windowDimensions.width <=768 ? '230px' : '500px', objectFit:'cover' }} />
     <h1 style = {{margin:'5px'}}>{playerD.first_name + ' ' + playerD.last_name}</h1>
     {playerD.height_feet && playerD.height_inches && (
   <span style={{ margin: '5px' }}>
@@ -353,10 +360,12 @@ const handleOnError = (e) => {
   </span>
 )}
 
-     <span style = {{margin:'5px'}}>{playerD.team.full_name}</span>
-   
+<span style = {{margin:'5px'}}>
+  {playerD && playerD.team && playerD.team.full_name}
+</span>
+
     </div>
-    <div style={{ maxWidth:'20%', minWidth:'30%', maxHeight: '530px', overflow:'overlay', alignItems:'center', display:'flex', flexDirection:'column', padding: '0 auto'}}>
+    <div style={{ maxWidth:'35%', minWidth:'30%', maxHeight: '530px', overflow:'overlay', alignItems:'center', display:'flex', flexDirection:'column', padding: '0 auto'}}>
       <table>
         <tbody>
           <tr>
@@ -449,6 +458,7 @@ const handleOnError = (e) => {
     
     );
   };
+ 
  
   
   const handleLike = async () => {
@@ -679,7 +689,7 @@ const handleOnError = (e) => {
         </div>}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '50px' }}>
   <form className="form-1" onSubmit={handleSubmit}>
-    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+    <div style={{ display: 'flex', flexDirection: windowDimensions.width <= 768 ? 'column' : 'row', justifyContent: 'center', alignItems:windowDimensions.width <= 768 ? 'center'  : 'none'}}>
       <input
         style={{ width: '120px', height: '48px', marginRight: '5px', padding: '0 auto' }}
         type="number"

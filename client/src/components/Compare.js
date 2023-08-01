@@ -745,103 +745,103 @@ const Conditions = () => {
       <div style={{
         display: 'flex',
         flexDirection: windowDimensions.width <= 768 ? 'column' : 'row',
+        alignItems: windowDimensions.width <= 768 ? 'center' : 'none',
         width: '80%',
         maxWidth: '800px', 
         height: windowDimensions.height * 0.8
       }}>
-      <div style={{ flex: '1', marginRight: '20px' }}>
-        <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-            <label htmlFor="year" style={{ marginRight: '10px' }}>Year:</label>
-            <input
-              type="text"
-              id="year"
-              value={year}
-              onChange={(event) => setYear(event.target.value)}
-              style={{ flex: '1 0 200px', margin: '0 10px', padding: '5px', borderRadius: '4px', border: '1px solid #17408b' }}
-            />
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-            <label htmlFor="stat" style={{ marginRight: '10px' }}>Stat Category:</label>
-            <select
-  id="stat"
-  value={selectedStat}
-  onChange={(event) => setSelectedStat(event.target.value)}
-  style={{
-    flex: '1 0 200px', 
-    width: '100%', 
-    padding: '5px',
-    borderRadius: '4px',
-    border: '1px solid #17408b',
-    overflow: 'hidden'
-  }}
->
-
-              <option value="">Select a stat</option>
-              {possibleStats.map((stat) => (
-                <option key={stat.key} value={stat.key}>
-                  {stat.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-            <label htmlFor="numPlayers" style={{ marginRight: '10px' }}>Number of Players:</label>
-            <input
-              type="number"
-              id="numPlayers"
-              min="1"
-              value={numPlayers}
-              onChange={(event) => setNumPlayers(parseInt(event.target.value))}
-              style={{ flex: '1 0 200px', margin: '0 10px', padding: '5px', borderRadius: '4px', border: '1px solid #17408b' }}
-            />
-          </div>
-          <div style ={{display: 'flex', flexDirection:'row', justifyContent:'center'}}>
-            <button type="submit" style={{ backgroundColor: '#17408b', color: 'white', border: 'none', cursor: 'pointer', fontSize: '18px', margin: '10px', padding: '10px', borderRadius: '5px' }}>Submit</button>
-            <div className="toggle-container">
-              <label className="switch-label">
-                <input
-                  type="checkbox"
-                  onChange={handleToggleStatsType}
-                  checked={showTotalStats}
-                  className="switch-input"
-                />
-                <span className="switch-slider"></span>
-              </label>
-              <span className="toggle-text">
-                {showTotalStats ? 'Total Stats' : 'Per Game Stats'}
-              </span>
+        <div style={{ flex: '1', marginRight: '20px' }}>
+          <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+              <label htmlFor="year" style={{ marginRight: '10px' }}>Year:</label>
+              <input
+                type="text"
+                id="year"
+                value={year}
+                onChange={(event) => setYear(event.target.value)}
+                style={{ flex: '1 0 200px', margin: '0 10px', padding: '5px', borderRadius: '4px', border: '1px solid #17408b' }}
+              />
             </div>
-          </div>
-        </form>
-      </div>
-      <div className = "llb" style ={{flex:'1'}}>
-        {!submitted || !numPlayers || !year || !selectedStat ? (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px', minWidth:windowDimensions.width*0.2, maxWidth: windowDimensions.width, minHeight: '400px', maxHeight: windowDimensions.height }}>
-            <p>Enter a year and a stat to view the top players of that season</p>
-          </div>
-        ) : isLoading ? (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px',  minWidth:'400px', maxWidth: windowDimensions.width, minHeight: '400px', maxHeight: windowDimensions.height }}>
-            <LoadingAnimation/>
-          </div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth:'400px', maxWidth: windowDimensions.width, maxHeight: windowDimensions.height, overflow:'overlay' }}>
-            <span style={{ margin: '5px' }}>
-              Top {numPlayers} {getKeyLabel(selectedStat)} {showTotalStats ? 'total' : 'per game'} of the {year} season:
-            </span>
-            {leaders.map((leader, index) => (
-              <div key={index} style={{ marginBottom: '10px', overflow:'scroll'}}>
-                <span style={{ fontWeight: 'bold', marginRight:'4px' }}>{index + 1}.</span><span>{PlayerIdMap[leader.player_id]}:</span>
-                <span style ={{marginRight:'2px'}}> {showTotalStats && selectedStat === "min" && Math.ceil(convertMinutesToTotalMinutes(leader[selectedStat]) * leader.games_played)}{showTotalStats  && selectedStat!=="min" && Math.ceil(leader[selectedStat] * leader.games_played)} </span> <span>{!showTotalStats && leader[selectedStat]}</span>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+              <label htmlFor="stat" style={{ marginRight: '10px' }}>Stat Category:</label>
+              <select
+                id="stat"
+                value={selectedStat}
+                onChange={(event) => setSelectedStat(event.target.value)}
+                style={{
+                  flex: '1 0 200px', 
+                  width: '100%', 
+                  padding: '5px',
+                  borderRadius: '4px',
+                  border: '1px solid #17408b',
+                  overflow: 'hidden'
+                }}
+              >
+                <option value="">Select a stat</option>
+                {possibleStats.map((stat) => (
+                  <option key={stat.key} value={stat.key}>
+                    {stat.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+              <label htmlFor="numPlayers" style={{ marginRight: '10px' }}>Number of Players:</label>
+              <input
+                type="number"
+                id="numPlayers"
+                min="1"
+                value={numPlayers}
+                onChange={(event) => setNumPlayers(parseInt(event.target.value))}
+                style={{ flex: '1 0 200px', margin: '0 10px', padding: '5px', borderRadius: '4px', border: '1px solid #17408b' }}
+              />
+            </div>
+            <div style ={{display: 'flex', flexDirection:'row', justifyContent:'center'}}>
+              <button type="submit" style={{ backgroundColor: '#17408b', color: 'white', border: 'none', cursor: 'pointer', fontSize: '18px', margin: '10px', padding: '10px', borderRadius: '5px' }}>Submit</button>
+              <div className="toggle-container">
+                <label className="switch-label">
+                  <input
+                    type="checkbox"
+                    onChange={handleToggleStatsType}
+                    checked={showTotalStats}
+                    className="switch-input"
+                  />
+                  <span className="switch-slider"></span>
+                </label>
+                <span className="toggle-text">
+                  {showTotalStats ? 'Total Stats' : 'Per Game Stats'}
+                </span>
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          </form>
+        </div>
+        <div className="llb" style={{flex:'1'}}>
+          {!submitted || !numPlayers || !year || !selectedStat ? (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px', minWidth:windowDimensions.width*0.2, maxWidth: windowDimensions.width, minHeight: '400px', maxHeight: windowDimensions.height }}>
+              <p>Enter a year and a stat to view the top players of that season</p>
+            </div>
+          ) : isLoading ? (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px', minWidth:'400px', maxWidth: windowDimensions.width, minHeight: '400px', maxHeight: windowDimensions.height }}>
+              <LoadingAnimation/>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth:'400px', maxWidth: windowDimensions.width, maxHeight: '80vh', overflow:'auto' }}>
+              <span style={{ margin: '5px' }}>
+                Top {numPlayers} {getKeyLabel(selectedStat)} {showTotalStats ? 'total' : 'per game'} of the {year} season:
+              </span>
+              {leaders.map((leader, index) => (
+                <div key={leader.player_id} style={{ marginBottom: '10px'}}>
+                  <span style={{ fontWeight: 'bold', marginRight:'4px' }}>{index + 1}.</span><span>{PlayerIdMap[leader.player_id]}:</span>
+                  <span style ={{marginRight:'2px'}}> {showTotalStats && selectedStat === "min" && Math.ceil(convertMinutesToTotalMinutes(leader[selectedStat]) * leader.games_played)}{showTotalStats  && selectedStat!=="min" && Math.ceil(leader[selectedStat] * leader.games_played)} </span> <span>{!showTotalStats && leader[selectedStat]}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
     </div>
   );
-
+  
 };
 
 
