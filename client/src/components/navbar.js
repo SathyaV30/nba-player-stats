@@ -12,8 +12,11 @@ const Navbar = () => {
 
   const handleMenuClick = (event) => {
     event.stopPropagation();
-    setShowMenu(!showMenu);
+ 
+      setShowMenu(!showMenu);
+  
   };
+  
 
   const closeMenu = () => {
     setShowMenu(false);
@@ -97,9 +100,12 @@ const Navbar = () => {
 
       {
         showHamburger && 
-        <button onClick={handleMenuClick} className="menu-button">
-          ☰
-        </button>
+        <button onClick={handleMenuClick} className={`menu-button ${showMenu ? "menu-button-active" : ""}`}>
+        <div className="menu-button-line" />
+        <div className="menu-button-line" />
+        <div className="menu-button-line" />
+      </button>
+      
       }
 
       { showHamburger && showMenu && 

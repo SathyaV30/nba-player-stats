@@ -118,7 +118,7 @@ const UserInfoModal = ({ isOpen, onRequestClose, userInfo }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: `${windowDimensions.width * 0.5}px`,
+          width:`${windowDimensions.width <=768 ?windowDimensions.width : windowDimensions.width * 0.6 }px`,
           height: `${windowDimensions.height * 0.6}px`, 
           overflow: 'auto',
           backgroundColor: 'none',

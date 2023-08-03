@@ -2,14 +2,29 @@ import React, { useState, useEffect, useContext } from 'react';
 import NBAtrivia from '../nbatrivia.json';
 import "../App.css";
 import Modal from 'react-modal';
-import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaTimesCircle, FaInfoCircle } from 'react-icons/fa';
 import { AuthContext } from '../Auth';
+import { Tooltip } from 'react-tooltip';
 import { backendUrl } from '../config';
 
 
 
 
-const styles = {
+
+
+const Trivia = () => {
+  const [question, setQuestion] = useState('');
+  const [choices, setChoices] = useState([]);
+  const [answer, setAnswer] = useState('');
+  const [difficulty, setDifficulty] = useState('');
+  const [userAnswer, setUserAnswer] = useState('');
+  const [isCorrect, setIsCorrect] = useState(null);
+  const [isAnswered, setIsAnswered] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const {user} = useContext(AuthContext)
+  const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
+
+  const styles = {
     container: {
         display: 'flex',
         flexDirection: 'column',
@@ -17,11 +32,7 @@ const styles = {
         alignItems: 'center',
         justifyContent:'center',
         margin: 'auto',
-        maxWidth: '50%',
-        maxHeight: '500px', 
-        minHeight:'500px',
-        border: '0.8px solid #17408b',
-        marginTop:'50px',
+        maxWidth: windowDimensions.width,
         position: 'relative',
         zIndex: 0,
         overflowY: 'overlay',
@@ -57,8 +68,8 @@ const styles = {
           bottom: 'auto',
           transform: 'translate(-50%, -50%)',
           zIndex: 10,
-          width:'200px',
-          height:'150px',
+          width:windowDimensions.width * 0.2,
+          height:windowDimensions.height * 0.2,
         },
       },
     correct: {
@@ -83,16 +94,6 @@ const styles = {
       }
 };
 
-const Trivia = () => {
-  const [question, setQuestion] = useState('');
-  const [choices, setChoices] = useState([]);
-  const [answer, setAnswer] = useState('');
-  const [userAnswer, setUserAnswer] = useState('');
-  const [isCorrect, setIsCorrect] = useState(null);
-  const [isAnswered, setIsAnswered] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const {user} = useContext(AuthContext)
-
   useEffect(() => {
     if (isAnswered) {
       setModalIsOpen(true);
@@ -115,7 +116,7 @@ const Trivia = () => {
       const res = await fetch(`${backendUrl}/SubmitAnswer`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ currentAnswer }),
+        body: JSON.stringify({ currentAnswer, difficulty }),
         credentials:'include',
       });
   
@@ -145,6 +146,7 @@ const Trivia = () => {
     setQuestion(randomQuestion.question);
     setChoices(randomQuestion.choices);
     setAnswer(randomQuestion.answer);
+    setDifficulty(randomQuestion.difficulty);
     setUserAnswer('');
     setIsCorrect(null);
     setIsAnswered(false);
@@ -152,6 +154,13 @@ const Trivia = () => {
 
   return (
     <div style={styles.container}>
+      <div style = {{display:'flex', justifyContent:'center', alignItems: 'center'}}><h1>Trivia</h1><FaInfoCircle
+            style={{ color: '#17408b', fontSize: '20px', marginLeft: '10px', verticalAlign: 'middle' }}
+            data-tooltip-id="info-tooltip"
+            data-tooltip-content="Earn NBA coins by answering trivia questions. Correct easy question = +5 coins, Correct medium question = +7 coins, Correct hard quesion = +9 coins. 
+            Incorrect question = -5 coins" />
+          <Tooltip id="info-tooltip" place="right" effect="solid" multiline={true} multilineMaxWidth={200} style={{ width: '250px' }}>
+          </Tooltip></div>
      <Modal 
   isOpen={modalIsOpen}
   onRequestClose={closeModal} 
@@ -175,7 +184,8 @@ const Trivia = () => {
   </div>
 </Modal>
 
-      <h2>Trivia Question:</h2>
+     
+      <h2>Question (<span style = {{color: difficulty == 'easy' ? 'green' : difficulty == 'medium' ? 'orange' : 'red'}}>{difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}</span>)</h2>
       <p style ={{fontSize:'1.3em'}}>{question}</p>
       <ul>
         {choices.map((choice, index) => (

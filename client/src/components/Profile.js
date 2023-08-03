@@ -1115,7 +1115,7 @@ return (
 
 
         </div>
-        <div style={{ display: 'flex', margin: '10px auto', placeItems: 'center' }}>
+        <div style={{ display: 'flex', margin: '5px auto', placeItems: 'center' }}>
           <Coin />
           <h2 style={{ textAlign: 'center' }}>NBA Coins: <span style = {{fontWeight:'normal'}}>{coins}</span></h2>
           <FaInfoCircle
@@ -1125,13 +1125,13 @@ return (
           <Tooltip id="info-tooltip" place="top" effect="solid" multiline={true} multilineMaxWidth={200} style={{ width: '250px' }}>
           </Tooltip>
         </div>
-        <div style={{ display: 'flex' }}>
-          <span style = {{margin:'4%', cursor:'pointer'}} onClick = {()=> {
+        <div style={{ display: 'flex', flexDirection:'column' }}>
+          <span style = {{cursor:'pointer'}} onClick = {()=> {
     setSelectedType('Followers')
     setUserModal(true)
   }} ><h2 style={{ ...styles.header, whiteSpace: 'nowrap' }}>Followers: <span
   style ={{fontWeight:'normal', cursor:'pointer'}}> {followCount}</span></h2></span>
-  <span style = {{margin:'4%', cursor:'pointer'}} onClick = {()=> {
+  <span style = {{cursor:'pointer'}} onClick = {()=> {
     setSelectedType('Following')
     setUserModal(true)
   }} >

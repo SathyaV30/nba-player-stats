@@ -683,11 +683,16 @@ app.post('/UnfollowUser', authenticateJWT, async (req, res) => {
 });
 
 
-
-app.post('/SubmitAnswer',  authenticateJWT, async (req, res) => { 
+app.post('/SubmitAnswer', authenticateJWT, async (req, res) => { 
   mongoose.connect(process.env.MONGO_URL);
-  const { currentAnswer } = req.body;
+  const { currentAnswer, difficulty } = req.body;
   const userId = req.auth.id;
+  const coinRewards = {
+    'easy': 5,
+    'medium': 7,
+    'hard': 9,
+  };
+
   try {
     const user = await User.findById(userId);
     if (!user) {
@@ -697,9 +702,9 @@ app.post('/SubmitAnswer',  authenticateJWT, async (req, res) => {
     user.TriviaQuestionsAnswered += 1;
     if (currentAnswer) {
       user.TriviaQuestionsCorrect += 1;
-      user.coins+=5;
-    } else if (user.coins>=3 && !currentAnswer) {
-      user.coins-=3;
+      user.coins += coinRewards[difficulty];
+    } else if (user.coins >= 5 && !currentAnswer) {
+      user.coins -= 5;
     }
 
     await user.save();
@@ -712,6 +717,7 @@ app.post('/SubmitAnswer',  authenticateJWT, async (req, res) => {
   }
 
 });
+
 
 app.post('/SubmitParlay', authenticateJWT, async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
