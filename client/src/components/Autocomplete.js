@@ -54,6 +54,12 @@ const suggestionHoverStyles = {
 const Autocomplete = ({setPlayerName, onChange, value,isComponentA }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [playerNames, setPlayerNames] = useState([]);
+  const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
+
+  const containerStyles = {
+    position: 'relative',
+    width: windowDimensions.width * 0.3 
+};
 
   
 

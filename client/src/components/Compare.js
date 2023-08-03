@@ -26,73 +26,6 @@ const fgOptions = {
   responsive: true,
 };
 
-const styles = {
-  comparePanelStyle: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '20px',
-    width: '100%',
-  },
-  chartContainerStyle: {
-    width: '100%',
-    height: '400px',
-  },
-  inputContainerStyle: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginBottom: '20px',
-  },
-  inputRowStyle: {
-    display: 'flex',
-    width: '100%',
-    justifyContent: 'center',
-    marginBottom: '10px',
-  },
-  inputStyle: {
-    flex: '1 0 calc(33% - 20px)',
-    margin: '0 10px',
-    padding: '5px',
-    borderRadius: '4px',
-    border: '1px solid #17408b',
-  },
-  buttonStyle: {
-    backgroundColor: '#17408b',
-    color:'white',
-    border: 'none',
-    cursor: 'pointer',
-    fontSize: '18px',
-    margin: '10px',
-    padding:'10px',
-    borderRadius:'5px',
-  },
-  statsCheckboxesStyle: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    marginBottom: '20px',
-  },
-  checkboxLabelStyle: {
-    marginRight: '10px',
-  },
-  switchLabel: {
-    position: 'relative',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '60px',
-    height: '24px',
-    marginRight: '8px',
-  },
-  toggleText: {
-    fontSize: '14px',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '80px',
-  },
-};
 
 const possibleStats = [
   { key: 'pts', label: 'Points' },
@@ -130,6 +63,77 @@ const Compare = () => {
   const [tooManyRequests, setTooManyRequests] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [playerInputsCopy, setPlayerInputsCopy] = useState([]);
+
+  const styles = {
+    comparePanelStyle: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: '20px',
+      width: '100%',
+    },
+    chartContainerStyle: {
+      width: '100%',
+      height: '400px',
+    },
+    inputContainerStyle: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      marginBottom: '20px',
+    },
+    inputRowStyle: {
+      display: 'flex',
+      width: '100%',
+      justifyContent: 'center',
+      marginBottom: '10px',
+      flexDirection: windowDimensions.width <=768 ? 'column' : 'row',
+      alignItems:'center',
+    },
+    inputStyle: {
+      flex: '1 0 calc(33% - 20px)',
+      margin: '3px auto',
+      padding: '5px',
+      borderRadius: '4px',
+      border: '1px solid #17408b',
+    },
+    buttonStyle: {
+      backgroundColor: '#17408b',
+      color:'white',
+      border: 'none',
+      cursor: 'pointer',
+      fontSize: '18px',
+      margin: '10px',
+      padding:'10px',
+      borderRadius:'5px',
+    },
+    statsCheckboxesStyle: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      marginBottom: '20px',
+    },
+    checkboxLabelStyle: {
+      marginRight: '10px',
+    },
+    switchLabel: {
+      position: 'relative',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      width: '60px',
+      height: '24px',
+      marginRight: '8px',
+    },
+    toggleText: {
+      fontSize: '14px',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '80px',
+    },
+  };
+  
 
   const convertMinutesToTotalMinutes = (minutes) => {
     const [min, sec] = minutes.split(":");
@@ -1202,11 +1206,12 @@ const Conditions = () => {
       value={playerInput.startYear}
       onChange={(e) => handleStartYearChange(index, e.target.value)}
       style={{   flex: '1 0 calc(33% - 20px)',
-      margin: '0 10px',
       padding: '5px',
-      borderRadius: '4px',
-       width: '100px',
-       height:'42.5px' }}
+       width: windowDimensions.width * 0.3,
+       height:'42.5px',
+       borderRadius: '5px',
+       margin:'3px auto',
+       boxShadow: '0px 0px 5px #ccc',}}
     />
     <input
       type="number"
@@ -1215,10 +1220,12 @@ const Conditions = () => {
       onChange={(e) => handleEndYearChange(index, e.target.value)}
       style={{   flex: '1 0 calc(33% - 20px)',
       padding: '5px',
-      borderRadius: '4px',
-       width: '100px',
+       width: windowDimensions.width * 0.3,
        height:'42.5px' ,
-      marginRight:'3px'}}
+       margin:'3px auto',
+      borderRadius: '5px',
+    boxShadow: '0px 0px 5px #ccc'
+    }}
     />
     {playerInputs.length > 1 && (
       <button

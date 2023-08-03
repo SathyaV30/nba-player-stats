@@ -22,7 +22,20 @@ const Trivia = () => {
   const [isAnswered, setIsAnswered] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const {user} = useContext(AuthContext)
+
   const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
+  const toolTipContent = () => {
+    return (
+      <div>
+        <p>Earn NBA coins by answering trivia questions.</p>
+        <p>Correct easy question = +5 coins</p>
+        <p>Correct medium question = +7 coins</p>
+        <p>Correct hard question = +9 coins</p>
+        <p>Incorrect question = -5 coins</p>
+      </div>
+    );
+  }
+  
 
   const styles = {
     container: {
@@ -157,9 +170,12 @@ const Trivia = () => {
       <div style = {{display:'flex', justifyContent:'center', alignItems: 'center'}}><h1>Trivia</h1><FaInfoCircle
             style={{ color: '#17408b', fontSize: '20px', marginLeft: '10px', verticalAlign: 'middle' }}
             data-tooltip-id="info-tooltip"
-            data-tooltip-content="Earn NBA coins by answering trivia questions. Correct easy question = +5 coins, Correct medium question = +7 coins, Correct hard quesion = +9 coins. 
-            Incorrect question = -5 coins" />
-          <Tooltip id="info-tooltip" place="right" effect="solid" multiline={true} multilineMaxWidth={200} style={{ width: '250px' }}>
+            data-tooltip-content="Earn NBA coins by answering trivia questions.
+                                Correct easy question = +5 coins. 
+                                Correct medium question = +7 coins. 
+                                Correct hard quesion = +9 coins.
+                                Incorrect question = -5 coins." />
+          <Tooltip id="info-tooltip" place="right" effect="solid" multiline={true} multilineMaxWidth={200} style={{ width: '300px' }}>
           </Tooltip></div>
      <Modal 
   isOpen={modalIsOpen}
