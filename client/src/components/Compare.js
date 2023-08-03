@@ -1075,7 +1075,7 @@ const Conditions = () => {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      width: '50%',
+      width: windowDimensions.width <=768 ? '85%' : '50%',
       height: '50%',
       justifyContent:'flex-start',
     
@@ -1207,7 +1207,7 @@ const Conditions = () => {
       onChange={(e) => handleStartYearChange(index, e.target.value)}
       style={{   flex: '1 0 calc(33% - 20px)',
       padding: '5px',
-       width: windowDimensions.width * 0.3,
+       width: windowDimensions.width <= 768 ? windowDimensions.width * 0.6 :windowDimensions.width * 0.3,
        height:'42.5px',
        borderRadius: '5px',
        margin:'3px auto',
@@ -1220,7 +1220,7 @@ const Conditions = () => {
       onChange={(e) => handleEndYearChange(index, e.target.value)}
       style={{   flex: '1 0 calc(33% - 20px)',
       padding: '5px',
-       width: windowDimensions.width * 0.3,
+      width: windowDimensions.width <= 768 ? windowDimensions.width * 0.6 :windowDimensions.width * 0.3,
        height:'42.5px' ,
        margin:'3px auto',
       borderRadius: '5px',

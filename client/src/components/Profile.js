@@ -352,6 +352,7 @@ const modules = {
 
 
 function ProfilePage({ setFavoritePlayersVersion }) {
+  const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
   const [bio, setBio] = useState('');
   const [favoriteTeam, setFavoriteTeam] = useState('');
   const [favoritePlayers, setFavoritePlayers] = useState([]);

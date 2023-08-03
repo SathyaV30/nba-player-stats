@@ -20,6 +20,7 @@ const ScoresBanner = () => {
   const [selectedTeams, setSelectedTeams] = useState({});
   const [isBetslipOpen, setIsBetslipOpen] = useState(false);
   const [userPredictions, setUserPredictions] = useState({});
+  const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
 
   
   const handleBetslipClick = () => {
@@ -373,7 +374,7 @@ const ScoresBanner = () => {
         `https://www.balldontlie.io/api/v1/games?dates[]=${selectedDateString}`
       );
         setLiveGames(response.data.data);
-        // setLiveGames(liveGames1) //NBA offseason test data
+        setLiveGames(liveGames1) //NBA offseason test data
       }
      catch (error) {
       console.error("Error fetching live games:", error);
@@ -480,7 +481,7 @@ const ScoresBanner = () => {
 
   const Betslip = ({ isModalOpen, handleBetslipClick }) => {
     const positionFromLocalStorage = JSON.parse(localStorage.getItem('betslipPosition'));
-    const [position, setPosition] = useState(positionFromLocalStorage || { x: 937, y: 93 });
+    const [position, setPosition] = useState(positionFromLocalStorage || { x: 0, y: 0 });
     const [mult, setMult] = useState(1.00);
     const [totalStake, setTotalStake] = useState('');
 
@@ -605,8 +606,7 @@ const ScoresBanner = () => {
     
     const betslipContainerStyles = {
       position: 'absolute',
-      width: '23%',
-      maxWidth: '23%',
+      width: windowDimensions.width <=768 ? '80%' : '30%',
       zIndex: 1000,
       boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
     };
@@ -628,7 +628,7 @@ const ScoresBanner = () => {
       padding: '10px',
       marginTop: '10px',
       overflow: 'hidden',
-      maxWidth: '400px',
+      maxWidth: '100%',
     };
 
     const betslipToggleTextStyles = {
@@ -722,13 +722,21 @@ const ScoresBanner = () => {
         onStop={handleStop}
       >
         <div style={betslipContainerStyles}>
-          <div style={betslipToggleStyles} onClick={ () => {
-            fetchLiveGames();
-            handleBetslipClick();
-          }}>
-            <span style={betslipToggleTextStyles}>Predictions</span>
-            <span style={betslipToggleArrowStyles}>{isModalOpen ? '▲' : '▼'}</span>
-          </div>
+        <div 
+    style={betslipToggleStyles} 
+    onClick={(e) => {
+        fetchLiveGames();
+        handleBetslipClick();
+    }}
+    onTouchEnd={(e) => {
+        e.preventDefault();  // prevent mouse event from firing
+        fetchLiveGames();
+        handleBetslipClick();
+    }}
+>
+    <span style={betslipToggleTextStyles}>Predictions</span>
+    <span style={betslipToggleArrowStyles}>{isModalOpen ? '▲' : '▼'}</span>
+</div>
 
           <CSSTransition in={isModalOpen} timeout={300} classNames="slide" unmountOnExit>
             <div style={betslipDropdownStyles}>
@@ -797,20 +805,24 @@ const ScoresBanner = () => {
                       <div style={{ marginRight: '10px', position: 'relative' }}>
                         <label style={{ fontSize: '15px' }} htmlFor="totalStake">Total Stake</label>
                         <div style={{ position: 'relative' }}>
-                          <input
-                            type="text"
-                            id="totalStake"
-                            placeholder="Enter Amount"
-                            value={totalStake}
-                            onChange={handleTotalStakeChange}
-                            style={{
-                              padding: '5px',
-                              borderRadius: '4px',
-                              border: '1px solid #ccc',
-                              width: '130px',
-                              paddingLeft: '25px',
-                            }}
-                          />
+                        <input
+                        type="text"
+                        id="totalStake"
+                        placeholder="Enter Amount"
+                        value={totalStake}
+                        onChange={handleTotalStakeChange}
+                        onTouchStart={(event) => {
+                            event.preventDefault(); 
+                            event.target.focus(); 
+                        }}
+                        style={{
+                          padding: '5px',
+                          borderRadius: '4px',
+                          border: '1px solid #ccc',
+                          width: '130px',
+                          paddingLeft: '25px',
+                        }}/>
+
                           <div style={{ position: 'absolute', top: '6px', left: '7px' }}>
                             <Coin size="16px" />
                           </div>
@@ -863,11 +875,11 @@ const ScoresBanner = () => {
         data-tooltip-content="View live scores or predict the outcome of upcoming games. Click on the calendar icon to manually select the date. 
         The percentages displayed for upcoming games reflect the fraction of users who believe that team will win the game"
       />
-      <Tooltip id="info-tooltip"  multiline={true} multilineMaxWidth={200} style={{ width: '500px' }} place='right'/>
+      <Tooltip id="info-tooltip"  multiline={true} multilineMaxWidth={200} style={{ width: windowDimensions.width <=768 ? windowDimensions.width : windowDimensions.width * 0.6 }} place= 'top'/>
     </div>
   <div className="date-navigation" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
     <button onClick={handlePreviousDay} className="day-btn">
-        Previous Day
+       {windowDimensions.width <=768 ? 'Previous' : 'Previous Day'}
     </button>
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
         <span style={{ marginBottom: '2%' }} className="date">{DateString}</span>
@@ -907,7 +919,7 @@ const ScoresBanner = () => {
         </span>
     </div>
     <button onClick={handleNextDay} className="day-btn">
-        Next Day
+    {windowDimensions.width <=768 ? 'Next' : 'Next Day'} 
     </button>
 </div>
 

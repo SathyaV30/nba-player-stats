@@ -3,11 +3,6 @@ import Autosuggest from 'react-autosuggest';
 import Papa from 'papaparse';
 import NBACsv from '../nba.csv'
 
-const containerStyles = {
-    position: 'relative',
-    width: '300px', 
-};
-
 const inputStyles = {
     fontSize: '1.2em',
     padding: '10px',
@@ -58,7 +53,7 @@ const Autocomplete = ({setPlayerName, onChange, value,isComponentA }) => {
 
   const containerStyles = {
     position: 'relative',
-    width: windowDimensions.width * 0.3 
+    width: windowDimensions.width <=768 ? windowDimensions.width * 0.6 : windowDimensions.width * 0.3
 };
 
   
