@@ -116,9 +116,6 @@ const Posts = () => {
       alignItems: 'center',
       marginBottom: '20px',
     },
-    headerTitle: {
-      margin: '10px',
-    },
     dateInput: {
       border: '1px solid #ccc',
       borderRadius: '5px',
@@ -349,7 +346,7 @@ const formats = [
       {isAuthenticated ? (
         <div>
           <div style={styles.header}>
-          <h1 style={styles.headerTitle}>Posts from {formatDate(date)}</h1>
+          <h1>Posts from {formatDate(date)}</h1>
           <input
             type="date"
             value={date}

@@ -24,17 +24,7 @@ const Trivia = () => {
   const {user} = useContext(AuthContext)
 
   const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
-  const toolTipContent = () => {
-    return (
-      <div>
-        <p>Earn NBA coins by answering trivia questions.</p>
-        <p>Correct easy question = +5 coins</p>
-        <p>Correct medium question = +7 coins</p>
-        <p>Correct hard question = +9 coins</p>
-        <p>Incorrect question = -5 coins</p>
-      </div>
-    );
-  }
+
   
 
   const styles = {
@@ -81,8 +71,8 @@ const Trivia = () => {
           bottom: 'auto',
           transform: 'translate(-50%, -50%)',
           zIndex: 10,
-          width:windowDimensions.width * 0.2,
-          height:windowDimensions.height * 0.2,
+          width:windowDimensions.width <=768 ? windowDimensions.width * 0.5 : windowDimensions.width * 0.2,
+          height:windowDimensions.width <=768 ? windowDimensions.width * 0.5 : windowDimensions.width * 0.2,
         },
       },
     correct: {
@@ -175,7 +165,7 @@ const Trivia = () => {
                                 Correct medium question = +7 coins. 
                                 Correct hard quesion = +9 coins.
                                 Incorrect question = -5 coins." />
-          <Tooltip id="info-tooltip" place="right" effect="solid" multiline={true} multilineMaxWidth={200} style={{ width: '300px' }}>
+          <Tooltip id="info-tooltip" place={windowDimensions.width <=768 ? "bottom" : 'right'} effect="solid" multiline={true} multilineMaxWidth={200} style={{ width: '300px' }}>
           </Tooltip></div>
      <Modal 
   isOpen={modalIsOpen}

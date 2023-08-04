@@ -374,7 +374,7 @@ const ScoresBanner = () => {
         `https://www.balldontlie.io/api/v1/games?dates[]=${selectedDateString}`
       );
         setLiveGames(response.data.data);
-        setLiveGames(liveGames1) //NBA offseason test data
+       // setLiveGames(liveGames1) //NBA offseason test data
       }
      catch (error) {
       console.error("Error fetching live games:", error);
@@ -729,7 +729,7 @@ const ScoresBanner = () => {
         handleBetslipClick();
     }}
     onTouchEnd={(e) => {
-        e.preventDefault();  // prevent mouse event from firing
+        e.preventDefault(); 
         fetchLiveGames();
         handleBetslipClick();
     }}
@@ -769,6 +769,7 @@ const ScoresBanner = () => {
                         <span style={{ fontSize: '70%', color: '#A0A0A0' }}>{team.date}</span>
                         <button
                           onClick={() => handleRemoveBet(gameId)}
+                          onTouchEnd = {() => handleRemoveBet(gameId)}
                           style={{
                             cursor: 'pointer',
                             backgroundColor: 'transparent',
@@ -868,7 +869,7 @@ const ScoresBanner = () => {
   <div className="scores-banner">
     {isAuthenticated && <Betslip isModalOpen={isBetslipOpen} handleBetslipClick={handleBetslipClick} />}
     <div className="header-container" style={{ display: 'flex', alignItems: 'center', placeItems: 'center' }}>
-      <h2>Live Scores</h2>
+      <h1>Live Scores</h1>
       <FaInfoCircle
         style={{ color: '#17408b', fontSize: '20px', marginLeft: '5px', verticalAlign: 'middle' }}
         data-tooltip-id="info-tooltip"

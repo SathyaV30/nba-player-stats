@@ -429,7 +429,7 @@ function ProfilePage({ setFavoritePlayersVersion }) {
       justifyContent: 'flex-start',
       alignItems: 'center',
       marginTop: '10px',
-      flexDirection: 'row',
+      flexDirection: windowDimensions.width <=768 ? 'column' : 'row',
       flexWrap: 'wrap',
       
   
@@ -1140,7 +1140,7 @@ return (
   style ={{fontWeight:'normal', cursor:'pointer'}}>{followingCount}</span></h2></span>
 </div>
         <h2 style={styles.header}>Favorite Players</h2>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems:'center' }}>
           <div style={styles.playerContainer}>
             {favoritePlayers.length !== 0 ? (
               favoritePlayers.map((player, index) => (

@@ -6,46 +6,49 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { backendUrl } from '../config';
 
-const styles = {
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: '10%',
-    gap: '10px',
-    border: 'none',
-    borderRadius: '10px',
-    padding: '20px',
-    width: '60%',
-    margin: 'auto'
-  },
-  input: {
-    width: '100%',
-    padding: '10px',
-    borderRadius: '5px',
-    border: '1px solid #ccc'
-  },
-  quill: {
-    width: '100%',
-    height: '200px'
-  },
-  button: {
-    width: '100%',
-    padding: '10px',
-    borderRadius: '5px',
-    border: 'none',
-    color: 'white',
-    backgroundColor: '#17408b',
-    cursor: 'pointer',
-    marginTop:'50px',
-  }
-};
+
 const Post = () => {
+
+
+  const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
     const [title,setTitle] = useState('');
     const [summary,setSummary] = useState('');
     const [content,setContent] = useState('');
     const {isAuthenticated} = useContext(AuthContext)
+    const styles = {
+      form: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: '10%',
+        gap: '10px',
+        border: 'none',
+        borderRadius: '10px',
+        width: windowDimensions.width <=768 ? '95%' : '60%',
+        margin: 'auto'
+      },
+      input: {
+        width: '100%',
+        padding: '10px',
+        borderRadius: '5px',
+        border: '1px solid #ccc'
+      },
+      quill: {
+        width: '100%',
+        height: '200px'
+      },
+      button: {
+        width: '100%',
+        padding: '10px',
+        borderRadius: '5px',
+        border: 'none',
+        color: 'white',
+        backgroundColor: '#17408b',
+        cursor: 'pointer',
+        marginTop:windowDimensions.width <=768 ? '65px' : '10px'
+      }
+    };
     const modules = {
         toolbar: [
           [{ 'header': [1, 2, false] }],
@@ -107,6 +110,7 @@ const Post = () => {
       
   return (
     <>
+    <h1 style = {{textAlign:'center'}}>Create Post</h1>
       {isAuthenticated ? (
         <form onSubmit={createNewPost} style={styles.form}>
           <input
