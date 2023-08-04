@@ -161,10 +161,10 @@ const Trivia = () => {
             style={{ color: '#17408b', fontSize: '20px', marginLeft: '10px', verticalAlign: 'middle' }}
             data-tooltip-id="info-tooltip"
             data-tooltip-content="Earn NBA coins by answering trivia questions.
-                                Correct easy question = +5 coins. 
-                                Correct medium question = +7 coins. 
-                                Correct hard quesion = +9 coins.
-                                Incorrect question = -5 coins." />
+                                  Correct easy question = +5 coins. 
+                                  Correct medium question = +7 coins. 
+                                  Correct hard quesion = +9 coins.
+                                  Incorrect question = -5 coins." />
           <Tooltip id="info-tooltip" place={windowDimensions.width <=768 ? "bottom" : 'right'} effect="solid" multiline={true} multilineMaxWidth={200} style={{ width: '300px' }}>
           </Tooltip></div>
      <Modal 

@@ -502,7 +502,7 @@ const Conditions = () => {
           >
             <label style={{ fontSize: '20px' }}>
               Year:
-              <input style={{ padding: '2.5px', marginTop: '8px', marginLeft: '3px'}} type="number" value={year} onChange={handleYearChange} />
+              <input style={{ padding: '2.5px', marginTop: '8px', marginLeft: '3px', border:'0.8px solid'}} type="number" value={year} onChange={handleYearChange} />
             </label>
             <button style={styles.buttonStyle} type="button" onClick={handleAddCondition}>
               Add Condition
@@ -565,7 +565,7 @@ const Conditions = () => {
                       type="number"
                       value={condition.value}
                       onChange={(e) => handleInputChange(e, index, 'value')}
-                      style={{ padding: '2.5px', marginLeft: '3px' }}
+                      style={{ padding: '2.5px', marginLeft: '3px', border:'0.8px solid' }}
                     />
                   </label>
                 </div>
@@ -1211,7 +1211,9 @@ const Conditions = () => {
        height:'42.5px',
        borderRadius: '5px',
        margin:'3px auto',
-       boxShadow: '0px 0px 5px #ccc',}}
+       boxShadow: '0px 0px 5px #ccc',
+}}
+       
     />
     <input
       type="number"
@@ -1224,7 +1226,8 @@ const Conditions = () => {
        height:'42.5px' ,
        margin:'3px auto',
       borderRadius: '5px',
-    boxShadow: '0px 0px 5px #ccc'
+    boxShadow: '0px 0px 5px #ccc',
+  
     }}
     />
     {playerInputs.length > 1 && (

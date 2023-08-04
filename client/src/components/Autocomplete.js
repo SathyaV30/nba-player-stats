@@ -54,6 +54,7 @@ const Autocomplete = ({setPlayerName, onChange, value,isComponentA }) => {
   const containerStyles = {
     position: 'relative',
     width: windowDimensions.width <=768 ? windowDimensions.width * 0.6 : windowDimensions.width * 0.3
+    
 };
 
   

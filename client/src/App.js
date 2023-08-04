@@ -612,9 +612,9 @@ const handleOnError = (e) => {
       <div style ={{display:'flex', justifyContent:'center',flexDirection:'column'}}>
         <h1 style ={{textAlign:'center'}} >Liked Players</h1>
         <div style ={{display: 'flex',
-  placeItems: 'center',
-  flexWrap: 'wrap',
-  flexDirection: windowDimensions.width <=768 ? 'column' : 'row',}}>
+          placeItems: 'center',
+          flexWrap: 'wrap',
+          flexDirection: windowDimensions.width <=768 ? 'column' : 'row',}}>
           {likedPlayers.map((likedPlayer, index) => (
             <ReactCardFlip isFlipped={isFlipped[likedPlayer]} flipDirection="horizontal">
               <div className="liked-player-card" id={likedPlayer} onClick={() => handleFlip(likedPlayer)}>
