@@ -110,34 +110,30 @@ const Post = () => {
       
   return (
     <>
-    <h1 style = {{textAlign:'center'}}>Create Post</h1>
       {isAuthenticated ? (
-        <form onSubmit={createNewPost} style={styles.form}>
+        <><h1 style={{ textAlign: 'center' }}>Create Post</h1><form onSubmit={createNewPost} style={styles.form}>
           <input
             style={styles.input}
             type="title"
             placeholder="Title"
             value={title}
-            onChange={(ev) => setTitle(ev.target.value)}
-          />
+            onChange={(ev) => setTitle(ev.target.value)} />
           <input
             style={styles.input}
             type="summary"
             placeholder="Summary"
             value={summary}
-            onChange={(ev) => setSummary(ev.target.value)}
-          />
-  
+            onChange={(ev) => setSummary(ev.target.value)} />
+
           <ReactQuill
             style={styles.quill}
             value={content}
             modules={modules}
             formats={formats}
             onChange={(newValue) => setContent(newValue)}
-            placeholder = 'Enter your hotest NBA takes, stories, or facts!'
-          />
+            placeholder='Enter your hotest NBA takes, stories, or facts!' />
           <button style={styles.button}>Submit</button>
-        </form>
+        </form></>
       ) : (
         <h1 style={{textAlign: 'center'}}>Please log in or register</h1>
       )}

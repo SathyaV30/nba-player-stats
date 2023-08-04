@@ -374,9 +374,86 @@ return (
 
           {posts.map((post) => (
             <div key={post._id} style={styles.postContainer}>
-            {/*... rest of your code ... */}
+              {editingPost === post ? (
+               <>
+               <div style={styles.inputGroup}>
+                 <label style={styles.label}>Title</label>
+                 <input
+                   type="text"
+                   value={title}
+                   onChange={(event) => setTitle(event.target.value)}
+                   style={styles.input}
+                 />
+               </div>
+             
+               <div style={styles.inputGroup}>
+                 <label style={styles.label}>Summary</label>
+                 <input
+                   type="text"
+                   value={summary}
+                   onChange={(event) => setSummary(event.target.value)}
+                   style={styles.input}
+                 />
+               </div>
+             
+               <div style={styles.inputGroup}>
+                 <label style={styles.label}>Content</label>
+                 <ReactQuill
+                   value={content}
+                   modules={modules}
+                   formats={formats}
+                   onChange={(newValue) => setContent(newValue)}
+                   style={styles.quill}
+                   placeholder = 'Enter your hotest NBA takes, stories, or facts!'
+                 />
+               </div>
+             
+               <div style={styles.buttonGroup}>
+                 <button style={styles.postButton} onClick={savePost}>Save</button>
+                 <button style={styles.postButton} onClick={() => setEditingPost(null)}>Cancel</button>
+               </div>
+             </>
+             
+              ) : (
+                <>
+                  <h2 style={styles.postTitle}>{post.title}</h2>
+                  <p style={styles.postSummary}>{post.summary}</p>
+                  <div dangerouslySetInnerHTML={{ __html: post.content }} style={styles.postContent} />
+                  <a style ={{color:'#17408b', cursor:'pointer'}} onClick = {() => getUser(post)}>@{post.author.username}</a>
+                  <p>Likes: {post.likes ? post.likes.length : 0}</p>
+                  <p>Dislikes: {post.dislikes ? post.dislikes.length : 0}</p>
+                  <button style={styles.postButton} onClick={() => likePost(post)}> <FontAwesomeIcon icon={faThumbsUp} /> </button>
+                  <button style={styles.postButton} onClick={() => dislikePost(post)}> <FontAwesomeIcon icon={faThumbsDown} /> </button>
+                  <Modal
+                  isOpen={userModal}
+                  onRequestClose={() => setUserModal(false)}
+                  contentLabel="User Info Modal"
+                  style={{
+                    content: styles.modalContent,
+                    overlay: styles.modalOverlay,
+                  }}
+                >
+                <UserInfoModal isOpen={userModal} onRequestClose={() => setUserModal(false)} userInfo={userInfo} />
+              </Modal>
+                  {post.author._id === user.id && (
+                    <>
+                      <button style={styles.postButton} onClick={() => editPost(post)}><FaEdit/></button>
+                      <button style={styles.postButton} onClick={() => deletePost(post)}><FaTrash/></button>
+                    </>
+                  )}
+                </>
+              )}
             </div>
-          ))}
+          ))
+          
+          }
+          {
+  (posts.length < totalPosts) && 
+  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom:'10px' }}>
+    <button style={styles.postButton} onClick={loadMorePosts}>View more</button>
+  </div>
+}
+
           
           {(posts.length < totalPosts) && 
             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom:'10px' }}>
