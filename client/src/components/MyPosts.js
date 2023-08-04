@@ -446,11 +446,7 @@ const formats = [
   </div>
 }
 
-              {(posts.length < totalPosts) && 
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom:'10px' }}>
-                  <button style={styles.postButton} onClick={loadMorePosts}>View more</button>
-                </div>
-              }
+            
             </>
           )}
 
