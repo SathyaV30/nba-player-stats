@@ -270,6 +270,8 @@ app.get('/MyPosts', authenticateJWT, async (req, res) => {
     const parsedDate = dayjs(date);
     const startOfDay = parsedDate.startOf('day').toDate();
     const endOfDay = parsedDate.endOf('day').toDate();
+    console.log(startOfDay);
+    console.log(endOfDay);
 
     const skip = (page - 1) * limit;
 
