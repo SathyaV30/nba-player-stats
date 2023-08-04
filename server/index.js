@@ -21,8 +21,6 @@ const { expressjwt: jwtMiddleware } = require("express-jwt");
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-dayjs.extend(utc);
 
  
 
@@ -166,12 +164,11 @@ app.get('/Posts', authenticateJWT, async (req, res) => {
   try {
     const { date, page = 1, limit = 5, sort } = req.query; 
 
-    const parsedDate = dayjs.utc(date);
+    const parsedDate = dayjs(date);
+
+
     const startOfDay = parsedDate.startOf('day').toDate();
     const endOfDay = parsedDate.endOf('day').toDate();
-    
-
-
 
     const skip = (page - 1) * limit;
 
