@@ -208,7 +208,6 @@ button {
 
 }
 
-
 button {
   z-index: 100;
 }
@@ -256,7 +255,7 @@ body {
   top: 75px;
   right: 0;
   width: 30%;
-  height: 75%;
+  height: 100%;
   background-color: #e3e3e3;
   transform: translateX(100%);
   display: flex;
