@@ -49,6 +49,7 @@ import ReactCountryFlag from "react-country-flag"
 import { backendUrl } from '../config';
 import FollowListModal from "./FollowListModal";
 import Modal from 'react-modal';
+import LoadingAnimation from './Loading';
 
 
 const teamLogos = {
@@ -373,6 +374,7 @@ function ProfilePage({ setFavoritePlayersVersion }) {
   const [followData, setFollowData] = useState([]);
   const [followingData, setFollowingData] = useState([])
   const [selectedType, setSelectedType] = useState('Followers');
+  const [loading, setIsLoading] = useState(false);
   
 
 
@@ -559,6 +561,7 @@ function ProfilePage({ setFavoritePlayersVersion }) {
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       const res = await fetch(`${backendUrl}/Userdata`, {
         headers: { 'Content-Type': 'application/json' },
         credentials:'include',
@@ -578,6 +581,7 @@ function ProfilePage({ setFavoritePlayersVersion }) {
       setFollowingCount(data.following.length);
       setFollowData(data.followers);
       setFollowingData(data.following);
+      setIsLoading(false);
     };
   
     fetchData();
@@ -705,9 +709,19 @@ const handleProfilePicChange = (event) => {
     reader.readAsDataURL(file);
   }
 };
+if (loading) {
+  return (
+    <div style = {{marginTop:'20px', display: 'flex', justifyContent:'center'}} >
+   <LoadingAnimation/>
+    </div>
+  )
+}
+
 
 return (
  <>
+ 
+
  <h1 style ={{textAlign:'center'}}>Welcome, {user}!</h1>
   <div style={{ display: 'flex', flexDirection: 'row' }}>
   <div style={{ width: '50%' }}>

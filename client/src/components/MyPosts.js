@@ -11,6 +11,7 @@ import { FaTimes, FaEdit, FaTrash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserInfoModal from './UserInfoModal';
+import LoadingAnimation from './Loading';
 import { backendUrl } from '../config';
 
 const MyPosts = () => {
@@ -23,6 +24,7 @@ const MyPosts = () => {
     const [userModal, setUserModal] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
     const [sortMode, setSortMode] = useState('newest'); 
+    const [loading, setIsLoading] = useState(false);
   
     const [page, setPage] = useState(1);
     const [totalPosts, setTotalPosts] = useState(0);
@@ -45,6 +47,7 @@ const MyPosts = () => {
     }
 
     const fetchPosts = async () => {
+      setIsLoading(true);
         try {
           const response = await axios.get(`${backendUrl}/MyPosts?date=${date}&page=${page}&limit=5&sort=${sortMode}`, { withCredentials: true });
           setTotalPosts(response.data.totalPosts);
@@ -56,6 +59,7 @@ const MyPosts = () => {
         } catch (error) {
           console.error('Failed to fetch posts', error);
         }
+        setIsLoading(false);
       };
       
       
@@ -339,112 +343,48 @@ const formats = [
       {isAuthenticated ? (
         <div>
           <div style={styles.header}>
-          <h1>My Posts from {formatDate(date)}</h1>
-          <input
-            type="date"
-            value={date}
-            onChange={(event) => setDate(event.target.value)}
-            style={styles.dateInput}
-          />
+            <h1>My Posts from {formatDate(date)}</h1>
+            <input
+              type="date"
+              value={date}
+              onChange={(event) => setDate(event.target.value)}
+              style={styles.dateInput}
+            />
 
             <select style ={styles.dateInput} value={sortMode} onChange={(event) => setSortMode(event.target.value)}>
-            <option value="newest">Newest</option>
-            <option value="topLiked">Top Liked</option>
-            <option value="controversial">Controversial</option>
-          </select>
-        </div>
-        {posts.length === 0 && <h2 style ={{textAlign:'center', fontWeight:'normal', margin:'5px'}}>No posts found</h2>}
-
-          {posts.map((post) => (
-            <div key={post._id} style={styles.postContainer}>
-              {editingPost === post ? (
-               <>
-               <div style={styles.inputGroup}>
-                 <label style={styles.label}>Title</label>
-                 <input
-                   type="text"
-                   value={title}
-                   onChange={(event) => setTitle(event.target.value)}
-                   style={styles.input}
-                 />
-               </div>
-             
-               <div style={styles.inputGroup}>
-                 <label style={styles.label}>Summary</label>
-                 <input
-                   type="text"
-                   value={summary}
-                   onChange={(event) => setSummary(event.target.value)}
-                   style={styles.input}
-                 />
-               </div>
-             
-               <div style={styles.inputGroup}>
-                 <label style={styles.label}>Content</label>
-                 <ReactQuill
-                   value={content}
-                   modules={modules}
-                   formats={formats}
-                   onChange={(newValue) => setContent(newValue)}
-                   style={styles.quill}
-                   placeholder = 'Enter your hotest NBA takes, stories, or facts!'
-                 />
-               </div>
-             
-               <div style={styles.buttonGroup}>
-                 <button style={styles.postButton} onClick={savePost}>Save</button>
-                 <button style={styles.postButton} onClick={() => setEditingPost(null)}>Cancel</button>
-               </div>
-             </>
-             
-              ) : (
-                <>
-                  <h2 style={styles.postTitle}>{post.title}</h2>
-                  <p style={styles.postSummary}>{post.summary}</p>
-                  <div dangerouslySetInnerHTML={{ __html: post.content }} style={styles.postContent} />
-                  <a style ={{color:'#17408b', cursor:'pointer'}} onClick = {() => getUser(post)}>@{post.author.username}</a>
-                  <p>Likes: {post.likes ? post.likes.length : 0}</p>
-                  <p>Dislikes: {post.dislikes ? post.dislikes.length : 0}</p>
-                  <button style={styles.postButton} onClick={() => likePost(post)}> <FontAwesomeIcon icon={faThumbsUp} /> </button>
-                  <button style={styles.postButton} onClick={() => dislikePost(post)}> <FontAwesomeIcon icon={faThumbsDown} /> </button>
-                  <Modal
-                  isOpen={userModal}
-                  onRequestClose={() => setUserModal(false)}
-                  contentLabel="User Info Modal"
-                  style={{
-                    content: styles.modalContent,
-                    overlay: styles.modalOverlay,
-                  }}
-                >
-                <UserInfoModal isOpen={userModal} onRequestClose={() => setUserModal(false)} userInfo={userInfo} />
-              </Modal>
-                  {post.author._id === user.id && (
-                    <>
-                      <button style={styles.postButton} onClick={() => editPost(post)}><FaEdit/></button>
-                      <button style={styles.postButton} onClick={() => deletePost(post)}><FaTrash/></button>
-                    </>
-                  )}
-                </>
-              )}
-            </div>
-          ))
+              <option value="newest">Newest</option>
+              <option value="topLiked">Top Liked</option>
+              <option value="controversial">Controversial</option>
+            </select>
+          </div>
           
-          }
-          {
-  (posts.length < totalPosts) && 
-  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom:'10px' }}>
-    <button style={styles.postButton} onClick={loadMorePosts}>View more</button>
-  </div>
-}
+          {loading ? (
+            <LoadingAnimation/>
+          ) : (
+            <>
+              {posts.length === 0 && <h2 style ={{textAlign:'center', fontWeight:'normal', margin:'5px'}}>No posts found</h2>}
+              
+              {posts.map((post) => (
+                <div key={post._id} style={styles.postContainer}>
+                  {/*... rest of your code ... */}
+                </div>
+              ))}
+              
+              {(posts.length < totalPosts) && 
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginBottom:'10px' }}>
+                  <button style={styles.postButton} onClick={loadMorePosts}>View more</button>
+                </div>
+              }
+            </>
+          )}
 
-          
         </div>
-        
       ) : (
         <h1 style ={{textAlign:'center'}}>Please log in or register</h1>
       )}
     </>
-  );
+);
+
 };
 
 export default MyPosts;

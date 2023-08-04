@@ -26,6 +26,7 @@ import { FaInfoCircle } from "react-icons/fa";
 import Leaderboard from "./components/Leaderboard";
 import { backendUrl } from './config';
 import Autocomplete from "./components/Autocomplete";
+import LoadingAnimation from "./components/Loading";
 
 const AppContent = () => {
   const {isAuthenticated, setIsAuthenticated, setUser, user} = useContext(AuthContext);
@@ -40,6 +41,7 @@ const AppContent = () => {
   const [playerD, setPlayerD] = useState({});
   const [show, setShow] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
+  const [likedPlayersLoading, setLikedPlayersLoading] = useState(false);
 
   var imgLink = `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${imgID}.png` 
 
@@ -510,6 +512,7 @@ const handleOnError = (e) => {
   
 
   const fetchFavoritePlayers = async () => {
+    setLikedPlayersLoading(true);
     try {
       const response = await fetch(`${backendUrl}/GetFavoritePlayers?username=${user}`, {
         credentials: 'include', 
@@ -527,6 +530,7 @@ const handleOnError = (e) => {
       console.error('Failed to fetch favorite players');
       setLikedPlayers([]);
     }
+    setLikedPlayersLoading(false);
   };
 
 
@@ -599,12 +603,21 @@ const handleOnError = (e) => {
         return null;
       }
     }
-    if (likedPlayers.length === 0) {
+    if (likedPlayers.length === 0 && !likedPlayersLoading) {
       return (
        <div style ={{display:'flex', justifyContent:'center',flexDirection:'column'}}>
        <h1 style ={{textAlign:'center'}}>Liked Players</h1>
        <h2 style={{textAlign:'center'}}>No players liked</h2>
        </div>
+      )
+    }
+    if (likedPlayersLoading) {
+      return (
+        <div style ={{display:'flex', justifyContent:'center',flexDirection:'column'}}>
+       <h1 style ={{textAlign:'center'}}>Liked Players</h1>
+         <LoadingAnimation/>
+       </div>
+
       )
     }
 
