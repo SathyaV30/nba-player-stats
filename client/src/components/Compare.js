@@ -64,6 +64,21 @@ const Compare = () => {
   const [submitted, setSubmitted] = useState(false);
   const [playerInputsCopy, setPlayerInputsCopy] = useState([]);
 
+ 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   const styles = {
     comparePanelStyle: {
       display: 'flex',
@@ -156,6 +171,7 @@ const Conditions = () => {
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
     const [showTotalStats, setShowTotalStats] = useState(false);
+
 
     useEffect(() => {
       if (apiUrls1.length > 0) {
@@ -387,7 +403,7 @@ const Conditions = () => {
   
     return (
       <div>
-        {loading && <LoadingAnimation minHeight='450px' maxHeight='450px' minWidth='100%' maxWidth='100%'/>}
+        {loading && <LoadingAnimation minHeight={windowDimensions.height * 0.6} maxHeight={windowDimensions.height * 0.6} minWidth='100%' maxWidth='100%'/>}
         <div>
           {!submit && (
             <div
@@ -396,9 +412,9 @@ const Conditions = () => {
                 flexDirection: window.innerWidth <= 768 ? 'column' : 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
-                minHeight: windowDimensions.height * 0.3, 
-                maxHeight: windowDimensions.height * 0.9, 
-                width: windowDimensions.width, 
+                minHeight: windowDimensions.height * 0.6, 
+                maxHeight: windowDimensions.height * 0.6, 
+                width: '100%', 
                 overflow: 'auto',
                 position: 'relative',
               }}
@@ -425,8 +441,8 @@ const Conditions = () => {
                 flexDirection: window.innerWidth <= 768 ? 'column' : 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
-                minHeight: '450px',
-                maxHeight: '450px',
+                minHeight:windowDimensions.height * 0.6, 
+                maxHeight: windowDimensions.height * 0.6, 
                 minWidth: '100%',
                 maxWidth: '600px',
                 overflow: 'auto',
@@ -451,9 +467,9 @@ const Conditions = () => {
           {!loading && submit && filteredPlayers.length !== 0 && (
             <div 
               style={{ 
-                minHeight: '450px', 
+                minHeight: windowDimensions.height * 0.6, 
                 minWidth: '100%', 
-                maxHeight: '450px', 
+                maxHeight: windowDimensions.height * 0.6 , 
                 maxWidth: '100%', 
                 overflow: 'auto', 
                 display: 'flex', 
@@ -502,12 +518,13 @@ const Conditions = () => {
           >
             <label style={{ fontSize: '20px' }}>
               Year:
-              <input style={{ padding: '2.5px', marginTop: '8px', marginLeft: '3px', border:'0.8px solid'}} type="number" value={year} onChange={handleYearChange} />
+              <input style={{ padding:'8px', fontSize:'1.2rem', marginTop: '10px', marginLeft: '3px',marginRight:'10px', border:'0.8px solid', borderRadius:'5px'}} type="number" value={year} onChange={handleYearChange} />
             </label>
             <button style={styles.buttonStyle} type="button" onClick={handleAddCondition}>
               Add Condition
             </button>
             <button style={styles.buttonStyle} type="submit">Submit</button>
+            <div style = {{margin:windowDimensions.width<=768 ? '10px' : '0px'}}>
             <div className="toggle-container">
               <label className="switch-label">
                 <input
@@ -521,73 +538,93 @@ const Conditions = () => {
               <span className="toggle-text">{showTotalStats ? 'Total Stats' : 'Per Game Stats'}</span>
             </div>
           </div>
+          </div>
           <div style={{ marginTop: '10px' }}>
             {conditions.map((condition, index) => (
-              <div key={index} style={{ marginBottom: '10px', display: 'flex', flexDirection: window.innerWidth <= 768 ? 'column' : 'row', alignItems: 'center', justifyContent: 'center' }}>
-                <div>
-                  <label>
-                    Stat:
-                    <select
-                      value={condition.key}
-                      onChange={(e) => handleInputChange(e, index, 'key')}
-                      style={{ marginLeft: '5px', padding: '3.5px' }}
-                    >
-                      <option value="">--Select--</option>
-                      {possibleStats.map((stat) => (
-                        <option key={stat.key} value={stat.key}>
-                          {stat.label}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                </div>
-                <div style={{ marginLeft: '10px' }}>
-                  <label>
-                    Operator:
-                    <select
-                      value={condition.operator}
-                      onChange={(e) => handleInputChange(e, index, 'operator')}
-                      style={{ marginLeft: '5px', padding: '3.5px' }}
-                    >
-                      <option value="">Select</option>
-                      {operators.map((operator) => (
-                        <option key={operator} value={operator}>
-                          {operator}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                </div>
-                <div style={{ marginLeft: '10px', marginBottom: '4px' }}>
-                  <label>
-                    Value:
-                    <input
-                      type="number"
-                      value={condition.value}
-                      onChange={(e) => handleInputChange(e, index, 'value')}
-                      style={{ padding: '2.5px', marginLeft: '3px', border:'0.8px solid' }}
-                    />
-                  </label>
-                </div>
-                {conditions.length > 1 && (
-                  <button
-                    style={{
-                      width: '30px',
-                      height: '30px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      marginLeft: '5px',
-                      marginBottom: '6.5px',
-                    }}
-                    className="remove-btn"
-                    type="button"
-                    onClick={() => handleRemoveCondition(index)}
+              <div
+              key={index}
+              style={{
+                display: 'flex',
+                flexDirection: window.innerWidth <= 768 ? 'column' : 'row',
+                justifyContent: 'center',
+                alignItems: windowDimensions.width <= 768 ? 'flex-start' : 'center',
+              }}
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <label style = {{marginLeft:'3px'}}>
+                  Stat:
+                  <select
+                    value={condition.key}
+                    onChange={(e) => handleInputChange(e, index, 'key')}
+                    style={{ marginLeft: '5px', padding: '5px',borderRadius:'5px', border:'0.8px solid'  }}
                   >
-                    <FaTimes />
-                  </button>
-                )}
+                    <option value="">Select</option>
+                    {possibleStats.map((stat) => (
+                      <option key={stat.key} value={stat.key}>
+                        {stat.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
               </div>
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <label style={{ marginLeft: '3px'}}>
+                  Operator:
+                  <select
+                    value={condition.operator}
+                    onChange={(e) => handleInputChange(e, index, 'operator')}
+                    style={{ marginLeft: '5px', padding: '5px',borderRadius:'5px', border:'0.8px solid'  }}
+                  >
+                    <option value="">Select</option>
+                    {operators.map((operator) => (
+                      <option key={operator} value={operator}>
+                        {operator}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: windowDimensions.width <=768 ? 'flex-start' : 'center' }}>
+                <label style={{ marginLeft: '3px'}}>
+                  Value:
+                  <input
+                    type="number"
+                    value={condition.value}
+                    onChange={(e) => handleInputChange(e, index, 'value')}
+                   style={{ padding: '5px', marginLeft: '3px', border:'0.8px solid', borderRadius:'5px' }}
+                  />
+                </label>
+              </div>
+              {conditions.length > 1 && (
+                 <div
+                 style={{
+                   display: windowDimensions.width<=768 ? 'flex' :'',
+                   alignItems: windowDimensions.width<=768 ?'center' :'none',
+                   justifyContent:windowDimensions.width<=768 ?'center' :'none', 
+                   width:windowDimensions.width<=768 ? '100%' :'none',
+                 }}
+               >
+                <button
+                  style={{
+                    width: '30px',
+                    height: '30px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginLeft: '5px',
+                    marginBottom: '19.5px',
+                    marginTop:windowDimensions.width <=768 ? '-8px' : '8px'
+                  }}
+                  className="remove-btn"
+                  type="button"
+                  onClick={() => handleRemoveCondition(index)}
+                >
+                  <FaTimes />
+                </button>
+                </div>
+              )}
+            </div>
+            
             ))}
           </div>
         </form>
@@ -767,28 +804,28 @@ const Conditions = () => {
               />
             </div>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-              <label htmlFor="stat" style={{ marginRight: '10px' }}>Stat Category:</label>
-              <select
-                id="stat"
-                value={selectedStat}
-                onChange={(event) => setSelectedStat(event.target.value)}
-                style={{
-                  flex: '1 0 200px', 
-                  width: '100%', 
-                  padding: '5px',
-                  borderRadius: '4px',
-                  border: '1px solid #17408b',
-                  overflow: 'hidden'
-                }}
-              >
-                <option value="">Select a stat</option>
-                {possibleStats.map((stat) => (
-                  <option key={stat.key} value={stat.key}>
-                    {stat.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+  <label htmlFor="stat" style={{ marginRight: '10px' }}>Stat Category:</label>
+  <select
+    id="stat"
+    value={selectedStat}
+    onChange={(event) => setSelectedStat(event.target.value)}
+    style={{
+      flex: '1 0 200px', 
+      margin: '0 10px',
+      padding: '5px',
+      borderRadius: '4px',
+      border: '1px solid #17408b',
+      overflow: 'hidden'
+    }}
+  >
+    <option value="">Select a stat</option>
+    {possibleStats.map((stat) => (
+      <option key={stat.key} value={stat.key}>
+        {stat.label}
+      </option>
+    ))}
+  </select>
+</div>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
               <label htmlFor="numPlayers" style={{ marginRight: '10px' }}>Number of Players:</label>
               <input
@@ -836,7 +873,7 @@ const Conditions = () => {
               {leaders.map((leader, index) => (
                 <div key={leader.player_id} style={{ marginBottom: '10px'}}>
                   <span style={{ fontWeight: 'bold', marginRight:'4px' }}>{index + 1}.</span><span>{PlayerIdMap[leader.player_id]}:</span>
-                  <span style ={{marginRight:'2px'}}> {showTotalStats && selectedStat === "min" && Math.ceil(convertMinutesToTotalMinutes(leader[selectedStat]) * leader.games_played)}{showTotalStats  && selectedStat!=="min" && Math.ceil(leader[selectedStat] * leader.games_played)} </span> <span>{!showTotalStats && leader[selectedStat]}</span>
+                  <span style ={{marginRight:'2px'}}> {showTotalStats && selectedStat === "min" && Math.round(convertMinutesToTotalMinutes(leader[selectedStat]) * leader.games_played)}{showTotalStats  && selectedStat!=="min" && Math.ceil(leader[selectedStat] * leader.games_played)} </span> <span>{!showTotalStats && leader[selectedStat]}</span>
                 </div>
               ))}
             </div>
@@ -1206,12 +1243,16 @@ const Conditions = () => {
       value={playerInput.startYear}
       onChange={(e) => handleStartYearChange(index, e.target.value)}
       style={{   flex: '1 0 calc(33% - 20px)',
-      padding: '5px',
        width: windowDimensions.width <= 768 ? windowDimensions.width * 0.6 :windowDimensions.width * 0.3,
-       height:'42.5px',
+       height:'48px' ,
+       fontSize: '1.2em',
+       padding: '10px',
+       border: 'none',
        borderRadius: '5px',
-       margin:'3px auto',
        boxShadow: '0px 0px 5px #ccc',
+       marginLeft:'3px',
+       marginRight:'3px',
+       marginTop:windowDimensions.width<=768 ? '3px' : ''
 }}
        
     />
@@ -1221,12 +1262,14 @@ const Conditions = () => {
       value={playerInput.endYear}
       onChange={(e) => handleEndYearChange(index, e.target.value)}
       style={{   flex: '1 0 calc(33% - 20px)',
-      padding: '5px',
       width: windowDimensions.width <= 768 ? windowDimensions.width * 0.6 :windowDimensions.width * 0.3,
-       height:'42.5px' ,
-       margin:'3px auto',
-      borderRadius: '5px',
-    boxShadow: '0px 0px 5px #ccc',
+       height:'48px',
+       fontSize: '1.2em',
+       padding: '10px',
+       border: 'none',
+       borderRadius: '5px',
+       boxShadow: '0px 0px 5px #ccc',
+       marginTop:windowDimensions.width<=768 ? '3px' : ''
   
     }}
     />

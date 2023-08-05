@@ -375,7 +375,20 @@ function ProfilePage({ setFavoritePlayersVersion }) {
   const [followingData, setFollowingData] = useState([])
   const [selectedType, setSelectedType] = useState('Followers');
   const [loading, setIsLoading] = useState(false);
-  
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
 
   const styles = {

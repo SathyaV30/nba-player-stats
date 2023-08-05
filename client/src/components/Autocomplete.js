@@ -10,6 +10,7 @@ const inputStyles = {
     borderRadius: '5px',
     boxShadow: '0px 0px 5px #ccc',
     width: '100%', 
+    height:'100%',
 };
 
 const suggestionContainerStyles = {
@@ -50,11 +51,25 @@ const Autocomplete = ({setPlayerName, onChange, value,isComponentA }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [playerNames, setPlayerNames] = useState([]);
   const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const containerStyles = {
     position: 'relative',
-    width: windowDimensions.width <=768 ? windowDimensions.width * 0.6 : windowDimensions.width * 0.3
-    
+    width: windowDimensions.width <=768 ? windowDimensions.width * 0.6 : windowDimensions.width * 0.3,
+    height:'48px',
 };
 
   

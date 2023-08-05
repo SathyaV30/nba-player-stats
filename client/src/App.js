@@ -27,6 +27,7 @@ import Leaderboard from "./components/Leaderboard";
 import { backendUrl } from './config';
 import Autocomplete from "./components/Autocomplete";
 import LoadingAnimation from "./components/Loading";
+import './components/ToggleSwitch.css'
 
 const AppContent = () => {
   const {isAuthenticated, setIsAuthenticated, setUser, user} = useContext(AuthContext);
@@ -42,6 +43,21 @@ const AppContent = () => {
   const [show, setShow] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
   const [likedPlayersLoading, setLikedPlayersLoading] = useState(false);
+  const [showTotalStats, setShowTotalStats] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   var imgLink = `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${imgID}.png` 
 
@@ -331,7 +347,10 @@ const handleOnError = (e) => {
   };
  
  
- 
+  const convertMinutesToTotalMinutes = (minutes) => {
+    const [min, sec] = minutes.split(":");
+    return parseInt(min) + parseInt(sec) / 60;
+  };
  
  
  
@@ -344,6 +363,7 @@ const handleOnError = (e) => {
     if (!playerD) {
       return
     }
+    
     return (
       <div style ={{maxHeight:'470px', minHeight:'470px', margin:'10px', minWidth:'100%', maxWidth:'100%'}} >
   <div style={{ display: 'flex', flexDirection: 'row', justifyContent:'center'}}>
@@ -367,93 +387,111 @@ const handleOnError = (e) => {
 </span>
 
     </div>
-    <div style={{ maxWidth:'35%', minWidth:'30%', maxHeight: '530px', overflow:'overlay', alignItems:'center', display:'flex', flexDirection:'column', padding: '0 auto'}}>
-      <table>
-        <tbody>
-          <tr>
-            <td>Points per game:</td>
-            <td>{playerStats["pts"]}</td>
-          </tr>
-          <tr>
-            <td>Assists per game:</td>
-            <td>{playerStats["ast"]}</td>
-          </tr>
-          <tr>
-            <td>Rebounds per game:</td>
-            <td>{playerStats["reb"]}</td>
-          </tr>
-          <tr>
-            <td>Steals per game:</td>
-            <td>{playerStats["stl"]}</td>
-          </tr>
-          <tr>
-            <td>Blocks per game:</td>
-            <td>{playerStats["blk"]}</td>
-          </tr>
-          <tr>
-            <td>Games played:</td>
-            <td>{playerStats["games_played"]}</td>
-          </tr>
-          <tr>
-            <td>Minutes per game:</td>
-            <td>{playerStats["min"]}</td>
-          </tr>
-          <tr>
-            <td>FG Made per game:</td>
-            <td>{playerStats["fgm"]}</td>
-          </tr>
-          <tr>
-            <td>FG Attempted per game:</td>
-            <td>{playerStats["fga"]}</td>
-          </tr>
-          <tr>
-            <td>3pt FG Made per game:</td>
-            <td>{playerStats["fg3m"]}</td>
-          </tr>
-          <tr>
-            <td>3pt FG Attempted per game:</td>
-            <td>{playerStats["fg3a"]}</td>
-          </tr>
-          <tr>
-            <td>Free Throws Made per game:</td>
-            <td>{playerStats["ftm"]}</td>
-          </tr>
-          <tr>
-            <td>Free Throws Attempted per game:</td>
-            <td>{playerStats["fta"]}</td>
-          </tr>
-          <tr>
-            <td>Offensive Rebounds per game:</td>
-            <td>{playerStats["oreb"]}</td>
-          </tr>
-          <tr>
-            <td>Defensive Rebounds per game:</td>
-            <td>{playerStats["dreb"]}</td>
-          </tr>
-          <tr>
-            <td>Turnovers per game:</td>
-            <td>{playerStats["turnover"]}</td>
-          </tr>
-          <tr>
-            <td>Personal Fouls per game:</td>
-            <td>{playerStats["pf"]}</td>
-          </tr>
-          <tr>
-            <td>Field Goal %:</td>
-            <td>{playerStats["fg_pct"]}</td>
-          </tr>
-          <tr>
-            <td>Three-Point Field Goal %:</td>
-            <td>{playerStats["fg3_pct"]}</td>
-          </tr>
-          <tr>
-            <td>Free Throw Percentage %:</td>
-            <td>{playerStats["ft_pct"]}</td>
-          </tr>
-        </tbody>
-      </table>
-     {isAuthenticated && <button onClick={handleLike} className="like-btn">Like Player</button> }
-    </div>
+    <div
+  style={{
+    maxWidth: '35%',
+    minWidth: '30%',
+    maxHeight: '530px',
+    overflow: 'overlay',
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '0 auto',
+  }}
+>
+  <table>
+    <tbody>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'PTS' : 'Points'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(playerStats["pts"] * playerStats["games_played"]) : playerStats["pts"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'AST' : 'Assists'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(playerStats["ast"] * playerStats["games_played"]) : playerStats["ast"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'REB' : 'Rebounds'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(playerStats["reb"] * playerStats["games_played"]) : playerStats["reb"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'STL' : 'Steals'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(playerStats["stl"] * playerStats["games_played"]) : playerStats["stl"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'BLK' : 'Blocks'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(playerStats["blk"] * playerStats["games_played"]) : playerStats["blk"]}</td>
+      </tr>
+      <tr>
+        <td>Games played:</td>
+        <td>{playerStats["games_played"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'MIN' : 'Minutes'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(convertMinutesToTotalMinutes(playerStats["min"]) * playerStats["games_played"]) : playerStats["min"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'FGM' : 'FG Made'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(playerStats["fgm"] * playerStats["games_played"]) : playerStats["fgm"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'FGA' : 'FG Attempted'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(playerStats["fga"] * playerStats["games_played"]) : playerStats["fga"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? '3PTM' : '3pt FG Made'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(playerStats["fg3m"] * playerStats["games_played"]) : playerStats["fg3m"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? '3PTA' : '3pt FG Attempted'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(playerStats["fg3a"] * playerStats["games_played"]) : playerStats["fg3a"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'FTM' : 'Free Throws Made'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(playerStats["ftm"] * playerStats["games_played"]) : playerStats["ftm"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'FTA' : 'Free Throws Attempted'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(playerStats["fta"] * playerStats["games_played"]) : playerStats["fta"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'OREB' : 'Offensive Rebounds'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(playerStats["oreb"] * playerStats["games_played"]) : playerStats["oreb"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'DREB' : 'Defensive Rebounds'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(playerStats["dreb"] * playerStats["games_played"]) : playerStats["dreb"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'TO' : 'Turnovers'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(playerStats["turnover"] * playerStats["games_played"]) : playerStats["turnover"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'PF' : 'Personal Fouls'} {showTotalStats ? 'Total' : 'per game'}:</td>
+        <td>{showTotalStats ? Math.round(playerStats["pf"] * playerStats["games_played"]) : playerStats["pf"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'FG%' : 'Field Goal %'}:</td>
+        <td>{playerStats["fg_pct"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? '3PT%' : 'Three-Point Field Goal %'}:</td>
+        <td>{playerStats["fg3_pct"]}</td>
+      </tr>
+      <tr>
+        <td>{windowDimensions.width <= 768 ? 'FT%' : 'Free Throw Percentage %'}:</td>
+        <td>{playerStats["ft_pct"]}</td>
+      </tr>
+    </tbody>
+  </table>
+  {isAuthenticated && (
+    <button onClick={handleLike} className="like-btn">
+      Like Player
+    </button>
+  )}
+</div>
+
+
+
   </div>
 </div>
 
@@ -533,6 +571,10 @@ const handleOnError = (e) => {
     setLikedPlayersLoading(false);
   };
 
+
+  const handleToggleStatsType = () => {
+    setShowTotalStats(!showTotalStats);
+  };
 
   useEffect(() => {
     if (user) {
@@ -705,19 +747,42 @@ const handleOnError = (e) => {
         </div>}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '50px' }}>
   <form className="form-1" onSubmit={handleSubmit}>
-    <div style={{ display: 'flex', flexDirection: windowDimensions.width <= 768 ? 'column' : 'row', justifyContent: 'center', alignItems:windowDimensions.width <= 768 ? 'center'  : 'none'}}>
+    <div style={{ display: 'flex', flexDirection: windowDimensions.width <= 768 ? 'column' : 'row', justifyContent: 'center',alignItems:'center'}}>
       <input
-        style={{ width: '120px', height: '48px', marginRight: '5px', padding: '0 auto' }}
+        style={{ fontSize: '1.2em',
+        padding: '10px',
+        border: 'none',
+        borderRadius: '5px',
+        boxShadow: '0px 0px 5px #ccc',
+        position: 'relative',
+        width: windowDimensions.width <=768 ? windowDimensions.width * 0.6 : windowDimensions.width * 0.15,
+        height:'48px',
+      margin:'1%',}}
         type="number"
         min="1979"
         max="2022"
         step="1"
         placeholder="Enter year"
         id="year"
+     
       />
-      <label>
+    
         <Autocomplete setPlayerName={setPlayerName} value={playerName} onChange={handleChange} isComponentA = {false} />
-      </label>
+          <div style = {{margin:windowDimensions.width <=768 ? '1%' : '0%'}}>
+        <div className="toggle-container">
+              <label className="switch-label">
+                <input
+                  type="checkbox"
+                  onChange={handleToggleStatsType}
+                  checked={showTotalStats}
+                  className="switch-input"
+                />
+                <span className="switch-slider"></span>
+              </label>
+              <span className="toggle-text">{showTotalStats ? 'Total Stats' : 'Per Game Stats'}</span>
+            </div>
+            </div>
+   
     </div>
     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
       <input className="like-btn" type="submit" value="Submit" style={{ marginRight: '5px' }} />

@@ -41,24 +41,6 @@ label {
 }
 
 
-
-
- .txt_input {
-  font-size: 1.2em;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0px 0px 5px #ccc;
-} 
-
-input[type="number"] {
-  font-size: 1.2em;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0px 0px 5px #ccc;
-}
-
 .submit {
   font-size: 1.2em;
   padding: 10px 20px;
