@@ -16,7 +16,7 @@ import Trivia from "./components/Trivia";
 import MyPosts from "./components/MyPosts";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthContextProvider, AuthContext } from "./Auth";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import fallback from './images/fallback.png'
 import Modal from 'react-modal';
@@ -28,6 +28,7 @@ import { backendUrl } from './config';
 import Autocomplete from "./components/Autocomplete";
 import LoadingAnimation from "./components/Loading";
 import './components/ToggleSwitch.css'
+import { convertMinutesToTotalMinutes } from "./components/Compare";
 
 const AppContent = () => {
   const {isAuthenticated, setIsAuthenticated, setUser, user} = useContext(AuthContext);
@@ -346,13 +347,7 @@ const handleOnError = (e) => {
       });
   };
  
- 
-  const convertMinutesToTotalMinutes = (minutes) => {
-    const [min, sec] = minutes.split(":");
-    return parseInt(min) + parseInt(sec) / 60;
-  };
- 
- 
+
  
   
  
@@ -709,7 +704,8 @@ const handleOnError = (e) => {
         <div style ={{transform:'translateY(20px)'}}> 
           {playerStats && Object.keys(playerStats).length > 0 && (show && <PlayerCard handleLike={handleLike} /> )}
 
-          {!show && <div
+          {!show && 
+          <div
           style={{
             display: 'flex',
             flexDirection: 'row',
@@ -721,13 +717,15 @@ const handleOnError = (e) => {
             maxWidth: '600px',
             overflow: 'auto',
             position: 'relative',
-            margin:'10px',
+            margin: '10px',
+            overflow: windowDimensions.width <= 768 ? 'hidden' : 'scroll',
           }}
         >
-          <p
+          <div
             style={{
-              fontSize: '24px',
-              textAlign: 'center',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
               position: 'absolute',
               top: '50%',
               left: '50%',
@@ -735,16 +733,31 @@ const handleOnError = (e) => {
               width: '100%',
             }}
           >
-            Enter year and player to view stats
-          </p>
-                  <FaInfoCircle
-                    style={{ color: '#17408b', fontSize: '20px', marginLeft: '5px', transform: 'translate(210px,25px)' }}
-                    data-tooltip-id="info-tooltip"
-                    data-tooltip-content="Year refers to the starting year of the season. For example, 2022 refers to the 2022-23 season"
-                  />
-                  <Tooltip id="info-tooltip" />
-         
-        </div>}
+            <p
+              style={{
+                fontSize: windowDimensions.width <= 768 ? '20px' : '24px',
+                textAlign: 'center',
+              }}
+            >
+              Enter year and player to view stats
+            </p>
+            <FaInfoCircle
+              style={{ color: '#17408b', fontSize: '20px', marginLeft: '5px' }}
+              data-tooltip-id="info-tooltip"
+              data-tooltip-content="Year refers to the starting year of the season. For example, 2022 refers to the 2022-23 season."
+            />
+           <Tooltip 
+            id="info-tooltip"
+            place={windowDimensions.width <= 768 ? "bottom" : "right"}
+            effect="solid"
+            multiline={true}
+            multilineMaxWidth={200} 
+            style={{width:'200px', height: windowDimensions.width <= 768 ? '100px' : 'auto'}}
+          />
+
+          </div>
+        </div>
+        }
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '50px' }}>
   <form className="form-1" onSubmit={handleSubmit}>
     <div style={{ display: 'flex', flexDirection: windowDimensions.width <= 768 ? 'column' : 'row', justifyContent: 'center',alignItems:'center'}}>

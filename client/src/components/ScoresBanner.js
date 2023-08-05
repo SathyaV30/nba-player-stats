@@ -21,6 +21,20 @@ const ScoresBanner = () => {
   const [isBetslipOpen, setIsBetslipOpen] = useState(false);
   const [userPredictions, setUserPredictions] = useState({});
   const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   
   const handleBetslipClick = () => {
@@ -873,10 +887,12 @@ const ScoresBanner = () => {
       <FaInfoCircle
         style={{ color: '#17408b', fontSize: '20px', marginLeft: '5px', verticalAlign: 'middle' }}
         data-tooltip-id="info-tooltip"
-        data-tooltip-content="View live scores or predict the outcome of upcoming games. Click on the calendar icon to manually select the date. 
-        The percentages displayed for upcoming games reflect the fraction of users who believe that team will win the game"
+        data-tooltip-content="View live scores or predict game outcomes. Click the calendar icon to pick a date. 
+        Displayed percentages for future games show the proportion of users backing each team to win."
       />
-      <Tooltip id="info-tooltip"  multiline={true} multilineMaxWidth={200} style={{ width: windowDimensions.width <=768 ? windowDimensions.width : windowDimensions.width * 0.6 }} place= 'top'/>
+      <Tooltip id="info-tooltip"  multiline={true} multilineMaxWidth={500} 
+      style={{ width: windowDimensions.width <= 768 ? windowDimensions.width : windowDimensions.width * 0.3 }}
+       place = {windowDimensions.width <=768 ?  'top' :'right' }/>
     </div>
   <div className="date-navigation" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
     <button onClick={handlePreviousDay} className="day-btn">
