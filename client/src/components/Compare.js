@@ -478,7 +478,7 @@ const Compare = () => {
                     style={{
                       padding: '10px',
                       margin: '10px',
-                      border: '1px solid black',
+                      border: '0.8px solid #17408B',
                       borderRadius: '5px',
                       backgroundColor: selectedStats.includes(stat.key) ? '#25549b' : 'transparent',
                       cursor: 'pointer',
@@ -531,7 +531,7 @@ const Compare = () => {
        height:'48px' ,
        fontSize: '1.2em',
        padding: '10px',
-       border: 'none',
+       border: '0.8px solid #17408B',
        borderRadius: '5px',
        boxShadow: '0px 0px 5px #ccc',
        marginLeft:'3px',
@@ -550,7 +550,7 @@ const Compare = () => {
        height:'48px',
        fontSize: '1.2em',
        padding: '10px',
-       border: 'none',
+       border: '0.8px solid #17408B',
        borderRadius: '5px',
        boxShadow: '0px 0px 5px #ccc',
        marginTop:windowDimensions.width<=768 ? '3px' : ''

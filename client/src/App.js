@@ -787,7 +787,7 @@ const handleOnError = (e) => {
       <input
         style={{ fontSize: '1.2em',
         padding: '10px',
-        border: 'none',
+        border: '0.8px solid #17408B',
         borderRadius: '5px',
         boxShadow: '0px 0px 5px #ccc',
         position: 'relative',
@@ -798,7 +798,7 @@ const handleOnError = (e) => {
         min="1979"
         max="2022"
         step="1"
-        placeholder="Enter year"
+        placeholder="Enter Year"
         id="year"
      
       />

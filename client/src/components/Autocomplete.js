@@ -6,7 +6,7 @@ import NBACsv from '../nba.csv'
 const inputStyles = {
     fontSize: '1.2em',
     padding: '10px',
-    border: 'none',
+    border: '0.8px solid #17408B',
     borderRadius: '5px',
     boxShadow: '0px 0px 5px #ccc',
     width: '100%', 

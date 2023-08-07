@@ -439,7 +439,7 @@ const Conditions = () => {
           >
             <label style={{ fontSize: '20px' }}>
               Year:
-              <input style={{ padding:'8px', fontSize:'1.2rem', marginTop: '10px', marginLeft: '3px',marginRight:'10px', border:'0.8px solid', borderRadius:'5px'}} type="number" value={year} onChange={handleYearChange} />
+              <input style={{ padding:'8px', fontSize:'1.2rem', marginTop: '10px', marginLeft: '3px',marginRight:'10px', border:'0.8px solid #17408B', borderRadius:'5px'}} type="number" value={year} onChange={handleYearChange} />
             </label>
             <button style={styles.buttonStyle} type="button" onClick={handleAddCondition}>
               Add Condition
@@ -477,7 +477,7 @@ const Conditions = () => {
                   <select
                     value={condition.key}
                     onChange={(e) => handleInputChange(e, index, 'key')}
-                    style={{ marginLeft: '5px', padding: '5px',borderRadius:'5px', border:'0.8px solid'  }}
+                    style={{ marginLeft: '5px', padding: '5px',borderRadius:'5px', border:'0.8px solid #17408B'  }}
                   >
                     <option value="">Select</option>
                     {possibleStats.map((stat) => (
@@ -494,7 +494,7 @@ const Conditions = () => {
                   <select
                     value={condition.operator}
                     onChange={(e) => handleInputChange(e, index, 'operator')}
-                    style={{ marginLeft: '5px', padding: '5px',borderRadius:'5px', border:'0.8px solid'  }}
+                    style={{ marginLeft: '5px', padding: '5px',borderRadius:'5px', border:'0.8px solid #17408B'  }}
                   >
                     <option value="">Select</option>
                     {operators.map((operator) => (

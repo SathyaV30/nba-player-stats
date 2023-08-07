@@ -11,6 +11,7 @@ import Draggable from 'react-draggable';
 import { FaTrophy } from "react-icons/fa";
 import { Tooltip } from 'react-tooltip';
 import { backendUrl } from '../config';
+import LoadingAnimation from "./Loading";
 
 const ScoresBanner = () => {
   const [liveGames, setLiveGames] = useState([]);
@@ -20,6 +21,7 @@ const ScoresBanner = () => {
   const [selectedTeams, setSelectedTeams] = useState({});
   const [isBetslipOpen, setIsBetslipOpen] = useState(false);
   const [userPredictions, setUserPredictions] = useState({});
+  const [loading, setLoading] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
   useEffect(() => {
     const handleResize = () => {
@@ -379,8 +381,8 @@ const ScoresBanner = () => {
   };
 
 
-
   const fetchLiveGames = async () => {
+    setLoading(true);
     const selectedDateString = selectedDate.toISOString().split("T")[0];
 
     try {
@@ -402,6 +404,7 @@ const ScoresBanner = () => {
         progress: undefined,
       });
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -435,11 +438,13 @@ const ScoresBanner = () => {
   };
 
   const handleSelectDay = (event) => {
-    const selectedDay = new Date(event.target.value);
-    setSelectedDate(selectedDay);
-    setDateString(setFormattedDateString(selectedDay));
+    if (event.target.value.trim() !== "") {
+      const selectedDay = new Date(event.target.value);
+      setSelectedDate(selectedDay);
+      setDateString(setFormattedDateString(selectedDay));
+    }
   };
-
+  
   const handleSelectTeam = (gameId, team, game, e) => {
     if (!isAuthenticated) {
       toast.error('Please login or register to make predictions', {
@@ -896,10 +901,11 @@ const ScoresBanner = () => {
     </div>
   <div className="date-navigation" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
     <button onClick={handlePreviousDay} className="day-btn">
-       {windowDimensions.width <=768 ? 'Previous' : 'Previous Day'}
+    Previous Day
     </button>
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-        <span style={{ marginBottom: '2%' }} className="date">{DateString}</span>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ margin: '2%' }} className="date">{DateString}</span>
         <span>
             <label
                 htmlFor="dateInput"
@@ -907,9 +913,10 @@ const ScoresBanner = () => {
                     display: 'flex',
                     alignItems: 'flex-end',
                     justifyContent: 'center',
-                    width: '24px',
-                    height: '24px',
-                    position: 'relative'
+                    width: '100%',
+                    height: '100%',
+                    position: 'relative',
+                    marginTop:'7px',
                 }}
             >
                 <FaCalendarAlt />
@@ -935,12 +942,14 @@ const ScoresBanner = () => {
             </label>
         </span>
     </div>
-    <button onClick={handleNextDay} className="day-btn">
-    {windowDimensions.width <=768 ? 'Next' : 'Next Day'} 
-    </button>
 </div>
 
-    {liveGames.length > 0 ? (
+    <button onClick={handleNextDay} className="day-btn">
+     Next Day
+    </button>
+</div>
+    {loading ? <LoadingAnimation/> :
+    liveGames.length > 0 ? (
       <div className="games-container">
         {liveGames.map((game) => {
           const prediction = userPredictions[game.id] || { homeTeamPercentage: 50, awayTeamPercentage: 50 };
