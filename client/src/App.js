@@ -29,6 +29,19 @@ import Autocomplete from "./components/Autocomplete";
 import LoadingAnimation from "./components/Loading";
 import './components/ToggleSwitch.css'
 import { convertMinutesToTotalMinutes } from "./components/Compare";
+import { CSSTransition } from 'react-transition-group';
+
+
+
+const App = () => {
+
+ return ( 
+  <AuthContextProvider>
+ <AppContent />
+</AuthContextProvider>
+);
+
+}
 
 const AppContent = () => {
   const {isAuthenticated, setIsAuthenticated, setUser, user} = useContext(AuthContext);
@@ -45,6 +58,11 @@ const AppContent = () => {
   const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
   const [likedPlayersLoading, setLikedPlayersLoading] = useState(false);
   const [showTotalStats, setShowTotalStats] = useState(false);
+
+
+  
+
+
   useEffect(() => {
     const handleResize = () => {
       setWindowDimensions({
@@ -701,7 +719,9 @@ const handleOnError = (e) => {
     <Navbar />
     <Routes>
       <Route path="/" element={
+    
         <div style ={{transform:'translateY(20px)'}}> 
+          
           {playerStats && Object.keys(playerStats).length > 0 && (show && <PlayerCard handleLike={handleLike} /> )}
 
           {!show && 
@@ -756,7 +776,10 @@ const handleOnError = (e) => {
           />
 
           </div>
+          
         </div>
+        
+
         }
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '50px' }}>
   <form className="form-1" onSubmit={handleSubmit}>
@@ -806,6 +829,7 @@ const handleOnError = (e) => {
 
         
         </div>
+     
       }/>
      <Route
   path="/Favorites"
@@ -841,14 +865,5 @@ const handleOnError = (e) => {
   );
 };
 
-
-const App = () => {
- return ( 
-  <AuthContextProvider>
- <AppContent />
-</AuthContextProvider>
-);
-
-}
 
 export default App;

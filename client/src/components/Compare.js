@@ -67,8 +67,6 @@ const Compare = () => {
   const [modalIsOpen, setModalIsOpen] = useState(true);
   const [selectedOption, setSelectedOption] = useState('Individual');
   const [showTotalStats, setShowTotalStats] = useState(false);
-  const [tooManyRequests, setTooManyRequests] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [playerInputsCopy, setPlayerInputsCopy] = useState([]);
   const [loading, setIsLoading] = useState(false);
   const [cachedData, setCachedData] = useState([]);
@@ -226,7 +224,6 @@ const Compare = () => {
   };
 
   const addPlayerInput = () => {
-    setSubmitted(false);
     const newPlayerInput = { id: playerInputs.length + 1, playerName: '', startYear: '', endYear: '' };
     setPlayerInputs([...playerInputs, newPlayerInput]);
     setInputsChanged(true);
@@ -328,7 +325,6 @@ const Compare = () => {
         } catch (error) {
           if (error.response && error.response.status === 429) {
             tooManyRequestsError = true;
-            setTooManyRequests(true);
             throw new Error('Too many requests');
           }
           throw error;
@@ -372,7 +368,6 @@ const Compare = () => {
         });
       }
     }
-    setSubmitted(true);
     setIsLoading(false);
     setInputsChanged(false);
   };
