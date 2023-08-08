@@ -28,6 +28,7 @@ const Register = () => {
       width:'350px',
       margin: 'auto',
       backgroundColor:theme == 'light' ? '#f1f1f1' : '#353535',
+      transition:' background-color 0.3s, color 0.3s',
     },
     inputGroup: {
       position: 'relative',
