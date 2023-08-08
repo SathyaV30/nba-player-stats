@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import ReactQuill from 'react-quill'
-import { AuthContext } from '../Auth'
+import { AuthContext, ThemeContext } from '../Auth'
 import 'react-quill/dist/quill.snow.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,7 +14,8 @@ const Post = () => {
     const [title,setTitle] = useState('');
     const [summary,setSummary] = useState('');
     const [content,setContent] = useState('');
-    const {isAuthenticated} = useContext(AuthContext)
+    const {isAuthenticated} = useContext(AuthContext);
+    const {theme} = useContext(ThemeContext);
     const styles = {
       form: {
         display: 'flex',
@@ -26,17 +27,21 @@ const Post = () => {
         border: 'none',
         borderRadius: '10px',
         width: windowDimensions.width <=768 ? '95%' : '60%',
-        margin: 'auto'
+        margin: 'auto',
+        
       },
       input: {
         width: '100%',
         padding: '10px',
         borderRadius: '5px',
-        border: '1px solid #ccc'
+        border: '1px solid #ccc',
+        backgroundColor: theme === 'light' ? '#f1f1f1' : '#353535',
+        color: theme == 'light' ? '#353535' : '#e8e5e5',
       },
       quill: {
         width: '100%',
-        height: '200px'
+        minHeight: '100%',
+        backgroundColor: theme === 'light' ? '#f1f1f1' : '#353535',
       },
       button: {
         width: '100%',

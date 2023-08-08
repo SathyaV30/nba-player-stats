@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
 import UserInfoModal from './UserInfoModal';
 import fallback from '../images/fallback.png'
+import { ThemeContext } from '../Auth';
 
 const FollowListModal = ({ isOpen, onRequestClose, followList, type }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isUserInfoModalOpen, setIsUserInfoModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const {theme} = useContext(ThemeContext)
 
   const handleUsernameClick = (user) => {
     setSelectedUser(user);
@@ -31,12 +33,13 @@ const FollowListModal = ({ isOpen, onRequestClose, followList, type }) => {
           width: '400px',
           height: '300px',
           overflow: 'auto',
-          backgroundColor: '#FFF',
+          backgroundColor: theme == 'light' ? '#f1f1f1' : '#353535',
+          color: theme == 'light' ? '#353535' : '#e8e5e5',
           borderRadius: '10px',
           padding: '20px',
         },
         overlay: {
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          backgroundColor: 'rgba(0, 0, 0, 0.3)',
         },
       }}
     >
@@ -51,6 +54,8 @@ const FollowListModal = ({ isOpen, onRequestClose, followList, type }) => {
           marginBottom: '10px',
           borderRadius: '5px',
           border: '1px solid #ccc',
+          backgroundColor: theme == 'light' ? '#fbfbfb' : '#222222',
+          color: theme == 'light' ? '#353535' : '#e8e5e5',
         }}
       />
 

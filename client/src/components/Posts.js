@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../Auth';
+import { AuthContext, ThemeContext } from '../Auth';
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import Papa from 'papaparse';
@@ -18,6 +18,7 @@ import LoadingAnimation from './Loading';
 
 const Posts = () => {
   const { isAuthenticated, user } = useContext(AuthContext);
+  const {theme} = useContext(ThemeContext);
   const [posts, setPosts] = useState([]);
   const [editingPost, setEditingPost] = useState(null);
   const [title, setTitle] = useState('');
@@ -56,22 +57,25 @@ const Posts = () => {
       padding: '20px',
       marginBottom: '20px',
       borderRadius: '10px',
+      backgroundColor: theme === 'light' ? '#f1f1f1' : '#353535',
+      transition: 'background-color 0.3s, color 0.3s',
     },
     postTitle: {
-      color: '#333',
+      color: theme === 'light' ? '#333' : '#bbb',
       fontSize: '24px',
       wordWrap: 'break-word',
     },
     postSummary: {
-      color: '#666',
+      color: theme === 'light' ? '#666' : '#999',
       fontSize: '18px',
       wordWrap: 'break-word',
     },
     postContent: {
-      color: '#444',
+      color: theme === 'light' ? '#444' : '#aaa',
       fontSize: '16px',
       wordWrap: 'break-word',
     },
+    
     postButton: {
       backgroundColor: '#17408B',
       color: 'white',
@@ -123,21 +127,21 @@ const Posts = () => {
       borderRadius: '5px',
       padding: '5px 10px',
       marginTop: '10px',
+      backgroundColor: theme === 'light' ? '#f1f1f1' : '#353535',
+      color: theme == 'light' ? '#353535' : '#e8e5e5',
     },
     modalContent: {
       position: 'absolute',
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-
-    
       overflow: 'auto',
       backgroundColor: '#FFF',
       borderRadius: '10px',
       padding: '20px',
     },
     modalOverlay: {
-      backgroundColor: 'rgba(0, 0, 0, 0.12)',
+      backgroundColor: 'rgba(0, 0, 0, 0.3)',
     },
   };
   
@@ -435,7 +439,7 @@ return (
                 >
                 <UserInfoModal isOpen={userModal} onRequestClose={() => setUserModal(false)} userInfo={userInfo} />
               </Modal>
-                  {post.author._id === user.id && (
+                  {post.author.username === user && (
                     <>
                       <button style={styles.postButton} onClick={() => editPost(post)}><FaEdit/></button>
                       <button style={styles.postButton} onClick={() => deletePost(post)}><FaTrash/></button>

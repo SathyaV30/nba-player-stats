@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from "../Auth";
+import { AuthContext, ThemeContext } from "../Auth";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from "axios";
@@ -375,6 +375,7 @@ function ProfilePage({ setFavoritePlayersVersion }) {
   const [followingData, setFollowingData] = useState([])
   const [selectedType, setSelectedType] = useState('Followers');
   const [loading, setIsLoading] = useState(false);
+  const {theme} = useContext(ThemeContext);
   useEffect(() => {
     const handleResize = () => {
       setWindowDimensions({
@@ -389,15 +390,12 @@ function ProfilePage({ setFavoritePlayersVersion }) {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
-
   const styles = {
     progressContainer: {
       height: '20px',
       width: '100%',
       margin: '10px 0',
     },
-    
     progress: {
       height: '100%',
       borderRadius: 'inherit',
@@ -409,6 +407,8 @@ function ProfilePage({ setFavoritePlayersVersion }) {
       width:'100%',
       borderRadius: '4px',
       boxSizing: 'border-box',
+      backgroundColor: theme == 'light' ? '#f1f1f1' : '#353535',
+      color: theme == 'light' ? '#353535' : '#e8e5e5',
     },
     button: {
       margin: '10px',
@@ -428,14 +428,16 @@ function ProfilePage({ setFavoritePlayersVersion }) {
       margin: 'auto',
     },
     header: {
-      color: 'black',
+      color: theme == 'light' ? '#353535' : '#e8e5e5',
       margin: '10px 0',
     },
     quill: {
-      padding: '10px',
-      borderColor: 'lightgrey',
+      marginLeft: '10px',
+      backgroundColor: theme === 'light' ? '#f1f1f1' : '#353535',
       borderRadius: '4px',
-      minWidth: '100%',
+      minWidth: '80%',
+      minHeight:'50%',
+      transition: 'background-color 0.3s, color 0.3s',
     },
     playerContainer: {
       minWidth: '100%',
@@ -446,8 +448,6 @@ function ProfilePage({ setFavoritePlayersVersion }) {
       marginTop: '10px',
       flexDirection: windowDimensions.width <=768 ? 'column' : 'row',
       flexWrap: 'wrap',
-      
-  
     },player: {
       margin: '10px',
       display: 'flex',
@@ -462,6 +462,8 @@ function ProfilePage({ setFavoritePlayersVersion }) {
       maxWidth:'122.5px',
       overflow:'hidden',
       cursor:'pointer',
+      backgroundColor: theme == 'light' ? '#f1f1f1' : '#353535',
+
     },
     playerImage: {
       width: '100px', 
@@ -492,6 +494,7 @@ function ProfilePage({ setFavoritePlayersVersion }) {
       border:'1px lightgrey solid',
       cursor:'pointer',
       opacity: isHovered ? '0.2' : '1',
+      backgroundColor: theme === 'light' ? '#f1f1f1' : '#353535',
     },
     editButton:{
       position: 'absolute',

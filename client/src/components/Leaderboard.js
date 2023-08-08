@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import ReactCountryFlag from "react-country-flag"
 import axios from 'axios';
@@ -6,6 +6,7 @@ import Modal from 'react-modal'
 import UserInfoModal from './UserInfoModal';
 import { backendUrl } from '../config';
 import LoadingAnimation from './Loading';
+import { ThemeContext } from '../Auth';
 
 const countryMap = {
     "Afghanistan": "AF",
@@ -291,6 +292,7 @@ const Leaderboard = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
+  const {theme} = useContext(ThemeContext);
 
   useEffect(() => {
     const handleResize = () => {
@@ -372,7 +374,7 @@ const Leaderboard = () => {
               @{user.username}
             </a>
           </div>
-          <div style={{ flex: 2, textAlign: 'center' }}>{user.coins}</div>
+          <div style={{ flex: 2, textAlign: 'center' }}><strong>{user.coins}</strong></div>
           <div style={{ flex: 3, textAlign: 'center' }}>
             <ReactCountryFlag
               style={{
@@ -402,7 +404,7 @@ const Leaderboard = () => {
             justifyContent: 'space-between',
             margin: '10px',
             borderRadius: '10px',
-            backgroundColor: 'white',
+            backgroundColor: theme == 'light' ? 'white' : '#bab7b6',
             border: '1px solid black',
           }}
         >

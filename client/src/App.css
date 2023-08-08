@@ -5,6 +5,49 @@
   margin-top: 50px;
 }
 
+:root {
+  --color-background-light: #fbfbfb;
+  --color-text-light: #353535;
+
+  --color-background-dark: #222222;
+  --color-text-dark: #e8e5e5;
+}
+
+.light-theme {
+  --color-background: var(--color-background-light);
+  --color-text: var(--color-text-light);
+  --liked-player:#f1f1f1;
+  --nav-color:#f1f1f1;
+  --liked-player-shadow:rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  --placeholder-color: #353535;
+}
+.ql-editor {
+  min-height: 200px;
+  max-height: 200px;
+  overflow: scroll;
+}
+.ql-editor.ql-blank[data-placeholder]:before {
+  color: var(--color-text);
+}
+
+.dark-theme {
+  --color-background: var(--color-background-dark);
+  --color-text: var(--color-text-dark);
+  --liked-player: #353535;
+  --nav-color:#353535;
+  --liked-player-shadow:rgba(255, 255, 255, 0.35) 0px 5px 15px;
+  --placeholder-color: #e8e5e5;
+}
+
+input::placeholder {
+  color: var(--placeholder-color);
+}
+
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+  position: fixed !important; 
+  inset: 0px !important; 
+  background-color: rgba(0,0,0,0.3) !important;
+}
 
 
 form-1 {
@@ -49,7 +92,7 @@ label {
   color: white;
   border: none;
   border-radius: 5px;
-  box-shadow: 0px 0px 5px #ccc;
+  box-shadow: 0px 0px 1px #ccc;
   cursor: pointer;
   margin-left: 10px;
   z-index: 100;
@@ -119,7 +162,7 @@ label {
   color: white;
   border: none;
   border-radius: 5px;
-  box-shadow: 0px 0px 5px #ccc;
+  box-shadow: 0px 0px 1px #ccc;
   cursor: pointer;
   margin: 3.5px;
   z-index: 100;
@@ -135,7 +178,7 @@ label {
   color: white;
   border: none;
   border-radius: 5px;
-  box-shadow: 0px 0px 5px #ccc;
+  box-shadow: 0px 0px 1px #ccc;
   cursor: pointer;
   transform: scale(0.8);
  
@@ -162,7 +205,9 @@ button {
 body {
   margin:0 auto;
   overflow: overlay;
-  background-color: #ffffff;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 
@@ -194,16 +239,14 @@ body {
   list-style: none;
 }
 
-
-
 .dropdown {
   position: absolute;
   top: 75px;
   right: 0;
   width: 30%;
   height: 100%;
-  background-color: #e3e3e3;
-  transform: translateX(0%); 
+  background-color: var(--nav-color);
+  transform: translateX(0%);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -211,7 +254,10 @@ body {
   z-index: 999;
   border: #17408B;
   border-radius: 0 0 0 5px;
+  box-shadow: -10px 0 15px rgba(0, 0, 0, 0.2), 0 8px 15px rgba(0, 0, 0, 0.2); /* Added bottom box shadow */
 }
+
+
 
 .dropdown-container {
   display: flex;
@@ -256,20 +302,20 @@ body {
 
 
 
-
 .nav {
-  background-color: #e3e3e3b4;
-  color: black;
+  background-color: var(--nav-color);
+  color: var(--color-text);
   display: flex;
   justify-content: space-between;
-  align-items:center;
+  align-items: center;
   gap: 2rem;
   padding: 0 1rem;
   height: 75px;
-  box-shadow: 0 2px 2px -2px rgba(0,0,0,.2);
+  box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.06), -10px 0 15px rgba(0, 0, 0, 0.2); /* Added the same box shadow to the left */
   font: 120% system-ui;
   text-align: center;
   min-width: 100%;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 
@@ -327,7 +373,7 @@ body {
   border: 1px solid lightgrey;
   cursor: pointer;
   border-radius: 30px;
-  background: #f2f2f2;
+  background: var(--liked-player);
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
   margin-bottom: 50px;
   margin-left: 35px;
@@ -338,8 +384,7 @@ body {
 }
 
 .liked-player-card:hover,.liked-player-card-2:hover {
-  
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: var(--liked-player-shadow);
  
 }
 
@@ -366,7 +411,8 @@ body {
   background: #f2f2f2;
   border: 0.3px solid;
 
-}netlify deploy --prod
+}
+netlify deploy --prod
 .lcb-p {
   margin-bottom: 2px;
   
@@ -396,9 +442,7 @@ body {
   margin-top: 20px;
 }
 
-.body {
-  margin-bottom: 300px;
-}
+
 .scores-banner {
   text-align: center;
   position: relative;
@@ -466,7 +510,7 @@ body {
 }
 
 .game-card {
-  background-color: #ffffff;
+  background-color: var(--nav-color);
   border: 1px solid #dddddd;
   padding: 20px;
   display: flex;
@@ -499,7 +543,7 @@ body {
   color: white;
   border: none;
   border-radius: 5px;
-  box-shadow: 0px 0px 5px #ccc;
+  box-shadow: 0px 0px 1px #ccc;
   cursor: pointer;
   width: 150px;
   margin: 10px;

@@ -1,6 +1,8 @@
+import { useContext } from "react";
+import { ThemeContext } from "../Auth";
 
 const LoadingAnimation = ({minWidth, maxWidth, minHeight, maxHeight}) => {
-
+  const {theme} = useContext(ThemeContext)
 
   const dotAnimation = {
     animation: 'dot-animation 1.4s infinite',
@@ -32,7 +34,7 @@ const LoadingAnimation = ({minWidth, maxWidth, minHeight, maxHeight}) => {
           }
         `}
       </style>
-      <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#333' }}>
+      <div style={{ fontSize: '24px', fontWeight: 'bold', color:theme == 'light' ? '#353535' : '#e8e5e5' }}>
         Loading
         <span style={{ ...dotAnimation, ...dot2Animation }}>.</span>
         <span style={{ ...dotAnimation, ...dot3Animation }}>.</span>

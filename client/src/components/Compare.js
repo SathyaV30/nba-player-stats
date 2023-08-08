@@ -14,6 +14,8 @@ import Autocomplete from './Autocomplete';
 import '../App.css'
 import Conditions from './Conditions';
 import LeagueLeaders from './LeagueLeaders';
+import { useContext } from 'react';
+import { ThemeContext } from '../Auth';
 
 const fgOptions = {
   scales: {
@@ -71,6 +73,7 @@ const Compare = () => {
   const [loading, setIsLoading] = useState(false);
   const [cachedData, setCachedData] = useState([]);
   const [inputsChanged, setInputsChanged] = useState(false);
+  const {theme} = useContext(ThemeContext);
 
 
   useEffect(() => {
@@ -158,7 +161,7 @@ const Compare = () => {
       margin: '3px auto',
       padding: '5px',
       borderRadius: '4px',
-      border: '1px solid #17408b',
+      border: '0.8px solid #17408b',
     },
     buttonStyle: {
       backgroundColor: '#17408b',
@@ -391,13 +394,13 @@ const Compare = () => {
   onRequestClose={() => setModalIsOpen(false)}
   style={{
     overlay: {
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      backgroundColor: 'rgba(0, 0, 0, 0.3)',
     },
     content: {
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      backgroundColor: '#fff',
+      backgroundColor: theme === 'light' ? '#f1f1f1' : '#353535',
       padding: '40px',
       borderRadius: '8px',
       display: 'flex',
@@ -480,7 +483,7 @@ const Compare = () => {
                       margin: '10px',
                       border: '0.8px solid #17408B',
                       borderRadius: '5px',
-                      backgroundColor: selectedStats.includes(stat.key) ? '#25549b' : 'transparent',
+                      backgroundColor: selectedStats.includes(stat.key) ? '#17408B' : 'transparent',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
@@ -533,10 +536,12 @@ const Compare = () => {
        padding: '10px',
        border: '0.8px solid #17408B',
        borderRadius: '5px',
-       boxShadow: '0px 0px 5px #ccc',
+       boxShadow: '0px 0px 1px #ccc',
        marginLeft:'3px',
        marginRight:'3px',
-       marginTop:windowDimensions.width<=768 ? '3px' : ''
+       marginTop:windowDimensions.width<=768 ? '3px' : '',
+       backgroundColor: theme == 'light' ? '#f1f1f1' : '#353535',
+    color: theme == 'light' ? '#353535' : '#e8e5e5',
 }}
        
     />
@@ -552,8 +557,10 @@ const Compare = () => {
        padding: '10px',
        border: '0.8px solid #17408B',
        borderRadius: '5px',
-       boxShadow: '0px 0px 5px #ccc',
-       marginTop:windowDimensions.width<=768 ? '3px' : ''
+       boxShadow: '0px 0px 1px #ccc',
+       marginTop:windowDimensions.width<=768 ? '3px' : '',
+       backgroundColor: theme == 'light' ? '#f1f1f1' : '#353535',
+       color: theme == 'light' ? '#353535' : '#e8e5e5',
   
     }}
     />

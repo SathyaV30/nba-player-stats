@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { PlayerIdMap } from './PlayerIdMap';
 import './ToggleSwitch.css'
 import { toast } from 'react-toastify';
@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import LoadingAnimation from './Loading';
 import '../App.css';
 import { convertMinutesToTotalMinutes, possibleStats } from './Compare';
+import { ThemeContext } from '../Auth';
 
     const LeagueLeaders = () => {
     const [leaders, setLeaders] = useState([]);
@@ -17,6 +18,7 @@ import { convertMinutesToTotalMinutes, possibleStats } from './Compare';
     const [showTotalStats, setShowTotalStats] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const {theme} = useContext(ThemeContext)
   
     const [windowDimensions, setWindowDimensions] = useState({
       width: window.innerWidth,
@@ -173,7 +175,7 @@ import { convertMinutesToTotalMinutes, possibleStats } from './Compare';
                   id="year"
                   value={year}
                   onChange={(event) => setYear(event.target.value)}
-                  style={{ flex: '1 0 200px', margin: '0 10px', padding: '5px', borderRadius: '4px', border: '1px solid #17408b' }}
+                  style={{ color: theme == 'light' ? 'black' : 'white', flex: '1 0 200px', margin: '0 10px', padding: '5px', borderRadius: '4px', border: '0.8px solid #17408b', backgroundColor: theme == 'light' ? '#e8e5e5' : '#353535'}}
                 />
               </div>
               <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
@@ -187,8 +189,10 @@ import { convertMinutesToTotalMinutes, possibleStats } from './Compare';
         margin: '0 10px',
         padding: '5px',
         borderRadius: '4px',
-        border: '1px solid #17408b',
-        overflow: 'hidden'
+        border: '0.8px solid #17408b',
+        overflow: 'hidden',
+        color: theme == 'light' ? 'black' : 'white',
+        backgroundColor: theme == 'light' ? '#e8e5e5' : '#353535'
       }}
     >
       <option value="">Select a stat</option>
@@ -207,7 +211,9 @@ import { convertMinutesToTotalMinutes, possibleStats } from './Compare';
                   min="1"
                   value={numPlayers}
                   onChange={(event) => setNumPlayers(parseInt(event.target.value))}
-                  style={{ flex: '1 0 200px', margin: '0 10px', padding: '5px', borderRadius: '4px', border: '1px solid #17408b' }}
+                  style={{ flex: '1 0 200px', margin: '0 10px', padding: '5px', borderRadius: '4px', border: '0.8px solid #17408b',
+                  color: theme == 'light' ? 'black' : 'white',
+                  backgroundColor: theme == 'light' ? '#e8e5e5' : '#353535' }}
                 />
               </div>
               <div style ={{display: 'flex', flexDirection:'row', justifyContent:'center'}}>

@@ -30,17 +30,36 @@ import LoadingAnimation from "./components/Loading";
 import './components/ToggleSwitch.css'
 import { convertMinutesToTotalMinutes } from "./components/Compare";
 import { CSSTransition } from 'react-transition-group';
-
+import { ThemeContext } from './Auth';
 
 
 const App = () => {
+  
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  const [theme, setTheme] = useState(savedTheme);
 
- return ( 
-  <AuthContextProvider>
- <AppContent />
-</AuthContextProvider>
-);
+  const toggleTheme = () => {
+    setTheme(prevTheme => {
+      const newTheme = prevTheme === 'light' ? 'dark' : 'light';
+      localStorage.setItem('theme', newTheme);
+      return newTheme;
+    });
+  };
 
+  useEffect(() => {
+    document.body.className = '';
+    document.body.classList.add(theme + '-theme');
+  }, [theme]);
+
+  return (
+    <AuthContextProvider>
+      <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <div className={theme + "-theme"}>
+          <AppContent />
+        </div>
+      </ThemeContext.Provider>
+    </AuthContextProvider>
+  );
 }
 
 const AppContent = () => {
@@ -58,6 +77,7 @@ const AppContent = () => {
   const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
   const [likedPlayersLoading, setLikedPlayersLoading] = useState(false);
   const [showTotalStats, setShowTotalStats] = useState(false);
+  const {theme} = useContext(ThemeContext)
 
 
   
@@ -789,17 +809,20 @@ const handleOnError = (e) => {
         padding: '10px',
         border: '0.8px solid #17408B',
         borderRadius: '5px',
-        boxShadow: '0px 0px 5px #ccc',
+        boxShadow: '0px 0px 1px #ccc',
         position: 'relative',
         width: windowDimensions.width <=768 ? windowDimensions.width * 0.6 : windowDimensions.width * 0.15,
         height:'48px',
-      margin:'1%',}}
+      margin:'1%',
+      backgroundColor: theme == 'light' ? '#f1f1f1' : '#353535',
+      color: theme == 'light' ? '#353535' : '#e8e5e5',}}
         type="number"
         min="1979"
         max="2022"
         step="1"
         placeholder="Enter Year"
         id="year"
+        
      
       />
     

@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { AuthContext } from '../Auth';
+import { AuthContext, ThemeContext } from '../Auth';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { backendUrl } from '../config';
@@ -16,6 +16,7 @@ const Login = () => {
   const [redirect,setRedirect] = useState(false)
   const {setIsAuthenticated, setUser, user}  = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+  const {theme} = useContext(ThemeContext);
   
   const styles = {
     form: {
@@ -30,12 +31,15 @@ const Login = () => {
       padding: '30px', 
       width:'350px',
       margin: 'auto',
+      backgroundColor:theme == 'light' ? '#f1f1f1' : '#353535',
+      transition:' background-color 0.3s, color 0.3s',
     },
     inputGroup: {
       position: 'relative',
       width: '80%', 
       borderRadius: '5px',
-      border: '1px solid #ccc'
+      border: '1px solid #ccc',
+     
     },
     input: {
       width: '100%',
@@ -44,6 +48,8 @@ const Login = () => {
       border: 'none',
       textAlign: 'left',
       fontSize: '20px',
+      backgroundColor:theme == 'light' ? '#fbfbfb' : '#222222',
+      color: theme == 'light' ? '#353535' : '#f1f1f1',
     },
     icon: {
       position: 'absolute',

@@ -3,6 +3,8 @@ import { AuthContext } from '../Auth';
 import { NavLink, useLocation } from 'react-router-dom';
 import '../App.css'
 import { CSSTransition } from 'react-transition-group';
+import Darkmode from './Darkmode'
+
 
 const Navbar = () => {
   const { user, isAuthenticated } = useContext(AuthContext);
@@ -10,6 +12,7 @@ const Navbar = () => {
   const dropdownRef = useRef(null);
   const [showMenu, setShowMenu] = useState(false);
   const [showHamburger, setShowHamburger] = useState(window.innerWidth <= 1200);
+  const theme = useContext(AuthContext);
 
   const handleMenuClick = (event) => {
     event.stopPropagation();
@@ -92,6 +95,7 @@ const Navbar = () => {
           </NavLink>
         </li>
       )}
+      <Darkmode/>
     </ul>
   );
 
@@ -159,6 +163,9 @@ const Navbar = () => {
                                 </NavLink>
                             </li>
                         )}
+                        <li>
+                          <Darkmode/>
+                        </li>
                     </div>
                 </div>
             </CSSTransition>

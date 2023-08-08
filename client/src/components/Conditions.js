@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {  FaTimes } from 'react-icons/fa';
 import { PlayerIdMap } from './PlayerIdMap';
 import './ToggleSwitch.css'
@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import LoadingAnimation from './Loading';
 import '../App.css'
 import { possibleStats } from './Compare';
+import { ThemeContext } from '../Auth';
 
 const Conditions = () => {
     const operators = ['<', '<=', '=', '>', '>='];
@@ -18,6 +19,7 @@ const Conditions = () => {
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
     const [showTotalStats, setShowTotalStats] = useState(false);
+    const {theme} = useContext(ThemeContext)
 
     const [windowDimensions, setWindowDimensions] = useState({
         width: window.innerWidth,
@@ -40,6 +42,7 @@ const Conditions = () => {
           flexDirection: 'column',
           alignItems: 'center',
           marginBottom: '20px',
+          
         },
         inputRowStyle: {
           display: 'flex',
@@ -55,6 +58,7 @@ const Conditions = () => {
           padding: '5px',
           borderRadius: '4px',
           border: '1px solid #17408b',
+          
         },
         buttonStyle: {
           backgroundColor: '#17408b',
@@ -439,7 +443,9 @@ const Conditions = () => {
           >
             <label style={{ fontSize: '20px' }}>
               Year:
-              <input style={{ padding:'8px', fontSize:'1.2rem', marginTop: '10px', marginLeft: '3px',marginRight:'10px', border:'0.8px solid #17408B', borderRadius:'5px'}} type="number" value={year} onChange={handleYearChange} />
+              <input style={{ padding:'8px', fontSize:'1.2rem', marginTop: '10px', marginLeft: '3px',marginRight:'10px', border:'0.8px solid #17408B', borderRadius:'5px',
+            backgroundColor: theme == 'light' ? '#f1f1f1' : '#353535',
+            color: theme == 'light' ? '#353535' : '#e8e5e5',}} type="number" value={year} onChange={handleYearChange} />
             </label>
             <button style={styles.buttonStyle} type="button" onClick={handleAddCondition}>
               Add Condition
@@ -477,7 +483,8 @@ const Conditions = () => {
                   <select
                     value={condition.key}
                     onChange={(e) => handleInputChange(e, index, 'key')}
-                    style={{ marginLeft: '5px', padding: '5px',borderRadius:'5px', border:'0.8px solid #17408B'  }}
+                    style={{ marginLeft: '5px', padding: '5px',borderRadius:'5px', border:'0.8px solid #17408B',backgroundColor: theme == 'light' ? '#f1f1f1' : '#353535',
+                    color: theme == 'light' ? '#353535' : '#e8e5e5',  }}
                   >
                     <option value="">Select</option>
                     {possibleStats.map((stat) => (
@@ -494,7 +501,8 @@ const Conditions = () => {
                   <select
                     value={condition.operator}
                     onChange={(e) => handleInputChange(e, index, 'operator')}
-                    style={{ marginLeft: '5px', padding: '5px',borderRadius:'5px', border:'0.8px solid #17408B'  }}
+                    style={{ marginLeft: '5px', padding: '5px',borderRadius:'5px', border:'0.8px solid #17408B',backgroundColor: theme == 'light' ? '#f1f1f1' : '#353535',
+                    color: theme == 'light' ? '#353535' : '#e8e5e5', }}
                   >
                     <option value="">Select</option>
                     {operators.map((operator) => (
@@ -512,7 +520,10 @@ const Conditions = () => {
                     type="number"
                     value={condition.value}
                     onChange={(e) => handleInputChange(e, index, 'value')}
-                   style={{ padding: '5px', marginLeft: '3px', border:'0.8px solid', borderRadius:'5px' }}
+                   style={{ padding: '5px', marginLeft: '3px', border:'0.8px solid', borderRadius:'5px',
+                    backgroundColor: theme == 'light' ? '#f1f1f1' : '#353535',
+                   color: theme == 'light' ? '#353535' : '#e8e5e5',}}
+                   
                   />
                 </label>
               </div>

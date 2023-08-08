@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../Auth';
+import { AuthContext, ThemeContext } from '../Auth';
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,6 +16,7 @@ import { backendUrl } from '../config';
 
 const MyPosts = () => {
     const { isAuthenticated, user } = useContext(AuthContext);
+    const {theme} = useContext(ThemeContext);
     const [posts, setPosts] = useState([]);
     const [editingPost, setEditingPost] = useState(null);
     const [title, setTitle] = useState('');
@@ -63,95 +64,99 @@ const MyPosts = () => {
       };
       
       
-  
-  const styles = {
-    postContainer: {
-      border: '1px solid #ccc',
-      padding: '20px',
-      marginBottom: '20px',
-      borderRadius: '10px',
-    },
-    postTitle: {
-      color: '#333',
-      fontSize: '24px',
-      wordWrap: 'break-word',
-    },
-    postSummary: {
-      color: '#666',
-      fontSize: '18px',
-      wordWrap: 'break-word',
-    },
-    postContent: {
-      color: '#444',
-      fontSize: '16px',
-      wordWrap: 'break-word',
-    },
-    postButton: {
-      backgroundColor: '#17408B',
-      color: 'white',
-      padding: '10px 20px',
-      marginRight: '10px',
-      border: 'none',
-      borderRadius: '5px',
-      cursor: 'pointer',
-    },inputGroup: {
-      display: 'flex',
-      flexDirection: 'column',
-      marginBottom: '15px',
-    },
-    label: {
-      marginBottom: '5px',
-      fontWeight: 'bold',
-    },
-    input: {
-      padding: '10px',
-      borderRadius: '5px',
-      border: '1px solid #ccc',
-    },
-    textarea: {
-      padding: '10px',
-      borderRadius: '5px',
-      border: '1px solid #ccc',
-      minHeight: '100px',
-    },
-    buttonGroup: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      marginTop: '15px',
-    },
-    header: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: '20px',
-    },
-    header: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginBottom: '20px',
-    },
-    dateInput: {
-      border: '1px solid #ccc',
-      borderRadius: '5px',
-      padding: '5px 10px',
-      marginTop: '10px',
-    },
-    modalContent: {
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      overflow: 'auto',
-      backgroundColor: '#FFF',
-      borderRadius: '10px',
-      padding: '20px',
-    },
-    modalOverlay: {
-      backgroundColor: 'rgba(0, 0, 0, 0.12)',
-    },
-  };
+      const styles = {
+        postContainer: {
+          border: '1px solid #ccc',
+          padding: '20px',
+          marginBottom: '20px',
+          borderRadius: '10px',
+          backgroundColor: theme === 'light' ? '#f1f1f1' : '#353535',
+          transition: 'background-color 0.3s, color 0.3s',
+        },
+        postTitle: {
+          color: theme === 'light' ? '#333' : '#bbb',
+          fontSize: '24px',
+          wordWrap: 'break-word',
+        },
+        postSummary: {
+          color: theme === 'light' ? '#666' : '#999',
+          fontSize: '18px',
+          wordWrap: 'break-word',
+        },
+        postContent: {
+          color: theme === 'light' ? '#444' : '#aaa',
+          fontSize: '16px',
+          wordWrap: 'break-word',
+        },
+        
+        postButton: {
+          backgroundColor: '#17408B',
+          color: 'white',
+          padding: '10px 20px',
+          marginRight: '10px',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+        },inputGroup: {
+          display: 'flex',
+          flexDirection: 'column',
+          marginBottom: '15px',
+        },
+        label: {
+          marginBottom: '5px',
+          fontWeight: 'bold',
+        },
+        input: {
+          padding: '10px',
+          borderRadius: '5px',
+          border: '1px solid #ccc',
+        },
+        textarea: {
+          padding: '10px',
+          borderRadius: '5px',
+          border: '1px solid #ccc',
+          minHeight: '100px',
+        },
+        buttonGroup: {
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginTop: '15px',
+        },
+        header: {
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '20px',
+        },
+        header: {
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: '20px',
+        },
+        dateInput: {
+          border: '1px solid #ccc',
+          borderRadius: '5px',
+          padding: '5px 10px',
+          marginTop: '10px',
+          backgroundColor: theme === 'light' ? '#f1f1f1' : '#353535',
+          color: theme == 'light' ? '#353535' : '#e8e5e5',
+        },
+        modalContent: {
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          overflow: 'auto',
+          backgroundColor: '#FFF',
+          borderRadius: '10px',
+          padding: '20px',
+        },
+        modalOverlay: {
+          backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        },
+      };
   
 
 
@@ -411,9 +416,9 @@ const formats = [
                   <h2 style={styles.postTitle}>{post.title}</h2>
                   <p style={styles.postSummary}>{post.summary}</p>
                   <div dangerouslySetInnerHTML={{ __html: post.content }} style={styles.postContent} />
-                  <a style ={{color:'#17408b', cursor:'pointer'}} onClick = {() => getUser(post)}>@{post.author.username}</a>
-                  <p>Likes: {post.likes ? post.likes.length : 0}</p>
-                  <p>Dislikes: {post.dislikes ? post.dislikes.length : 0}</p>
+                  <a style ={{color:'rgb(23, 64, 139)', cursor:'pointer'}} onClick = {() => getUser(post)}>@{post.author.username}</a>
+                  <p style ={{color: theme === 'light' ? '#444' : '#aaa'}}>Likes: {post.likes ? post.likes.length : 0}</p>
+                  <p style = {{color: theme === 'light' ? '#444' : '#aaa'}}>Dislikes: {post.dislikes ? post.dislikes.length : 0}</p>
                   <button style={styles.postButton} onClick={() => likePost(post)}> <FontAwesomeIcon icon={faThumbsUp} /> </button>
                   <button style={styles.postButton} onClick={() => dislikePost(post)}> <FontAwesomeIcon icon={faThumbsDown} /> </button>
                   <Modal

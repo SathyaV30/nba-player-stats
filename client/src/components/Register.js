@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { FaLock } from 'react-icons/fa';
 import { FaUser } from 'react-icons/fa';
@@ -6,11 +6,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { backendUrl } from '../config';
 import LoadingAnimation from './Loading';
 import '../App.css';
+import { ThemeContext } from '../Auth';
 
 const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const {theme} = useContext(ThemeContext);
   
   const styles = {
     form: {
@@ -25,12 +27,14 @@ const Register = () => {
       padding: '30px', 
       width:'350px',
       margin: 'auto',
+      backgroundColor:theme == 'light' ? '#f1f1f1' : '#353535',
     },
     inputGroup: {
       position: 'relative',
       width: '80%', 
       borderRadius: '5px',
-      border: '1px solid #ccc'
+      border: '1px solid #ccc',
+     
     },
     input: {
       width: '100%',
@@ -39,6 +43,8 @@ const Register = () => {
       border: 'none',
       textAlign: 'left',
       fontSize: '20px',
+      backgroundColor:theme == 'light' ? '#fbfbfb' : '#222222',
+      color: theme == 'light' ? '#353535' : '#f1f1f1',
     },
     icon: {
       position: 'absolute',

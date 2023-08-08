@@ -3,7 +3,7 @@ import NBAtrivia from '../nbatrivia.json';
 import "../App.css";
 import Modal from 'react-modal';
 import { FaCheckCircle, FaTimesCircle, FaInfoCircle } from 'react-icons/fa';
-import { AuthContext } from '../Auth';
+import { AuthContext, ThemeContext } from '../Auth';
 import { Tooltip } from 'react-tooltip';
 import { backendUrl } from '../config';
 
@@ -22,9 +22,24 @@ const Trivia = () => {
   const [isAnswered, setIsAnswered] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const {user} = useContext(AuthContext)
+  const {theme} = useContext(ThemeContext)
 
   const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
+ 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
 
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   
 
   const styles = {
@@ -39,7 +54,8 @@ const Trivia = () => {
         position: 'relative',
         zIndex: 0,
         overflowY: 'overlay',
-        backgroundColor:'white',
+        backgroundColor: theme == 'light' ? '#fbfbfb' : '#222222',
+        transition: 'background-color 0.3s, color 0.3s',
             },
     button: {
       marginTop: '10px',
@@ -73,6 +89,7 @@ const Trivia = () => {
           zIndex: 10,
           width:windowDimensions.width <=768 ? windowDimensions.width * 0.5 : windowDimensions.width * 0.2,
           height:windowDimensions.width <=768 ? windowDimensions.width * 0.5 : windowDimensions.width * 0.2,
+          backgroundColor: theme === 'light' ? '#f1f1f1' : '#353535',
         },
       },
     correct: {
@@ -91,7 +108,7 @@ const Trivia = () => {
         right: '3px',
         border: 'none',
         background: 'transparent',
-        fontSize: '1.1em',
+        fontSize: '1.5em',
         cursor: 'pointer',
         color:'#17408b',
       }

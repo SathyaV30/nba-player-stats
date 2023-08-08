@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { FaTimes, FaUserPlus, FaUserMinus } from 'react-icons/fa';
 import fallback from '../images/fallback.png';
-import { AuthContext } from '../Auth';
+import { AuthContext, ThemeContext } from '../Auth';
 import { toast } from 'react-toastify';
 import { backendUrl } from '../config';
 
@@ -11,6 +11,7 @@ const UserInfoModal = ({ isOpen, onRequestClose, userInfo }) => {
   const [followed, setFollowed] = useState(false);
   const [show, setShow] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
+  const {theme} = useContext(ThemeContext);
 
   const handleResize = () => {
     setWindowDimensions({width: window.innerWidth, height: window.innerHeight});
@@ -121,7 +122,7 @@ const UserInfoModal = ({ isOpen, onRequestClose, userInfo }) => {
           width:`${windowDimensions.width <=768 ?windowDimensions.width : windowDimensions.width * 0.6 }px`,
           height: `${windowDimensions.height * 0.6}px`, 
           overflow: 'auto',
-          backgroundColor: 'none',
+          backgroundColor: theme === 'light' ? '#f1f1f1' : '#353535' ,
           borderRadius: '10px',
           padding: '20px',
         },

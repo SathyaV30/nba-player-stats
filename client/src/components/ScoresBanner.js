@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Modal from 'react-modal';
-import { AuthContext } from '../Auth';
+import { AuthContext, ThemeContext } from '../Auth';
 import Coin from "./Coin";
 import { CSSTransition } from 'react-transition-group';
 import { FaTimes, FaInfoCircle, FaCalendarAlt } from 'react-icons/fa';
@@ -12,6 +12,7 @@ import { FaTrophy } from "react-icons/fa";
 import { Tooltip } from 'react-tooltip';
 import { backendUrl } from '../config';
 import LoadingAnimation from "./Loading";
+
 
 const ScoresBanner = () => {
   const [liveGames, setLiveGames] = useState([]);
@@ -23,6 +24,7 @@ const ScoresBanner = () => {
   const [userPredictions, setUserPredictions] = useState({});
   const [loading, setLoading] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
+  const {theme} = useContext(ThemeContext);
   useEffect(() => {
     const handleResize = () => {
       setWindowDimensions({
@@ -627,7 +629,7 @@ const ScoresBanner = () => {
       position: 'absolute',
       width: windowDimensions.width <=768 ? '80%' : '30%',
       zIndex: 1000,
-      boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
+      boxShadow: 'rgba(100, 100, 111, 0.2) 0px 2.5px 15px 0px',
     };
 
     const betslipToggleStyles = {
@@ -642,8 +644,8 @@ const ScoresBanner = () => {
     };
 
     const betslipDropdownStyles = {
-      backgroundColor: '#f5f5f5',
-      color: 'black',
+      backgroundColor: theme == 'light' ? '#f1f1f1' : '#353535',
+      color: theme == 'light' ? '#353535' : '#e8e5e5',
       padding: '10px',
       marginTop: '10px',
       overflow: 'hidden',
