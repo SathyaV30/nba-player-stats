@@ -954,7 +954,7 @@ const ScoresBanner = () => {
     liveGames.length > 0 ? (
       <div className="games-container">
         {liveGames.map((game) => {
-          const prediction = userPredictions[game.id] || { homeTeamPercentage: 50, awayTeamPercentage: 50 };
+         const prediction = userPredictions[game.id] || { homeTeamPercentage: 50, awayTeamPercentage: 50 };
           return (
             <div key={game.id} className="game-card">
               <div className="team">
@@ -964,7 +964,7 @@ const ScoresBanner = () => {
                   alt={`${game.visitor_team.full_name} Logo`}
                 />
                 <span className="team-name">{game.visitor_team.full_name}</span>
-                <span className="score">{game.period > 0 ? game.visitor_team_score : `${parseFloat(prediction.awayTeamPercentage).toFixed(0)}%`}</span>
+                {/* <span className="score">{game.period > 0 ? game.visitor_team_score : `${parseFloat(prediction.awayTeamPercentage).toFixed(0)}%`}</span> */}
                 {game.period === 0 && isCurrentDate(selectedDate) && (
                   <button
                     className={`day-btn-2 ${
@@ -983,13 +983,13 @@ const ScoresBanner = () => {
                   alt={`${game.home_team.full_name} Logo`}
                 />
                 <span className="team-name">{game.home_team.full_name}</span>
-                <span className="score">
+               {/* <span className="score">
                   {
                     game.period > 0
                     ? game.home_team_score
                     : `${parseFloat(prediction.homeTeamPercentage).toFixed(0)}%`
                   }
-                </span>
+                </span> */}
                 {game.period === 0 && isCurrentDate(selectedDate) && (
                   <button
                     className={`day-btn-2 ${
