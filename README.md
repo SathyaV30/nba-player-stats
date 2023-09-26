@@ -30,4 +30,4 @@ View the application from this link: https://nba-player-stats.netlify.app/
 - If using Safari, ensure 'Prevent cross-site tracking' is not enabled
 
 ## Contact
-Email: sathya.venugopal2003@gmail.com
+Email: sathyavenugopaldev@gmail.com
