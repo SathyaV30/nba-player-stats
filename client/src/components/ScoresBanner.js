@@ -886,125 +886,217 @@ const ScoresBanner = () => {
   
 
 
+//   return (
+//   <div className="scores-banner">
+//     {isAuthenticated && <Betslip isModalOpen={isBetslipOpen} handleBetslipClick={handleBetslipClick} />}
+//     <div className="header-container" style={{ display: 'flex', alignItems: 'center', placeItems: 'center' }}>
+//       <h1>Live Scores</h1>
+//       <FaInfoCircle
+//         style={{ color: '#17408b', fontSize: '20px', marginLeft: '5px', verticalAlign: 'middle' }}
+//         data-tooltip-id="info-tooltip"
+//         data-tooltip-content="View live scores or predict game outcomes. Click the calendar icon to pick a date. 
+//         Displayed percentages for future games show the proportion of users backing each team to win."
+//       />
+//       <Tooltip id="info-tooltip"  multiline={true} multilineMaxWidth={500} 
+//       style={{ width: windowDimensions.width <= 768 ? windowDimensions.width : windowDimensions.width * 0.3 }}
+//        place = {windowDimensions.width <=768 ?  'top' :'right' }/>
+//     </div>
+//   <div className="date-navigation" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+//     <button onClick={handlePreviousDay} className="day-btn">
+//     Previous Day
+//     </button>
+//     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+//     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+//         <span style={{ margin: '2%' }} className="date">{DateString}</span>
+//         <span>
+//             <label
+//                 htmlFor="dateInput"
+//                 style={{
+//                     display: 'flex',
+//                     alignItems: 'flex-end',
+//                     justifyContent: 'center',
+//                     width: '100%',
+//                     height: '100%',
+//                     position: 'relative',
+//                     marginTop:'7px',
+//                 }}
+//             >
+//                 <FaCalendarAlt />
+//                 <input
+//                     type="date"
+//                     id="dateInput"
+//                     value={DateString.split('/').reverse().join('-')}
+//                     onChange={handleSelectDay}
+//                     style={{
+//                         appearance: 'none',
+//                         position: 'absolute',
+//                         top: 0,
+//                         left: 0,
+//                         width: '100%',
+//                         height: '100%',
+//                         opacity: 0,
+//                         margin: 0,
+//                         padding: 0,
+//                         border: 'none',
+//                         zIndex:'10000',
+//                     }}
+//                 />
+//             </label>
+//         </span>
+//     </div>
+// </div>
+
+//     <button onClick={handleNextDay} className="day-btn">
+//      Next Day
+//     </button>
+// </div>
+//     {loading ? <LoadingAnimation/> :
+//     liveGames.length > 0 ? (
+//       <div className="games-container">
+//         {liveGames.map((game) => {
+//          const prediction = userPredictions[game.id] || { homeTeamPercentage: 50, awayTeamPercentage: 50 };
+//           return (
+//             <div key={game.id} className="game-card">
+//               <div className="team">
+//                 <img
+//                   src={require(`../images/${game.visitor_team.full_name.replace(/\s/g, "_")}.png`)}
+//                   className="team-logo"
+//                   alt={`${game.visitor_team.full_name} Logo`}
+//                 />
+//                 <span className="team-name">{game.visitor_team.full_name}</span>
+//                 {/* <span className="score">{game.period > 0 ? game.visitor_team_score : `${parseFloat(prediction.awayTeamPercentage).toFixed(0)}%`}</span> */}
+//                 {game.period === 0 && isCurrentDate(selectedDate) && (
+//                   <button
+//                     className={`day-btn-2 ${
+//                       selectedTeams[game.id]?.selected_team === game.visitor_team.full_name ? 'selected' : ''
+//                     }`}
+//                     onClick={(e) => handleSelectTeam(game.id, game.visitor_team, game, e)}
+//                   >
+//                     <FaTrophy />
+//                   </button>
+//                 )}
+//               </div>
+//               <div className="team">
+//                 <img
+//                   src={require(`../images/${game.home_team.full_name.replace(/\s/g, "_")}.png`)}
+//                   className="team-logo"
+//                   alt={`${game.home_team.full_name} Logo`}
+//                 />
+//                 <span className="team-name">{game.home_team.full_name}</span>
+//                {/* <span className="score">
+//                   { 
+//                     game.period > 0
+//                     ? game.home_team_score
+//                     : `${parseFloat(prediction.homeTeamPercentage).toFixed(0)}%`
+//                   }
+//                 </span> */}
+//                 {game.period === 0 && isCurrentDate(selectedDate) && (
+//                   <button
+//                     className={`day-btn-2 ${
+//                       selectedTeams[game.id]?.selected_team === game.home_team.full_name ? 'selected' : ''
+//                     }`}
+//                     onClick={(e) => handleSelectTeam(game.id, game.home_team, game, e)}
+//                   >
+//                     <FaTrophy />
+//                   </button>
+//                 )}
+//               </div>
+//               <div className="time-status">{getTimeStatus(game)}</div>
+//             </div>
+//           );
+//         })}
+//       </div>
+//     ) : (
+//       <p className="no-games">No games scheduled</p>
+//     )}
+//   </div>
+// );
+
   return (
   <div className="scores-banner">
-    {isAuthenticated && <Betslip isModalOpen={isBetslipOpen} handleBetslipClick={handleBetslipClick} />}
     <div className="header-container" style={{ display: 'flex', alignItems: 'center', placeItems: 'center' }}>
       <h1>Live Scores</h1>
       <FaInfoCircle
         style={{ color: '#17408b', fontSize: '20px', marginLeft: '5px', verticalAlign: 'middle' }}
         data-tooltip-id="info-tooltip"
-        data-tooltip-content="View live scores or predict game outcomes. Click the calendar icon to pick a date. 
-        Displayed percentages for future games show the proportion of users backing each team to win."
+        data-tooltip-content="View live scores. Click the calendar icon to pick a date."
       />
-      <Tooltip id="info-tooltip"  multiline={true} multilineMaxWidth={500} 
-      style={{ width: windowDimensions.width <= 768 ? windowDimensions.width : windowDimensions.width * 0.3 }}
-       place = {windowDimensions.width <=768 ?  'top' :'right' }/>
+      <Tooltip 
+        id="info-tooltip"  
+        multiline={true} 
+        multilineMaxWidth={500} 
+        style={{ width: windowDimensions.width <= 768 ? windowDimensions.width : windowDimensions.width * 0.3 }}
+        place={windowDimensions.width <=768 ?  'top' : 'right' }
+      />
     </div>
-  <div className="date-navigation" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-    <button onClick={handlePreviousDay} className="day-btn">
-    Previous Day
-    </button>
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div className="date-navigation" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <button onClick={handlePreviousDay} className="day-btn">Previous Day</button>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
         <span style={{ margin: '2%' }} className="date">{DateString}</span>
         <span>
-            <label
-                htmlFor="dateInput"
-                style={{
-                    display: 'flex',
-                    alignItems: 'flex-end',
-                    justifyContent: 'center',
-                    width: '100%',
-                    height: '100%',
-                    position: 'relative',
-                    marginTop:'7px',
-                }}
-            >
-                <FaCalendarAlt />
-                <input
-                    type="date"
-                    id="dateInput"
-                    value={DateString.split('/').reverse().join('-')}
-                    onChange={handleSelectDay}
-                    style={{
-                        appearance: 'none',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        opacity: 0,
-                        margin: 0,
-                        padding: 0,
-                        border: 'none',
-                        zIndex:'10000',
-                    }}
-                />
-            </label>
+          <label
+            htmlFor="dateInput"
+            style={{
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'center',
+              width: '100%',
+              height: '100%',
+              position: 'relative',
+              marginTop: '7px',
+            }}
+          >
+            <FaCalendarAlt />
+            <input
+              type="date"
+              id="dateInput"
+              value={DateString.split('/').reverse().join('-')}
+              onChange={handleSelectDay}
+              style={{
+                appearance: 'none',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                opacity: 0,
+                margin: 0,
+                padding: 0,
+                border: 'none',
+                zIndex: '10000',
+              }}
+            />
+          </label>
         </span>
+      </div>
+      <button onClick={handleNextDay} className="day-btn">Next Day</button>
     </div>
-</div>
-
-    <button onClick={handleNextDay} className="day-btn">
-     Next Day
-    </button>
-</div>
     {loading ? <LoadingAnimation/> :
     liveGames.length > 0 ? (
       <div className="games-container">
-        {liveGames.map((game) => {
-         const prediction = userPredictions[game.id] || { homeTeamPercentage: 50, awayTeamPercentage: 50 };
-          return (
-            <div key={game.id} className="game-card">
-              <div className="team">
-                <img
-                  src={require(`../images/${game.visitor_team.full_name.replace(/\s/g, "_")}.png`)}
-                  className="team-logo"
-                  alt={`${game.visitor_team.full_name} Logo`}
-                />
-                <span className="team-name">{game.visitor_team.full_name}</span>
-                {/* <span className="score">{game.period > 0 ? game.visitor_team_score : `${parseFloat(prediction.awayTeamPercentage).toFixed(0)}%`}</span> */}
-                {game.period === 0 && isCurrentDate(selectedDate) && (
-                  <button
-                    className={`day-btn-2 ${
-                      selectedTeams[game.id]?.selected_team === game.visitor_team.full_name ? 'selected' : ''
-                    }`}
-                    onClick={(e) => handleSelectTeam(game.id, game.visitor_team, game, e)}
-                  >
-                    <FaTrophy />
-                  </button>
-                )}
-              </div>
-              <div className="team">
-                <img
-                  src={require(`../images/${game.home_team.full_name.replace(/\s/g, "_")}.png`)}
-                  className="team-logo"
-                  alt={`${game.home_team.full_name} Logo`}
-                />
-                <span className="team-name">{game.home_team.full_name}</span>
-               {/* <span className="score">
-                  { 
-                    game.period > 0
-                    ? game.home_team_score
-                    : `${parseFloat(prediction.homeTeamPercentage).toFixed(0)}%`
-                  }
-                </span> */}
-                {game.period === 0 && isCurrentDate(selectedDate) && (
-                  <button
-                    className={`day-btn-2 ${
-                      selectedTeams[game.id]?.selected_team === game.home_team.full_name ? 'selected' : ''
-                    }`}
-                    onClick={(e) => handleSelectTeam(game.id, game.home_team, game, e)}
-                  >
-                    <FaTrophy />
-                  </button>
-                )}
-              </div>
-              <div className="time-status">{getTimeStatus(game)}</div>
+        {liveGames.map((game) => (
+          <div key={game.id} className="game-card">
+            <div className="team">
+              <img
+                src={require(`../images/${game.visitor_team.full_name.replace(/\s/g, "_")}.png`)}
+                className="team-logo"
+                alt={`${game.visitor_team.full_name} Logo`}
+              />
+              <span className="team-name">{game.visitor_team.full_name}</span>
+              <span className="score">{game.visitor_team_score}</span> {/* actual score of the game */}
             </div>
-          );
-        })}
+            <div className="team">
+              <img
+                src={require(`../images/${game.home_team.full_name.replace(/\s/g, "_")}.png`)}
+                className="team-logo"
+                alt={`${game.home_team.full_name} Logo`}
+              />
+              <span className="team-name">{game.home_team.full_name}</span>
+              <span className="score">{game.home_team_score}</span> {/* actual score of the game */}
+            </div>
+            <div className="time-status">{getTimeStatus(game)}</div>
+          </div>
+        ))}
       </div>
     ) : (
       <p className="no-games">No games scheduled</p>
@@ -1012,7 +1104,6 @@ const ScoresBanner = () => {
   </div>
 );
 
-  
 };
 
 export default ScoresBanner;
