@@ -195,9 +195,9 @@ const handleOnError = (e) => {
       draggable: true,
       progress: undefined,
     });
-   } else if (document.getElementById("year").value > 2022 
+   } else if (document.getElementById("year").value > 2023 
    || document.getElementById("year").value < 1979 ) {
-    toast.error('Data is limited between 1979 and 2022', {
+    toast.error('Data is limited between 1979 and 2023', {
       position: toast.POSITION.TOP_CENTER,
       autoClose: 3000,
       hideProgressBar: false,
@@ -784,7 +784,7 @@ const handleOnError = (e) => {
             <FaInfoCircle
               style={{ color: '#17408b', fontSize: '20px', marginLeft: '5px' }}
               data-tooltip-id="info-tooltip"
-              data-tooltip-content="Year refers to the starting year of the season. For example, 2022 refers to the 2022-23 season."
+              data-tooltip-content="Year refers to the starting year of the season. For example, 2023 refers to the 2023-24 season."
             />
            <Tooltip 
             id="info-tooltip"
@@ -818,7 +818,7 @@ const handleOnError = (e) => {
       color: theme == 'light' ? '#353535' : '#e8e5e5',}}
         type="number"
         min="1979"
-        max="2022"
+        max="2023"
         step="1"
         placeholder="Enter Year"
         id="year"
