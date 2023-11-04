@@ -293,8 +293,8 @@ const Conditions = () => {
           progress: undefined,
         });
         return;
-      } else if (year<1979 || year > 2022) {
-        toast.error('Data is limited between 1979 and 2022', {
+      } else if (year < 1979 || year > 2023) {
+        toast.error('Data is limited between 1979 and 2023', {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 3000,
           hideProgressBar: false,
