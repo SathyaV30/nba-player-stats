@@ -23,7 +23,7 @@ View the application from this link: https://nba-player-stats.netlify.app/
 - MongoDB
 - JWT and Bcrypt for user authentication
 - Axios and Fetch API
-- BallDontLie API for NBA statistics (https://www.balldontlie.io/home.html#introduction)
+- BallDontLie API for NBA statistics (https://www.balldontlie.io)
 
 ## Considerations
 
