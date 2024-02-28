@@ -1,5 +1,6 @@
-# NBA Player Stats
 
+
+# NBA Player Stats
 NBA Player Stats is a web application that allows users to browse and analyze various statistics of NBA players. Users can also register and log in to access additional features such as making public posts, collecting NBA coins (earned by interacting with the app), and tracking their trivia stats.
 View the application from this link: https://nba-player-stats.netlify.app/
 
@@ -31,3 +32,7 @@ View the application from this link: https://nba-player-stats.netlify.app/
 
 ## Contact
 Email: sathyavenugopaldev@gmail.com
+
+**Important Service Update 2/28/2024**:
+Unfortunately, due to recent changes to the BallDontLie API, many features of the application will no longer be functional until further notice.
+
