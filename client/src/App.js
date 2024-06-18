@@ -77,9 +77,19 @@ const AppContent = () => {
   const [windowDimensions, setWindowDimensions] = useState({width: window.innerWidth, height: window.innerHeight});
   const [likedPlayersLoading, setLikedPlayersLoading] = useState(false);
   const [showTotalStats, setShowTotalStats] = useState(false);
-  const {theme} = useContext(ThemeContext)
+  const {theme} = useContext(ThemeContext);
 
-
+  useEffect(() => {
+    toast.error('Support for this application has ended, features may not work.', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  }, []);
   
 
 
